@@ -1,120 +1,180 @@
 // Chakra Imports
 import {
-	Avatar,
-	Button,
-	Flex,
-	Icon,
-	Image,
-	Link,
-	Menu,
-	MenuButton,
-	MenuItem,
-	MenuList,
-	Text,
-	useColorModeValue
-} from '@chakra-ui/react';
+  Avatar,
+  Button,
+  Flex,
+  Menu,
+  MenuButton,
+  // MenuItem,
+  MenuList,
+  Text,
+  Select,
+  useColorModeValue,
+} from "@chakra-ui/react";
+
+import { Grid } from "@material-ui/core";
 
 // Custom Components
 
-import PropTypes from 'prop-types';
-import React,{useState,useEffect} from 'react';
+import PropTypes from "prop-types";
+import React, { useState, useEffect } from "react";
 // Assets
 
-import MiniCalendar from 'components/calendar/MiniCalendar';
+import MiniCalendar from "components/calendar/MiniCalendar";
 
-
-import moment from 'moment-timezone';
-import { GetDailySales, GetOrderWiseSales, GetHourlySales } from '../../utils/apiHelper';
-moment.tz.setDefault('Asia/Kolkata');
+import moment from "moment-timezone";
+import {
+  GetDailySales,
+  GetOrderWiseSales,
+  GetHourlySales,GetStores
+} from "../../utils/apiHelper";
+moment.tz.setDefault("Asia/Kolkata");
 
 export default function HeaderLinks(props) {
-	
-	const { secondary } = props;
-	// Chakra Color Mode
 
-	let menuBg = useColorModeValue('white', 'navy.800');
-	
+  const {
+    secondary,
+    setSelectStore,
+    reloading,
+    setLoading,
+    setData,
+    setOrderData,
+    selectStore,
+    setHourlyData,
+    storeData,
+    setStoreData,
+    setReLoading
+  } = props;
+  // Chakra Color Mode
 
-	const shadow = useColorModeValue(
-		'14px 17px 40px 4px rgba(112, 144, 176, 0.18)',
-		'14px 17px 40px 4px rgba(112, 144, 176, 0.06)'
-	);
-	const [open, setOpen] = useState(false);
-	const [dateRange, setDateRange] = useState([new Date(), new Date()]); // Initial date range
-	const handleDateChange = (dates) => {
-	  setDateRange(dates);
-	  console.log('Selected date range:', dates);
-	};
+  let menuBg = useColorModeValue("white", "navy.800");
+
+  const shadow = useColorModeValue(
+    "14px 17px 40px 4px rgba(112, 144, 176, 0.18)",
+    "14px 17px 40px 4px rgba(112, 144, 176, 0.06)"
+  );
+  const [open, setOpen] = useState(false);
+  const [dateRange, setDateRange] = useState([new Date(), new Date()]); 
+  const handleDateChange = (dates) => {
+    setDateRange(dates);
+    console.log("Selected date range:", dates);
+  };
+
+  const handleChange = (event) => {
+    setSelectStore(event.target.value);
+    localStorage.setItem('Store', event.target.value);
+  };
+
+  console.log("asdf")
+  // const [loading, setLoading] = useState(true);
+  // const [data, setData] = useState([]);
+  // const [storeData, setStoreData] = useState([]);
+
+  // const [selectStore, setSelectStore] = useState('');
+
+  // const [orderData, setOrderData] = useState([]);
+  // const [hourlyData, setHourlyData] = useState([]);
+  // const [isLoading] = useState(true);
+  // const [reloading, setReLoading] = useState(true);
+
+  useEffect(() => {
+    if (reloading) {
+      var fromDate = moment(dateRange[0].toLocaleDateString()).format(
+        "YYYY-MM-DD"
+      );
+      var toDate = moment(dateRange[1].toLocaleDateString()).format(
+        "YYYY-MM-DD"
+      );
+      setLoading(true);
+
+      let funArr = [
+        GetDailySales({ from: fromDate, to: toDate, store_id: ['1300'] }),
+        GetOrderWiseSales({ from: fromDate, to: toDate, store_id: ['1300'] }),
+        GetHourlySales({ from: fromDate, to: toDate, store_id: ['1300'] }),
+	    GetStores({ is_parent_admin: false, is_root_admin: true, store_id: ['99'] })
+      ];
+
+      Promise.all(funArr)
+        .then(async (resultArr) => {
+          let [salesData, orderdata, hourlydata, storeId] = resultArr;
+          setData(salesData);
+          setOrderData(orderdata);
+          setHourlyData(hourlydata);
+		      setStoreData(storeId)
+          setLoading(false);
+          setReLoading(false);
+      
+          // if (resultArr.length > 0) {
+          //   localStorage.setItem("sales", JSON.stringify(salesData)); 
+          //   localStorage.setItem("Order", JSON.stringify(orderdata)); 
+          //   localStorage.setItem("hourly", JSON.stringify(hourlydata)); 
+          // }
+      
+  
+          // console.log(salesData);
+          // console.log(orderdata);
+          // console.log(hourlydata);
+		  // console.log(storeId)
+      // setLoading(false);
+      // setReLoading(false);
+        })
+        .catch((ex) => console.error(ex));
+        // setLoading(false);
+        // setReLoading(false);
+    }
+
+  }, [reloading]);
+
+  const handleReloadData = async () => {
+    setReLoading(true);
+    setOpen(false);
+
+  };
 
 
 
-	const [loading, setLoading] = useState(true);
-	const [data, setData] = useState([]);
-	const [storeData, setStoreData] = useState([]);
-	const [orderData, setOrderData] = useState([]);
-	const [hourlyData, setHourlyData] = useState([]);
-	const [isLoading] = useState(true);
-	const [reloading, setReLoading] = useState(true);  
+  
+ 
+  return (
+    <Grid container>
+      <Flex
+        w={{ sm: "100%", md: "auto" }}
+        alignItems="center"
+        flexDirection="row"
+        bg={menuBg}
+        flexWrap={secondary ? { base: "wrap", md: "nowrap" } : "unset"}
+        p="10px"
+        m={"0.2rem"}
+        borderRadius="30px"
+        boxShadow={shadow}
+      >
+        <Select placeholder="All Stores" variant="standard"  value={selectStore} label="Store" onChange={handleChange}>
+		  {storeData?.map((e) => (
+            <option value={e.store_id}>{e.store_id}</option>
+          ))}
+        </Select>
+      </Flex>
 
-	useEffect(() => {
-		if (reloading) {
-		  var fromDate = moment(dateRange[0].toLocaleDateString()).format('YYYY-MM-DD');
-		  var toDate = moment(dateRange[1].toLocaleDateString()).format('YYYY-MM-DD');
-		  setLoading(true);
-	
-		//   if (fromDate == toDate) {
-		// 	setHr(true);
-		//   } else {
-		// 	setHr(false);
-		//   }
-	
-		  let funArr = [
-			GetDailySales({ from: fromDate, to: toDate, store_id: ["1300"] }),
-			GetOrderWiseSales({ from: fromDate, to: toDate, store_id: ["1300"] }),
-			GetHourlySales({ from: fromDate, to: toDate, store_id: ["1300"] })
-		  ];
-	
-		  Promise.all(funArr)
-			.then(async (resultArr) => {
-			  let [salesData, orderdata, hourlydata] = resultArr;
-			  await setData(salesData);
-			  await setOrderData(orderdata);
-			  await setHourlyData(hourlydata);
-			  await setLoading(false);
-			  await setReLoading(false);
-			  console.log(salesData);
-			  console.log(orderdata);
-			  console.log(hourlydata);
-			})
-			.catch((ex) => console.error(ex));
-		}
-	  }, [reloading]);
+      <Flex
+        w={{ sm: "100%", md: "auto" }}
+        alignItems="center"
+        flexDirection="row"
+        bg={menuBg}
+        flexWrap={secondary ? { base: "wrap", md: "nowrap" } : "unset"}
+        p="10px"
+        m={"0.2rem"}
+        borderRadius="30px"
+        boxShadow={shadow}
+      >
+        {/* <SearchBar mb={secondary ? { base: '10px', md: 'unset' } : 'unset'} me="10px" borderRadius="30px" /> */}
 
+        <Text style={{ padding: "0.5rem" }} onClick={() => setOpen(!open)}>
+          {dateRange[0].toLocaleDateString() +
+            " - " +
+            dateRange[1].toLocaleDateString()}
+        </Text>
 
-	  const handleReloadData = async () => {
-		await setReLoading(true);
-		setOpen(false)
-	  };
-
-	return (
-		<> 
-		<Flex
-			w={{ sm: '100%', md: 'auto' }}
-			alignItems="center"
-			flexDirection="row"
-			bg={menuBg}
-			flexWrap={secondary ? { base: 'wrap', md: 'nowrap' } : 'unset'}
-			p="10px"
-			borderRadius="30px"
-			boxShadow={shadow}>
-			{/* <SearchBar mb={secondary ? { base: '10px', md: 'unset' } : 'unset'} me="10px" borderRadius="30px" /> */}
-		
-	
-		<Text style={{padding:"0.5rem"}} 	onClick={()=>setOpen(!open)}>
-	      	{dateRange[0].toLocaleDateString()+" - "+dateRange[1].toLocaleDateString()}
-		</Text>
-
-			{/* <Flex
+        {/* <Flex
 				bg={ethBg}
 				display={secondary ? 'flex' : 'none'}
 				borderRadius="30px"
@@ -134,9 +194,8 @@ export default function HeaderLinks(props) {
 				</Text>
 			</Flex> */}
 
-			
-			{/* <SidebarResponsive routes={routes} /> */}
-			{/* <Menu>
+        {/* <SidebarResponsive routes={routes} /> */}
+        {/* <Menu>
 				<MenuButton p="0px">
 					<Icon mt="6px" as={MdNotificationsNone} color={navbarIcon} w="18px" h="18px" me="10px" />
 				</MenuButton>
@@ -228,22 +287,21 @@ export default function HeaderLinks(props) {
         </MenuList>
       </Menu> */}
 
-			{/* <ThemeEditor navbarIcon={navbarIcon} /> */}
+        {/* <ThemeEditor navbarIcon={navbarIcon} /> */}
 
-			<Menu>
-				<MenuButton p="0px" onClick={() => handleReloadData()}>
-					<Avatar
-						_hover={{ cursor: 'pointer' }}
-						color="white"
-						name="G O"
-						bg="#11047A"
-						size="sm"
-						w="40px"
-						h="40px"
-				
-					/>
-				</MenuButton>
-				{/* <MenuList boxShadow={shadow} p="0px" mt="10px" borderRadius="20px" bg={menuBg} border="none">
+        <Menu>
+          <MenuButton p="0px" onClick={() => handleReloadData()}>
+            <Avatar
+              _hover={{ cursor: "pointer" }}
+              color="white"
+              name="G O"
+              bg="#11047A"
+              size="sm"
+              w="40px"
+              h="40px"
+            />
+          </MenuButton>
+          {/* <MenuList boxShadow={shadow} p="0px" mt="10px" borderRadius="20px" bg={menuBg} border="none">
 					<Flex w="100%" mb="0px">
 						<Text
 							ps="20px"
@@ -275,31 +333,36 @@ export default function HeaderLinks(props) {
 						</MenuItem>
 					</Flex>
 				</MenuList> */}
-			</Menu>
-		</Flex>
+        </Menu>
+      </Flex>
 
-{open && 
-	<div  style={{position:"absolute",right:'5rem', borderRadius: "1rem",
-    boxShadow: "rgb(136, 136, 136) 0px 0px 4px 1px"}}  >
-
-	
-	<MiniCalendar h='100%' selectRange={true}  
-	   {...props}
-	   {...{
-		handleDateChange,
-		dateRange
-	   }}
-	
-	/>
-	</div>
-	}
- </>
-	);
+      {open && (
+        <div
+          style={{
+            position: "absolute",
+            right: "5rem",
+            borderRadius: "1rem",
+            boxShadow: "rgb(136, 136, 136) 0px 0px 4px 1px",
+          }}
+        >
+          <MiniCalendar
+            h="100%"
+            selectRange={true}
+            {...props}
+            {...{
+              handleDateChange,
+              dateRange,
+            }}
+          />
+        </div>
+      )}
+    </Grid>
+  );
 }
 
 HeaderLinks.propTypes = {
-	variant: PropTypes.string,
-	fixed: PropTypes.bool,
-	secondary: PropTypes.bool,
-	onOpen: PropTypes.func
+  variant: PropTypes.string,
+  fixed: PropTypes.bool,
+  secondary: PropTypes.bool,
+  onOpen: PropTypes.func,
 };

@@ -26,7 +26,7 @@ const GetOrderWiseSales = async (input) => {
   return await axios
     .post(GET_ORDERWISE_SALE, input, optionAxios)
     .then(function (resp) {
-      console.log(resp.data.data);
+      // console.log(resp.data.data);
       return resp.data.data;
     })
     .catch((error) => {
