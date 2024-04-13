@@ -52,8 +52,9 @@ import {
 import tableDataCheck from "views/admin/default/variables/tableDataCheck.json";
 import tableDataComplex from "views/admin/default/variables/tableDataComplex.json";
 
-import { Grid } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import Navbar from "components/navbar/NavbarAdmin.js";
+import { Spinner } from '@chakra-ui/react'
 
 export default function UserReports(props) {
   // Chakra Color Mode
@@ -78,6 +79,19 @@ export default function UserReports(props) {
           console.log(orderData);
           console.log(hourlyData);
 
+
+          function calculateTotalQuantity(data) {
+            let totalQuantity = 0;
+            for (const item of data) {
+              totalQuantity += item.gross_sales;
+            }
+            return totalQuantity;
+          }
+          
+          const totalQuantity = calculateTotalQuantity(data.sales);
+
+
+
   return (
     <>
       <Portal>
@@ -99,8 +113,31 @@ export default function UserReports(props) {
       </Portal>
 
    
-{reloading?"Loading":
+
+    
       <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
+
+       {reloading? 
+       <Grid style={{
+        display: "flex",
+        height:"80vh",
+    flexDirection: "column",
+    justifyContent:"center",
+    alignItems: "center",
+       }}>
+<Spinner
+  thickness='4px'
+  speed='0.65s'
+  emptyColor='gray.200'
+  color='blue.500'
+  size='xl'
+/>
+<Typography>
+  Loading
+</Typography>
+       </Grid>
+     : 
+       <> 
         <Grid
           container
           sm={12}
@@ -131,7 +168,7 @@ export default function UserReports(props) {
                   />
                 }
                 name="Earnings"
-                value={data?.sales?.length}
+                value={totalQuantity.toFixed(2)}
               />
               <MiniStatistics
                 startContent={
@@ -247,7 +284,8 @@ export default function UserReports(props) {
             <MiniCalendar h="100%" minW="100%" selectRange={true} />
           </SimpleGrid>
         </SimpleGrid>
-      </Box>}
+        </>}
+      </Box>
 
 
     </>

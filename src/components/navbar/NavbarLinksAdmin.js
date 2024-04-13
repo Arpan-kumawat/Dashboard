@@ -86,12 +86,13 @@ export default function HeaderLinks(props) {
         "YYYY-MM-DD"
       );
       setLoading(true);
+       
 
       let funArr = [
-        GetDailySales({ from: fromDate, to: toDate, store_id: ['1300'] }),
-        GetOrderWiseSales({ from: fromDate, to: toDate, store_id: ['1300'] }),
-        GetHourlySales({ from: fromDate, to: toDate, store_id: ['1300'] }),
-	    GetStores({ is_parent_admin: false, is_root_admin: true, store_id: ['99'] })
+        GetDailySales({ from: fromDate, to: toDate, store_id: [selectStore] }),
+        GetOrderWiseSales({ from: fromDate, to: toDate, store_id: [selectStore] }),
+        GetHourlySales({ from: fromDate, to: toDate, store_id: [selectStore] }),
+	      GetStores({ is_parent_admin: false, is_root_admin: true, store_id: ['99'] })
       ];
 
       Promise.all(funArr)
