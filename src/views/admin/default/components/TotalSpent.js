@@ -21,8 +21,9 @@ import {
 } from "variables/charts";
 
 export default function TotalSpent(props) {
-  const { ...rest } = props;
+  const { salesData} = props;
 
+  console.log(salesData.sales)
   // Chakra Color Mode
 
   const textColor = useColorModeValue("secondaryGray.900", "white");
@@ -45,7 +46,8 @@ export default function TotalSpent(props) {
       direction='column'
       w='100%'
       mb='0px'
-      {...rest}>
+      // {...rest}
+      >
       <Flex justify='space-between' ps='0px' pe='20px' pt='5px'>
         <Flex align='center' w='100%'>
           <Button
@@ -73,7 +75,8 @@ export default function TotalSpent(props) {
             h='37px'
             lineHeight='100%'
             borderRadius='10px'
-            {...rest}>
+            // {...rest}
+            >
             <Icon as={MdBarChart} color={iconColor} w='24px' h='24px' />
           </Button>
         </Flex>

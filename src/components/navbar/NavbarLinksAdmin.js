@@ -34,7 +34,7 @@ export default function HeaderLinks(props) {
 
   const {
     secondary,
-    setSelectStore,
+    setSelectStore,setLastData,lastData,setLastLoading,setReloadingPrev,Lastloading,
     reloading,
     setLoading,
     setData,
@@ -43,7 +43,7 @@ export default function HeaderLinks(props) {
     setHourlyData,
     storeData,
     setStoreData,
-    setReLoading
+    setReLoading,reloadingPrev
   } = props;
   // Chakra Color Mode
 
@@ -65,7 +65,7 @@ export default function HeaderLinks(props) {
     localStorage.setItem('Store', event.target.value);
   };
 
-  console.log("asdf")
+
   // const [loading, setLoading] = useState(true);
   // const [data, setData] = useState([]);
   // const [storeData, setStoreData] = useState([]);
@@ -128,10 +128,76 @@ export default function HeaderLinks(props) {
 
   const handleReloadData = async () => {
     setReLoading(true);
+    setLastLoading(true)
     setOpen(false);
 
   };
 
+  useEffect(() => {
+    if (Lastloading) {
+
+      console.log("lastapi")
+      let givenDate = new Date(dateRange[0].toLocaleDateString());
+      givenDate.setDate(givenDate.getDate() - 30);
+      let formattedDate = `${givenDate.getMonth() + 1}/${givenDate.getDate()}/${givenDate.getFullYear()}`;
+      console.log(formattedDate); 
+
+      let givenDate1 = new Date(dateRange[1].toLocaleDateString());
+      givenDate1.setDate(givenDate1.getDate() - 30);
+      let formattedDate1 = `${givenDate1.getMonth() + 1}/${givenDate1.getDate()}/${givenDate1.getFullYear()}`;
+      console.log(formattedDate1); 
+
+      var fromDate = moment(formattedDate).format(
+        "YYYY-MM-DD"
+      );
+      var toDate = moment(formattedDate1).format(
+        "YYYY-MM-DD"
+      );
+      setLastLoading(true);
+       
+
+      let funArr = [
+        GetDailySales({ from: fromDate, to: toDate, store_id: [selectStore] }),
+        // GetOrderWiseSales({ from: fromDate, to: toDate, store_id: [selectStore] }),
+        // GetHourlySales({ from: fromDate, to: toDate, store_id: [selectStore] }),
+	      // GetStores({ is_parent_admin: false, is_root_admin: true, store_id: ['99'] })
+      ];
+
+      Promise.all(funArr)
+        .then(async (resultArr) => {
+          let [salesData,
+            //  orderdata, hourlydata,
+            //  storeId
+            ] = resultArr;
+            setLastData(salesData);
+          // setOrderData(orderdata);
+          // setHourlyData(hourlydata);
+		      // setStoreData(storeId)
+          setLastLoading(false);
+          setReloadingPrev(false);
+
+          console.log(salesData);
+      
+          // if (resultArr.length > 0) {
+          //   localStorage.setItem("sales", JSON.stringify(salesData)); 
+          //   localStorage.setItem("Order", JSON.stringify(orderdata)); 
+          //   localStorage.setItem("hourly", JSON.stringify(hourlydata)); 
+          // }
+      
+  
+          // console.log(salesData);
+          // console.log(orderdata);
+          // console.log(hourlydata);
+		  // console.log(storeId)
+      // setLoading(false);
+      // setReLoading(false);
+        })
+        .catch((ex) => console.error(ex));
+        // setLoading(false);
+        // setReLoading(false);
+    }
+
+  }, [Lastloading]);
 
 
   

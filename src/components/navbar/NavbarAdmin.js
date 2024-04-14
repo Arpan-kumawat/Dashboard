@@ -17,7 +17,7 @@ export default function AdminNavbar(props) {
 
 	const { secondary, message, brandText,
 		loading,
-		setLoading,
+		setLoading,setLastData,lastData,reloadingPrev,setReloadingPrev,Lastloading,setLastLoading,
 		data,
 		setData,
 		storeData,
@@ -138,7 +138,7 @@ export default function AdminNavbar(props) {
 						scrolled={scrolled}
 						{...{
 							loading,
-							setLoading,
+							setLoading,setLastData,lastData,reloadingPrev,setReloadingPrev,Lastloading,setLastLoading,
 							data,
 							setData,
 							storeData,

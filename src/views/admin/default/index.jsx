@@ -61,10 +61,14 @@ export default function UserReports(props) {
   const brandColor = useColorModeValue("brand.500", "white");
   const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
 
-
+  const [percentColor, setPercentColor] = useState("green");
 
   const [loading, setLoading] = useState(true);
+  const [Lastloading, setLastLoading] = useState(true);
+
+
   const [data, setData] = useState([]);
+  const [lastData, setLastData] = useState([]);
   const [storeData, setStoreData] = useState([]);
 
   const [selectStore, setSelectStore] = useState('');
@@ -73,24 +77,106 @@ export default function UserReports(props) {
   const [hourlyData, setHourlyData] = useState([]);
   const [isLoading] = useState(true);
   const [reloading, setReLoading] = useState(true);
+  const [reloadingPrev, setReloadingPrev] = useState(true);
+
 
 
           console.log(data);
           console.log(orderData);
           console.log(hourlyData);
+          console.log(lastData)
 
 
-          function calculateTotalQuantity(data) {
-            let totalQuantity = 0;
+          function calculateOrderCheck(data) {
+            let TotalOrderCount = 0;
+            if(data){
             for (const item of data) {
-              totalQuantity += item.gross_sales;
-            }
-            return totalQuantity;
+              TotalOrderCount += item.orders;
+            }}
+            return TotalOrderCount;
           }
           
-          const totalQuantity = calculateTotalQuantity(data.sales);
+          const TotalOrderCount = calculateOrderCheck(data?.sales);
+          const LastTotalOrderCount = calculateOrderCheck(data?.sales);
 
 
+          console.log(TotalOrderCount)
+          console.log(LastTotalOrderCount.toFixed(2))
+
+
+          function calculateRefundSales(data) {
+            let TotalRefundSales = 0;
+            if(data){
+            for (const item of data) {
+              TotalRefundSales += item.refund;
+            }}
+            return TotalRefundSales;
+          }
+          
+          const TotalRefundSales = calculateRefundSales(data?.sales);
+          const LastTotalRefundSales = calculateRefundSales(lastData?.sales);
+
+
+ 
+
+
+          function calculateGrossSales(data) {
+            let TotalGrossSales = 0;
+            if(data){
+            for (const item of data) {
+              TotalGrossSales += item.gross_sales;
+            }}
+            return TotalGrossSales;
+          }    
+          const TotalGrossSales = calculateGrossSales(data?.sales);
+          const LastTotalGrossSales = calculateGrossSales(lastData?.sales);
+
+
+     
+          function calculateNetSales(data) {
+            let TotalNetSales = 0;
+         
+            if(data){
+            for (const item of data) {
+              TotalNetSales += item?.net_sales;
+           
+            }}
+            return TotalNetSales;
+          }
+          const TotalNetSales = calculateNetSales(data?.sales);
+       
+
+function compareFromLastMonth(totalCurrentcheck,totalLastcheck) {
+  let DifferSales = 0;
+  DifferSales=totalCurrentcheck-totalLastcheck
+  let percent =  DifferSales.toFixed(2)/totalLastcheck.toFixed(2) *100
+  return percent;
+}
+
+const TotalSalesPercent = compareFromLastMonth(TotalGrossSales,LastTotalGrossSales);
+const TotalRefundPercent = compareFromLastMonth(TotalRefundSales,LastTotalRefundSales);
+const TotalOrdersPercent = compareFromLastMonth(TotalOrderCount,LastTotalOrderCount);
+
+
+function  futurePrediction(Currentcheck,Lastcheck) {
+  let DifferSales = 0;
+  DifferSales=Lastcheck+Currentcheck
+  let percent =  DifferSales/2
+  return percent;
+}
+const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales);
+
+
+function futurePredictPrecent(totalCurrentcheck,totalLastcheck) {
+
+  let DifferSales = 0;
+  
+  DifferSales=totalCurrentcheck-totalLastcheck
+
+  let percent =  DifferSales.toFixed(2)/totalLastcheck.toFixed(2) *100
+
+  return percent;
+}
 
   return (
     <>
@@ -101,7 +187,7 @@ export default function UserReports(props) {
         {...props}
         {...{
           loading,
-          setLoading,
+          setLoading,setLastData,lastData,reloadingPrev,setReloadingPrev,Lastloading,setLastLoading,
           data,
           setData,
           storeData,
@@ -167,8 +253,8 @@ export default function UserReports(props) {
                     }
                   />
                 }
-                name="Earnings"
-                value={totalQuantity.toFixed(2)}
+                name="Total Revenue"
+                value={TotalGrossSales.toFixed(2)}
               />
               <MiniStatistics
                 startContent={
@@ -186,31 +272,66 @@ export default function UserReports(props) {
                     }
                   />
                 }
-                name="Spend this month"
-                value="$642.39"
+                name="Total Net Sales"
+                value={TotalNetSales.toFixed(2)}
+      
               />
-              <MiniStatistics growth="+23%" name="Sales" value="$574.34" />
               <MiniStatistics
-                endContent={
-                  <Flex me="-16px" mt="10px">
-                    <FormLabel htmlFor="balance">
-                      <Avatar src={Usa} />
-                    </FormLabel>
-                    <Select
-                      id="balance"
-                      variant="mini"
-                      mt="5px"
-                      me="0px"
-                      defaultValue="usd"
-                    >
-                      <option value="usd">USD</option>
-                      <option value="eur">EUR</option>
-                      <option value="gba">GBA</option>
-                    </Select>
-                  </Flex>
+                  startContent={
+                    <IconBox
+                      w="56px"
+                      h="56px"
+                      bg={boxBg}
+                      icon={
+                        <Icon
+                          w="32px"
+                          h="32px"
+                          as={MdAttachMoney}
+                          color={brandColor}
+                        />
+                      }
+                    />
+                  }
+              growth={TotalSalesPercent?.toFixed(2)+"%"} name="Sales MOM" value={(TotalGrossSales-LastTotalGrossSales)?.toFixed(2)} />
+
+
+              <MiniStatistics
+                // endContent={
+                //   <Flex me="-16px" mt="10px">
+                //     <FormLabel htmlFor="balance">
+                //       <Avatar src={Usa} />
+                //     </FormLabel>
+                //     <Select
+                //       id="balance"
+                //       variant="mini"
+                //       mt="5px"
+                //       me="0px"
+                //       defaultValue="usd"
+                //     >
+                //       <option value="usd">USD</option>
+                //       <option value="eur">EUR</option>
+                //       <option value="gba">GBA</option>
+                //     </Select>
+                //   </Flex>
+                // }
+                startContent={
+                  <IconBox
+                    w="56px"
+                    h="56px"
+                    bg={boxBg}
+                    icon={
+                      <Icon
+                        w="32px"
+                        h="32px"
+                        as={MdAttachMoney}
+                        color={brandColor}
+                      />
+                    }
+                  />
                 }
-                name="Your balance"
-                value="$1,000"
+                name="Total Refund"
+                growth={TotalRefundPercent?.toFixed(2)+"%"}
+                value={TotalRefundSales.toFixed(2)}
               />
               <MiniStatistics
                 startContent={
@@ -223,8 +344,9 @@ export default function UserReports(props) {
                     }
                   />
                 }
-                name="New Tasks"
-                value="154"
+                name="Total Transaction"
+                growth={TotalOrdersPercent?.toFixed(2)+"%"}
+                value={TotalOrderCount}
               />
               <MiniStatistics
                 startContent={
@@ -242,8 +364,8 @@ export default function UserReports(props) {
                     }
                   />
                 }
-                name="Total Projects"
-                value="2935"
+                name="Future Sales Predection"
+                value={TotalNetSalesFuture.toFixed(2)}
               />
             </SimpleGrid>
           </Grid>
@@ -261,7 +383,7 @@ export default function UserReports(props) {
         </Grid>
 
         <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px" mb="20px">
-          <TotalSpent />
+          <TotalSpent salesData={data} />
           <WeeklyRevenue />
         </SimpleGrid>
         <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap="20px" mb="20px">
