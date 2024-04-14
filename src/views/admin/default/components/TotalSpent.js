@@ -162,41 +162,34 @@ export default function TotalSpent(props) {
       mb='0px'
       // {...rest}
       >
-      <Flex justify='space-between' ps='0px' pe='20px' pt='5px'>
-        <Flex align='center' w='100%'>
-          <Button
-            bg={boxBg}
-            fontSize='sm'
-            fontWeight='500'
-            color={textColorSecondary}
-            borderRadius='7px'>
-            <Icon
-              as={MdOutlineCalendarToday}
-              color={textColorSecondary}
-              me='4px'
-            />
-            This month
-          </Button>
-          <Button
-            ms='auto'
-            align='center'
-            justifyContent='center'
-            bg={bgButton}
-            _hover={bgHover}
-            _focus={bgFocus}
-            _active={bgFocus}
-            w='37px'
-            h='37px'
-            lineHeight='100%'
-            borderRadius='10px'
-            // {...rest}
-            >
-            <Icon as={MdBarChart} color={iconColor} w='24px' h='24px' />
-          </Button>
-        </Flex>
+       <Flex align='center' w='100%' px='15px' py='10px'>
+        <Text
+          me='auto'
+          color={textColor}
+          fontSize='xl'
+          fontWeight='700'
+          lineHeight='100%'>
+          Total Sales
+        </Text>
+        <Button
+          align='center'
+          justifyContent='center'
+          bg={bgButton}
+          _hover={bgHover}
+          _focus={bgFocus}
+          _active={bgFocus}
+          w='37px'
+          h='37px'
+          lineHeight='100%'
+          borderRadius='10px'
+          // {...rest}
+          
+          >
+          <Icon as={MdBarChart} color={iconColor} w='24px' h='24px' />
+        </Button>
       </Flex>
       <Flex w='100%' flexDirection={{ base: "column", lg: "row" }}>
-        <Flex flexDirection='column' me='20px' mt='28px'>
+        {/* <Flex flexDirection='column' me='20px' mt='28px'>
           <Text
             color={textColor}
             fontSize='34px'
@@ -228,8 +221,8 @@ export default function TotalSpent(props) {
               On track
             </Text>
           </Flex>
-        </Flex>
-        <Box minH='260px' minW='75%' mt='auto'>
+        </Flex> */}
+        <Box minH='260px' minW='90%' m='auto'>
           <LineChart
             chartData={lineChartDataTotalSpent}
             

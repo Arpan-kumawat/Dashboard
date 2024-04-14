@@ -23,6 +23,33 @@ import {
   
     console.log(salesData)
 
+    const item=salesData.map((e)=>e.item_details)
+    console.log(item)
+
+
+
+const flattenedArray = item.flat();
+const categoryIds = flattenedArray.map(obj => obj.item_name);
+const categoryCounts = {};
+categoryIds.forEach(id => {
+  categoryCounts[id] = (categoryCounts[id] || 0) + 1;
+});
+
+const sortedCategoryIds = Object.keys(categoryCounts).sort((a, b) => categoryCounts[b] - categoryCounts[a]);
+const top5CategoryIds = sortedCategoryIds.slice(0, 5);
+
+console.log("Top 5 repeating category IDs:", top5CategoryIds);
+
+
+
+//   const KioskCount = salesData.filter(order => order.order_source_code === "KIOSK").length;
+//   const qrCount = salesData.filter(order => order.order_source_code === "QR").length;
+
+// console.log("Count of 'POS' order_source_code:", posCount);
+
+// console.log("Count of 'QR' order_source_code:", qrCount);
+
+// console.log("Count of 'kiosk' order_source_code:", KioskCount);
   
     // Chakra Color Mode
     const textColor = useColorModeValue("secondaryGray.900", "white");
@@ -40,30 +67,36 @@ import {
           /> */}
   
           <Text color={textColor} fontSize='lg' fontWeight='700'>
-            Category
+           Top 5 Selling Items
           </Text>
           
           {/* <Menu ms='auto' /> */}
         </Flex>
         <Box px='11px'>
-          <Flex mb='20px' style={{    display: "flex",
+
+        <ul class="b">
+ 
+
+            {top5CategoryIds.map((e)=> 
+         <li>
+
+       <Flex mb='20px' style={{    display: "flex",
       justifyContent: "space-between"}}>
-           
+    
+
+         
             <Text
               fontWeight='bold'
               color={textColor}
               fontSize='md'
               textAlign='start'>
-              LEAP
-            </Text>
-            <Grid>
-            <Typography> posCount
-          </Typography> 
-            </Grid>
+               {e}
+            </Text>  
+       
          
-          </Flex>
-  
-  
+          </Flex>   </li>
+ ) }
+  </ul>
      
   
           {/* <Flex mb='20px'>

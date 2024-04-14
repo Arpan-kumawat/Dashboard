@@ -164,7 +164,7 @@ export default function Conversion(props) {
             </Text>
           </Flex>
           <Text fontSize='lg' color={textColor} fontWeight='700'>
-            {TotalNetSales}
+            {TotalNetSales.toFixed(2)}
           </Text>
         </Flex>
       </Card>

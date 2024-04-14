@@ -49,7 +49,7 @@ console.log("Count of 'kiosk' order_source_code:", KioskCount);
         /> */}
 
         <Text color={textColor} fontSize='lg' fontWeight='700'>
-          Device Count
+          Device Order Count
         </Text>
         
         {/* <Menu ms='auto' /> */}
