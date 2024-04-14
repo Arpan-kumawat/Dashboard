@@ -43,6 +43,7 @@ import ComplexTable from "views/admin/default/components/ComplexTable";
 import DailyTraffic from "views/admin/default/components/DailyTraffic";
 import PieCard from "views/admin/default/components/PieCard";
 import Tasks from "views/admin/default/components/Tasks";
+import Category from "views/admin/default/components/Category";
 import TotalSpent from "views/admin/default/components/TotalSpent";
 import WeeklyRevenue from "views/admin/default/components/WeeklyRevenue";
 import {
@@ -167,16 +168,16 @@ function  futurePrediction(Currentcheck,Lastcheck) {
 const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales);
 
 
-function futurePredictPrecent(totalCurrentcheck,totalLastcheck) {
+// function futurePredictPrecent(totalCurrentcheck,totalLastcheck) {
 
-  let DifferSales = 0;
+//   let DifferSales = 0;
   
-  DifferSales=totalCurrentcheck-totalLastcheck
+//   DifferSales=totalCurrentcheck-totalLastcheck
 
-  let percent =  DifferSales.toFixed(2)/totalLastcheck.toFixed(2) *100
+//   let percent =  DifferSales.toFixed(2)/totalLastcheck.toFixed(2) *100
 
-  return percent;
-}
+//   return percent;
+// }
 
   return (
     <>
@@ -384,8 +385,9 @@ function futurePredictPrecent(totalCurrentcheck,totalLastcheck) {
 
         <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px" mb="20px">
           <TotalSpent salesData={data} />
-          <WeeklyRevenue />
+          <WeeklyRevenue  salesData={hourlyData} />
         </SimpleGrid>
+
         <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap="20px" mb="20px">
           <CheckTable
             columnsData={columnsDataCheck}
@@ -393,17 +395,19 @@ function futurePredictPrecent(totalCurrentcheck,totalLastcheck) {
           />
           <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
             <DailyTraffic />
-            <PieCard />
+            <PieCard  salesData={data}  />
           </SimpleGrid>
         </SimpleGrid>
+
         <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap="20px" mb="20px">
           <ComplexTable
             columnsData={columnsDataComplex}
             tableData={tableDataComplex}
           />
           <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
-            <Tasks />
-            <MiniCalendar h="100%" minW="100%" selectRange={true} />
+            <Tasks salesData={orderData} />
+            {/* <MiniCalendar h="100%" minW="100%" selectRange={true} /> */}
+               <Category salesData={orderData} />
           </SimpleGrid>
         </SimpleGrid>
         </>}

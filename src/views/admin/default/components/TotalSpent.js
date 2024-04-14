@@ -15,16 +15,130 @@ import { IoCheckmarkCircle } from "react-icons/io5";
 import { MdBarChart, MdOutlineCalendarToday } from "react-icons/md";
 // Assets
 import { RiArrowUpSFill } from "react-icons/ri";
-import {
-  lineChartDataTotalSpent,
-  lineChartOptionsTotalSpent,
-} from "variables/charts";
+// import {
+//   lineChartDataTotalSpent,
+//   lineChartOptionsTotalSpent,
+// } from "variables/charts";
+
+
+
 
 export default function TotalSpent(props) {
   const { salesData} = props;
 
   console.log(salesData.sales)
   // Chakra Color Mode
+
+  let constSale=salesData.sales
+
+  let constGrossSales = constSale.map((e)=>e.gross_sales)
+  
+  let constOrders = constSale.map((e)=>e.orders)
+
+  let constDate = constSale.map((e)=>e.business_date)
+
+
+
+   const lineChartDataTotalSpent = [
+    {
+      name: "Revenue",
+      data: constSale ? constGrossSales : [],
+    },
+    {
+      name: "Orders",
+      data: constOrders ? constOrders : [],
+    },
+  ];
+
+   const lineChartDataTotalSpent1 = [
+    {
+      name: "Revenue",
+      data: [50, 64, 48, 66, 49, 68],
+    },
+    {
+      name: "Profit",
+      data: [30, 40, 24, 46, 20, 46],
+    },
+  ];
+
+  console.log(lineChartDataTotalSpent)
+  console.log(lineChartDataTotalSpent1)
+  
+   const lineChartOptionsTotalSpent = {
+    chart: {
+      toolbar: {
+        show: false,
+      },
+      dropShadow: {
+        enabled: true,
+        top: 13,
+        left: 0,
+        blur: 10,
+        opacity: 0.1,
+        color: "#4318FF",
+      },
+    },
+    colors: ["#4318FF", "#39B8FF"],
+    markers: {
+      size: 0,
+      colors: "white",
+      strokeColors: "#7551FF",
+      strokeWidth: 3,
+      strokeOpacity: 0.9,
+      strokeDashArray: 0,
+      fillOpacity: 1,
+      discrete: [],
+      shape: "circle",
+      radius: 2,
+      offsetX: 0,
+      offsetY: 0,
+      showNullDataPoints: true,
+    },
+    tooltip: {
+      theme: "dark",
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: "smooth",
+      type: "line",
+    },
+    xaxis: {
+      type: "numeric",
+      // categories: ["SEP", "OCT", "NOV", "DEC", "JAN", "FEB"],
+      categories: constDate,
+      labels: {
+        style: {
+          colors: "#A3AED0",
+          fontSize: "12px",
+          fontWeight: "500",
+        },
+      },
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: false,
+      },
+    },
+    yaxis: {
+      show: false,
+    },
+    legend: {
+      show: false,
+    },
+    grid: {
+      show: false,
+      column: {
+        color: ["#7551FF", "#39B8FF"],
+        opacity: 0.5,
+      },
+    },
+    color: ["#7551FF", "#39B8FF"],
+  };
+  
+  
 
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const textColorSecondary = useColorModeValue("secondaryGray.600", "white");
@@ -118,6 +232,7 @@ export default function TotalSpent(props) {
         <Box minH='260px' minW='75%' mt='auto'>
           <LineChart
             chartData={lineChartDataTotalSpent}
+            
             chartOptions={lineChartOptionsTotalSpent}
           />
         </Box>
