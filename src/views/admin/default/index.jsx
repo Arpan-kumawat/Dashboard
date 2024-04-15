@@ -403,7 +403,8 @@ const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales
         <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap="20px" mb="20px">
           <CheckTable
             columnsData={columnsDataCheck}
-            tableData={tableDataCheck}
+            tableData={data.sales}
+            salesData={orderData}
           />
           <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
             <DailyTraffic />

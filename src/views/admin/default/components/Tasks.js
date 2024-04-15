@@ -19,27 +19,33 @@ import React from "react";
 import { Typography } from "@material-ui/core";
 
 export default function Conversion(props) {
-  const { salesData} = props;
+  const { salesData } = props;
 
-  console.log(salesData)
+  console.log(salesData);
 
-  const posCount = salesData.filter(order => order.order_source_code === "POS").length;
-  const KioskCount = salesData.filter(order => order.order_source_code === "KIOSK").length;
-  const qrCount = salesData.filter(order => order.order_source_code === "QR").length;
+  const posCount = salesData.filter(
+    (order) => order.order_source_code === "POS"
+  ).length;
+  const KioskCount = salesData.filter(
+    (order) => order.order_source_code === "KIOSK"
+  ).length;
+  const qrCount = salesData.filter(
+    (order) => order.order_source_code === "QR"
+  ).length;
 
-console.log("Count of 'POS' order_source_code:", posCount);
+  console.log("Count of 'POS' order_source_code:", posCount);
 
-console.log("Count of 'QR' order_source_code:", qrCount);
+  console.log("Count of 'QR' order_source_code:", qrCount);
 
-console.log("Count of 'kiosk' order_source_code:", KioskCount);
+  console.log("Count of 'kiosk' order_source_code:", KioskCount);
 
   // Chakra Color Mode
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const boxBg = useColorModeValue("secondaryGray.300", "navy.700");
   const brandColor = useColorModeValue("brand.500", "brand.400");
   return (
-    <Card p='20px' align='center' direction='column' w='100%' >
-      <Flex alignItems='center' w='100%' mb='30px'>
+    <Card p="20px" align="center" direction="column" w="100%">
+      <Flex alignItems="center" w="100%" mb="30px">
         {/* <IconBox
           me='12px'
           w='38px'
@@ -48,61 +54,60 @@ console.log("Count of 'kiosk' order_source_code:", KioskCount);
           icon={<Icon as={MdCheckBox} color={brandColor} w='24px' h='24px' />}
         /> */}
 
-        <Text color={textColor} fontSize='lg' fontWeight='700'>
+        <Text color={textColor} fontSize="lg" fontWeight="700">
           Device Order Count
         </Text>
-        
+
         {/* <Menu ms='auto' /> */}
       </Flex>
-      <Box px='11px'>
-        <Flex mb='20px' style={{    display: "flex",
-    justifyContent: "space-between"}}>
-         
+      <Box px="11px">
+        <Flex
+          mb="20px"
+          style={{ display: "flex", justifyContent: "space-between" }}
+        >
           <Text
-            fontWeight='bold'
+            fontWeight="bold"
             color={textColor}
-            fontSize='md'
-            textAlign='start'>
+            fontSize="md"
+            textAlign="start"
+          >
             LEAP
           </Text>
           <Grid>
-          <Typography> {posCount}
-        </Typography> 
+            <Typography> {posCount}</Typography>
           </Grid>
-       
         </Flex>
 
-
-        <Flex mb='20px' style={{    display: "flex",
-    justifyContent: "space-between"}}>
-         
+        <Flex
+          mb="20px"
+          style={{ display: "flex", justifyContent: "space-between" }}
+        >
           <Text
-            fontWeight='bold'
+            fontWeight="bold"
             color={textColor}
-            fontSize='md'
-            textAlign='start'>
+            fontSize="md"
+            textAlign="start"
+          >
             QR
           </Text>
-  <Grid>
-
-
-       <Typography>
-        {qrCount}
-       </Typography>
-       </Grid>
+          <Grid>
+            <Typography>{qrCount}</Typography>
+          </Grid>
         </Flex>
 
-        <Flex mb='20px' style={{    display: "flex",
-    justifyContent: "space-between"}}>
-       
+        <Flex
+          mb="20px"
+          style={{ display: "flex", justifyContent: "space-between" }}
+        >
           <Text
-            fontWeight='bold'
+            fontWeight="bold"
             color={textColor}
-            fontSize='md'
-            textAlign='start'>
-          BREEZ
+            fontSize="md"
+            textAlign="start"
+          >
+            BREEZ
           </Text>
-        {KioskCount}
+          {KioskCount}
         </Flex>
 
         {/* <Flex mb='20px'>
@@ -139,8 +144,6 @@ console.log("Count of 'kiosk' order_source_code:", KioskCount);
             h='24px'
           />
         </Flex> */}
-
-
       </Box>
     </Card>
   );

@@ -26,16 +26,22 @@ import moment from "moment-timezone";
 import {
   GetDailySales,
   GetOrderWiseSales,
-  GetHourlySales,GetStores
+  GetHourlySales,
+  GetStores,
 } from "../../utils/apiHelper";
 moment.tz.setDefault("Asia/Kolkata");
 
 export default function HeaderLinks(props) {
-
   const {
     secondary,
-    setSelectStore,setLastData,lastData,setLastLoading,setReloadingPrev,Lastloading,
-    reloading,dateRange,
+    setSelectStore,
+    setLastData,
+    lastData,
+    setLastLoading,
+    setReloadingPrev,
+    Lastloading,
+    reloading,
+    dateRange,
     setLoading,
     setData,
     setOrderData,
@@ -43,7 +49,8 @@ export default function HeaderLinks(props) {
     setHourlyData,
     storeData,
     setStoreData,
-    setReLoading,reloadingPrev
+    setReLoading,
+    reloadingPrev,
   } = props;
   // Chakra Color Mode
 
@@ -54,32 +61,46 @@ export default function HeaderLinks(props) {
     "14px 17px 40px 4px rgba(112, 144, 176, 0.06)"
   );
   const [open, setOpen] = useState(false);
-  // const [dateRange, setDateRange] = useState([new Date(), new Date()]); 
-  // const handleDateChange = (dates) => {
-  //   setDateRange(dates);
-  //   console.log("Selected date range:", dates);
-  // };
 
   const handleChange = (event) => {
     setSelectStore(event.target.value);
-    localStorage.setItem('Store', event.target.value);
+    localStorage.setItem("Store", event.target.value);
   };
 
-  console.log(storeData.map((e)=>e.store_id))
 
-  // const [loading, setLoading] = useState(true);
-  // const [data, setData] = useState([]);
-  // const [storeData, setStoreData] = useState([]);
 
-  // const [selectStore, setSelectStore] = useState('');
-
-  // const [orderData, setOrderData] = useState([]);
-  // const [hourlyData, setHourlyData] = useState([]);
-  // const [isLoading] = useState(true);
-  // const [reloading, setReLoading] = useState(true);
+  //  // ALL stores
 
   useEffect(() => {
-    if (reloading) {
+    var fromDate = moment(dateRange[0].toLocaleDateString()).format(
+      "YYYY-MM-DD"
+    );
+    var toDate = moment(dateRange[1].toLocaleDateString()).format("YYYY-MM-DD");
+    let StoreArr = [
+      GetStores({
+        is_parent_admin: false,
+        is_root_admin: true,
+        from: fromDate,
+        to: toDate,
+        store_id: ["99"],
+      }),
+    ];
+
+    Promise.all(StoreArr)
+      .then(async (resultArr) => {
+        let [StoreSalesData] = resultArr;
+        setStoreData(StoreSalesData);
+        console.log(StoreSalesData);
+      })
+      .catch((ex) => console.error(ex));
+  }, []);
+
+  let StoreArr = storeData.map((e) => e.store_id);
+
+  // Current Months
+
+  useEffect(() => {
+    if (reloading && StoreArr.length) {
       var fromDate = moment(dateRange[0].toLocaleDateString()).format(
         "YYYY-MM-DD"
       );
@@ -87,13 +108,24 @@ export default function HeaderLinks(props) {
         "YYYY-MM-DD"
       );
       setLoading(true);
-       
 
       let funArr = [
-        GetDailySales({ from: fromDate, to: toDate, store_id: [selectStore] }),
-        GetOrderWiseSales({ from: fromDate, to: toDate, store_id: [selectStore] }),
-        GetHourlySales({ from: fromDate, to: toDate, store_id: [selectStore] }),
-	      GetStores({ is_parent_admin: false, is_root_admin: true, store_id: ['99'] })  
+        GetDailySales({
+          from: fromDate,
+          to: toDate,
+          store_id: selectStore ? [selectStore] : StoreArr,
+        }),
+        GetOrderWiseSales({
+          from: fromDate,
+          to: toDate,
+          store_id: selectStore ? [selectStore] : StoreArr,
+        }),
+        GetHourlySales({
+          from: fromDate,
+          to: toDate,
+          store_id: selectStore ? [selectStore] : StoreArr,
+        }),
+        // GetStores({ is_parent_admin: false, is_root_admin: true, store_id: ['99'] })
       ];
 
       Promise.all(funArr)
@@ -102,131 +134,104 @@ export default function HeaderLinks(props) {
           setData(salesData);
           setOrderData(orderdata);
           setHourlyData(hourlydata);
-		      setStoreData(storeId)
+          // setStoreData(storeId)
           setLoading(false);
           setReLoading(false);
-      
+
           // if (resultArr.length > 0) {
-          //   localStorage.setItem("sales", JSON.stringify(salesData)); 
-          //   localStorage.setItem("Order", JSON.stringify(orderdata)); 
-          //   localStorage.setItem("hourly", JSON.stringify(hourlydata)); 
+          //   localStorage.setItem("sales", JSON.stringify(salesData));
+          //   localStorage.setItem("Order", JSON.stringify(orderdata));
+          //   localStorage.setItem("hourly", JSON.stringify(hourlydata));
           // }
-      
-  
+
           // console.log(salesData);
           // console.log(orderdata);
           // console.log(hourlydata);
-		  // console.log(storeId)
-      // setLoading(false);
-      // setReLoading(false);
+          // console.log(storeId)
+          // setLoading(false);
+          // setReLoading(false);
         })
         .catch((ex) => console.error(ex));
-        // setLoading(false);
-        // setReLoading(false);
+      // setLoading(false);
+      // setReLoading(false);
     }
-
-  }, [reloading]);
+  }, [reloading && StoreArr.length]);
 
   const handleReloadData = async () => {
     setReLoading(true);
-    setLastLoading(true)
+    setLastLoading(true);
     setOpen(false);
-
   };
+
+  // Last Months
 
   useEffect(() => {
     if (Lastloading) {
-
-      console.log("lastapi")
+      console.log("lastapi");
       let givenDate = new Date(dateRange[0].toLocaleDateString());
       givenDate.setDate(givenDate.getDate() - 30);
-      let formattedDate = `${givenDate.getMonth() + 1}/${givenDate.getDate()}/${givenDate.getFullYear()}`;
-      console.log(formattedDate); 
+      let formattedDate = `${
+        givenDate.getMonth() + 1
+      }/${givenDate.getDate()}/${givenDate.getFullYear()}`;
+      console.log(formattedDate);
 
       let givenDate1 = new Date(dateRange[1].toLocaleDateString());
       givenDate1.setDate(givenDate1.getDate() - 30);
-      let formattedDate1 = `${givenDate1.getMonth() + 1}/${givenDate1.getDate()}/${givenDate1.getFullYear()}`;
-      console.log(formattedDate1); 
+      let formattedDate1 = `${
+        givenDate1.getMonth() + 1
+      }/${givenDate1.getDate()}/${givenDate1.getFullYear()}`;
+      console.log(formattedDate1);
 
-      var fromDate = moment(formattedDate).format(
-        "YYYY-MM-DD"
-      );
-      var toDate = moment(formattedDate1).format(
-        "YYYY-MM-DD"
-      );
+      var fromDate = moment(formattedDate).format("YYYY-MM-DD");
+      var toDate = moment(formattedDate1).format("YYYY-MM-DD");
       setLastLoading(true);
-       
 
       let funArr = [
-        GetDailySales({ from: fromDate, to: toDate, store_id: [selectStore] }),
+        GetDailySales({
+          from: fromDate,
+          to: toDate,
+          store_id: selectStore ? [selectStore] : StoreArr,
+        }),
         // GetOrderWiseSales({ from: fromDate, to: toDate, store_id: [selectStore] }),
         // GetHourlySales({ from: fromDate, to: toDate, store_id: [selectStore] }),
-	      // GetStores({ is_parent_admin: false, is_root_admin: true, store_id: ['99'] })
+        // GetStores({ is_parent_admin: false, is_root_admin: true, store_id: ['99'] })
       ];
 
       Promise.all(funArr)
         .then(async (resultArr) => {
-          let [salesData,
+          let [
+            salesData,
             //  orderdata, hourlydata,
             //  storeId
-            ] = resultArr;
-            setLastData(salesData);
+          ] = resultArr;
+          setLastData(salesData);
           // setOrderData(orderdata);
           // setHourlyData(hourlydata);
-		      // setStoreData(storeId)
+          // setStoreData(storeId)
           setLastLoading(false);
           setReloadingPrev(false);
 
           console.log(salesData);
-      
+
           // if (resultArr.length > 0) {
-          //   localStorage.setItem("sales", JSON.stringify(salesData)); 
-          //   localStorage.setItem("Order", JSON.stringify(orderdata)); 
-          //   localStorage.setItem("hourly", JSON.stringify(hourlydata)); 
+          //   localStorage.setItem("sales", JSON.stringify(salesData));
+          //   localStorage.setItem("Order", JSON.stringify(orderdata));
+          //   localStorage.setItem("hourly", JSON.stringify(hourlydata));
           // }
-      
-  
+
           // console.log(salesData);
           // console.log(orderdata);
           // console.log(hourlydata);
-		  // console.log(storeId)
-      // setLoading(false);
-      // setReLoading(false);
+          // console.log(storeId)
+          // setLoading(false);
+          // setReLoading(false);
         })
         .catch((ex) => console.error(ex));
-        // setLoading(false);
-        // setReLoading(false);
+      // setLoading(false);
+      // setReLoading(false);
     }
-
   }, [Lastloading]);
 
-
-
-  useEffect(() => {
-  
-    var fromDate = moment(dateRange[0].toLocaleDateString()).format(
-      "YYYY-MM-DD"
-    );
-    var toDate = moment(dateRange[1].toLocaleDateString()).format(
-      "YYYY-MM-DD"
-    );
-    let StoreArr = [
-      GetOrderWiseSales({ from: fromDate, to: toDate, store_id: storeData.map((e)=>e.store_id) }),
-
-    ];
-
-    Promise.all(StoreArr)
-      .then(async (resultArr) => {
-        let [StoreSalesData, ] = resultArr;  
-        console.log(StoreSalesData);
-  
-      })
-      .catch((ex) => console.error(ex));
-  }, [storeData.length])
-  
-
-  
- 
   return (
     <Grid container>
       <Flex
@@ -240,8 +245,14 @@ export default function HeaderLinks(props) {
         borderRadius="30px"
         boxShadow={shadow}
       >
-        <Select placeholder="All Stores" variant="standard"  value={selectStore} label="Store" onChange={handleChange}>
-		  {storeData?.map((e) => (
+        <Select
+          placeholder="All Stores"
+          variant="standard"
+          value={selectStore}
+          label="Store"
+          onChange={handleChange}
+        >
+          {storeData?.map((e) => (
             <option value={e.store_id}>{e.store_id}</option>
           ))}
         </Select>

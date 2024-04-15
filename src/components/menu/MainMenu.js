@@ -21,8 +21,12 @@ import {
   MdOutlineSettings,
 } from "react-icons/md";
 
+import { LuIndianRupee } from "react-icons/lu";
+import { LuDollarSign } from "react-icons/lu";
+
+
 export default function Banner(props) {
-  const { ...rest } = props;
+  const { setCountry } = props;
 
   const textColor = useColorModeValue("secondaryGray.500", "white");
   const textHover = useColorModeValue(
@@ -66,7 +70,7 @@ export default function Banner(props) {
         lineHeight='100%'
         onClick={onOpen1}
         borderRadius='10px'
-        {...rest}>
+        >
         <Icon as={MdOutlineMoreHoriz} color={iconColor} w='24px' h='24px' />
       </MenuButton>
       <MenuList
@@ -91,11 +95,14 @@ export default function Banner(props) {
           _focus={{
             bg: "transparent",
           }}
-          mb='10px'>
+          mb='10px'
+          onClick={()=>setCountry("India")}>
           <Flex align='center'>
-            <Icon as={MdOutlinePerson} h='16px' w='16px' me='8px' />
-            <Text fontSize='sm' fontWeight='400'>
-              Panel 1
+     
+
+            <LuIndianRupee h='16px' w='16px' me='8px'/>
+            <Text fontSize='sm' fontWeight='400' style={{marginLeft:"0.5rem"}}>
+              INDIA
             </Text>
           </Flex>
         </MenuItem>
@@ -111,53 +118,17 @@ export default function Banner(props) {
           _focus={{
             bg: "transparent",
           }}
+          onClick={()=>setCountry("US")}
           mb='10px'>
           <Flex align='center'>
-            <Icon as={MdOutlineCardTravel} h='16px' w='16px' me='8px' />
-            <Text fontSize='sm' fontWeight='400'>
-              Panel 2
+          
+          <LuDollarSign h='16px' w='16px' me='8px'/>
+            <Text fontSize='sm' fontWeight='400' style={{marginLeft:"0.5rem"}}>
+            US
             </Text>
           </Flex>
         </MenuItem>
-        <MenuItem
-          transition='0.2s linear'
-          p='0px'
-          borderRadius='8px'
-          color={textColor}
-          _hover={textHover}
-          _active={{
-            bg: "transparent",
-          }}
-          _focus={{
-            bg: "transparent",
-          }}
-          mb='10px'>
-          <Flex align='center'>
-            <Icon as={MdOutlineLightbulb} h='16px' w='16px' me='8px' />
-            <Text fontSize='sm' fontWeight='400'>
-              Panel 3
-            </Text>
-          </Flex>
-        </MenuItem>
-        <MenuItem
-          transition='0.2s linear'
-          color={textColor}
-          _hover={textHover}
-          p='0px'
-          borderRadius='8px'
-          _active={{
-            bg: "transparent",
-          }}
-          _focus={{
-            bg: "transparent",
-          }}>
-          <Flex align='center'>
-            <Icon as={MdOutlineSettings} h='16px' w='16px' me='8px' />
-            <Text fontSize='sm' fontWeight='400'>
-              Panel 4
-            </Text>
-          </Flex>
-        </MenuItem>
+    
       </MenuList>
     </Menu>
   );
