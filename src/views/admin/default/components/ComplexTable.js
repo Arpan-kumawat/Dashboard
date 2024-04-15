@@ -21,11 +21,19 @@ import {
 
 // Custom components
 import Card from "components/card/Card";
+
 import Menu from "components/menu/MainMenu";
+
+
+
+
 
 // Assets
 import { MdCheckCircle, MdCancel, MdOutlineError } from "react-icons/md";
 export default function ColumnsTable(props) {
+
+
+
   const { columnsData, tableData } = props;
 
   const columns = useMemo(() => columnsData, [columnsData]);
@@ -59,7 +67,7 @@ export default function ColumnsTable(props) {
       w='100%'
       px='0px'
       overflowX={{ sm: "scroll", lg: "hidden" }}>
-      <Flex px='25px' justify='space-between' mb='10px' align='center'>
+      {/* <Flex px='25px' justify='space-between' mb='10px' align='center'>
         <Text
           color={textColor}
           fontSize='22px'
@@ -171,7 +179,9 @@ export default function ColumnsTable(props) {
             );
           })}
         </Tbody>
-      </Table>
+      </Table> */}
+ 
+
     </Card>
   );
 }

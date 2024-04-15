@@ -12,15 +12,18 @@ export default function Conversion(props) {
 
   console.log(salesData.sales)
 
-  function calculateGrossSales(data) {
-    let TotalGrossSales = 0;
+  function calculateDiscount(data) {
+    let Totaldiscount = 0;
     if(data){
     for (const item of data) {
-      TotalGrossSales += item.gross_sales;
+      Totaldiscount += item.discount_amount;
     }}
-    return TotalGrossSales;
+    return Totaldiscount;
   }    
-  const TotalGrossSales = calculateGrossSales(salesData?.sales);
+  const Totaldiscount = calculateDiscount(salesData?.sales);
+
+
+
 
   function calculateNetSales(data) {
     let TotalNetSales = 0;
@@ -88,7 +91,7 @@ export default function Conversion(props) {
     },
   };
   
-   const pieChartData = [TotalGrossSales, TotalNetSales, TotalTaxSales];
+   const pieChartData = [Totaldiscount, TotalNetSales, TotalTaxSales];
   
 
   // Chakra Color Mode
@@ -144,11 +147,11 @@ export default function Conversion(props) {
               color='secondaryGray.600'
               fontWeight='700'
               mb='5px'>
-              Total Gross Sales
+              Total Discount
             </Text>
           </Flex>
           <Text fontSize='lg' color={textColor} fontWeight='700'>
-           {TotalGrossSales.toFixed(2)}
+           {Totaldiscount.toFixed(2)}
           </Text>
         </Flex>
         <VSeparator mx={{ base: "60px", xl: "60px", "2xl": "60px" }} />

@@ -62,7 +62,11 @@ export default function UserReports(props) {
   const brandColor = useColorModeValue("brand.500", "white");
   const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
 
-  const [percentColor, setPercentColor] = useState("green");
+  const [dateRange, setDateRange] = useState([new Date(), new Date()]); 
+  const handleDateChange = (dates) => {
+    setDateRange(dates);
+    console.log("Selected date range:", dates);
+  };
 
   const [loading, setLoading] = useState(true);
   const [Lastloading, setLastLoading] = useState(true);
@@ -189,7 +193,7 @@ const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales
         {...{
           loading,
           setLoading,setLastData,lastData,reloadingPrev,setReloadingPrev,Lastloading,setLastLoading,
-          data,
+          data,dateRange,
           setData,
           storeData,
           setStoreData,
@@ -293,6 +297,7 @@ const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales
                       }
                     />
                   }
+                  color={TotalSalesPercent>=0?"green.500":"red"}
               growth={TotalSalesPercent?.toFixed(2)+"%"} name="Sales MOM" value={(TotalGrossSales-LastTotalGrossSales)?.toFixed(2)} />
 
 
@@ -331,6 +336,7 @@ const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales
                   />
                 }
                 name="Total Refund"
+                color={TotalRefundPercent>=0?"green.500":"red"}
                 growth={TotalRefundPercent?.toFixed(2)+"%"}
                 value={TotalRefundSales.toFixed(2)}
               />
@@ -346,6 +352,7 @@ const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales
                   />
                 }
                 name="Total Transaction"
+                color={TotalOrdersPercent>=0?"green.500":"red"}
                 growth={TotalOrdersPercent?.toFixed(2)+"%"}
                 value={TotalOrderCount}
               />
@@ -376,6 +383,11 @@ const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales
                 display: "flex",
                 alignContent: "center",
                 flexWrap: "wrap",
+              }}
+              {...props}
+              {...{
+                handleDateChange,
+                dateRange,
               }}
               minW="40%"
               selectRange={true}

@@ -24,7 +24,7 @@ import {
     console.log(salesData)
 
     const item=salesData.map((e)=>e.item_details)
-    console.log(item)
+    // console.log(item)
 
 
 

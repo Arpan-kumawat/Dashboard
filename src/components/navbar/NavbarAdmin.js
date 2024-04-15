@@ -18,7 +18,7 @@ export default function AdminNavbar(props) {
 	const { secondary, message, brandText,
 		loading,
 		setLoading,setLastData,lastData,reloadingPrev,setReloadingPrev,Lastloading,setLastLoading,
-		data,
+		data,dateRange,
 		setData,
 		storeData,
 		setStoreData,
@@ -139,7 +139,7 @@ export default function AdminNavbar(props) {
 						{...{
 							loading,
 							setLoading,setLastData,lastData,reloadingPrev,setReloadingPrev,Lastloading,setLastLoading,
-							data,
+							data,dateRange,
 							setData,
 							storeData,
 							setStoreData,

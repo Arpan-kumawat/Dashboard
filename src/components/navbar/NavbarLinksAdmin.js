@@ -35,7 +35,7 @@ export default function HeaderLinks(props) {
   const {
     secondary,
     setSelectStore,setLastData,lastData,setLastLoading,setReloadingPrev,Lastloading,
-    reloading,
+    reloading,dateRange,
     setLoading,
     setData,
     setOrderData,
@@ -54,17 +54,18 @@ export default function HeaderLinks(props) {
     "14px 17px 40px 4px rgba(112, 144, 176, 0.06)"
   );
   const [open, setOpen] = useState(false);
-  const [dateRange, setDateRange] = useState([new Date(), new Date()]); 
-  const handleDateChange = (dates) => {
-    setDateRange(dates);
-    console.log("Selected date range:", dates);
-  };
+  // const [dateRange, setDateRange] = useState([new Date(), new Date()]); 
+  // const handleDateChange = (dates) => {
+  //   setDateRange(dates);
+  //   console.log("Selected date range:", dates);
+  // };
 
   const handleChange = (event) => {
     setSelectStore(event.target.value);
     localStorage.setItem('Store', event.target.value);
   };
 
+  console.log(storeData.map((e)=>e.store_id))
 
   // const [loading, setLoading] = useState(true);
   // const [data, setData] = useState([]);
@@ -92,7 +93,7 @@ export default function HeaderLinks(props) {
         GetDailySales({ from: fromDate, to: toDate, store_id: [selectStore] }),
         GetOrderWiseSales({ from: fromDate, to: toDate, store_id: [selectStore] }),
         GetHourlySales({ from: fromDate, to: toDate, store_id: [selectStore] }),
-	      GetStores({ is_parent_admin: false, is_root_admin: true, store_id: ['99'] })
+	      GetStores({ is_parent_admin: false, is_root_admin: true, store_id: ['99'] })  
       ];
 
       Promise.all(funArr)
@@ -199,6 +200,30 @@ export default function HeaderLinks(props) {
 
   }, [Lastloading]);
 
+
+
+  useEffect(() => {
+  
+    var fromDate = moment(dateRange[0].toLocaleDateString()).format(
+      "YYYY-MM-DD"
+    );
+    var toDate = moment(dateRange[1].toLocaleDateString()).format(
+      "YYYY-MM-DD"
+    );
+    let StoreArr = [
+      GetOrderWiseSales({ from: fromDate, to: toDate, store_id: storeData.map((e)=>e.store_id) }),
+
+    ];
+
+    Promise.all(StoreArr)
+      .then(async (resultArr) => {
+        let [StoreSalesData, ] = resultArr;  
+        console.log(StoreSalesData);
+  
+      })
+      .catch((ex) => console.error(ex));
+  }, [storeData.length])
+  
 
   
  
@@ -403,7 +428,7 @@ export default function HeaderLinks(props) {
         </Menu>
       </Flex>
 
-      {open && (
+      {/* {open && (
         <div
           style={{
             position: "absolute",
@@ -422,7 +447,7 @@ export default function HeaderLinks(props) {
             }}
           />
         </div>
-      )}
+      )} */}
     </Grid>
   );
 }
