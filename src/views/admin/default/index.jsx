@@ -97,6 +97,15 @@ export default function UserReports(props) {
 // currency === "INR" ? srtCurrencySymbol(MdCurrencyRupee):srtCurrencySymbol(MdAttachMoney)
 
 // }
+const formatCurrency = (value) => {
+  const formattedValue = value.toLocaleString("en-IN", {
+    maximumFractionDigits: 2,
+    // style: "currency",
+    currency: "INR",
+  });
+  return formattedValue;
+};
+
 
 
 console.log(currency)
@@ -137,9 +146,6 @@ console.log(currency)
           const LastTotalRefundSales = calculateRefundSales(lastData?.sales);
 
 
- 
-
-
           function calculateGrossSales(data) {
             let TotalGrossSales = 0;
             if(data){
@@ -148,7 +154,7 @@ console.log(currency)
             }}
             return TotalGrossSales;
           }    
-          const TotalGrossSales = calculateGrossSales(data?.sales);
+          let TotalGrossSales = calculateGrossSales(data?.sales);
           const LastTotalGrossSales = calculateGrossSales(lastData?.sales);
 
 
@@ -186,16 +192,8 @@ function  futurePrediction(Currentcheck,Lastcheck) {
 }
 const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales);
 
-// const formatCurrency = (value) => {
-//   return value.toLocaleString("en-IN", {
-//     style: "currency",
-//     currency: "INR",
-//   });
-// };
 
-const formatCurrency = (value) => {
-  return value.toLocaleString("en-IN");
-};
+
   return (
     <>
       <Portal>
@@ -251,120 +249,118 @@ const formatCurrency = (value) => {
               gap="20px"
               mb="20px"
             >
+             
               <MiniStatistics
-                startContent={
-                  <IconBox
-                    w="56px"
-                    h="56px"
-                    bg={boxBg}
-                    icon={
-                      <Icon
-                        w="32px"
-                        h="32px"
-                        as={ currency === "INR" ? MdCurrencyRupee : currency === "USD" ?MdAttachMoney:""}
-                        color={brandColor}
-                      />
-                    }
-                  />
-                }
+  startContent={
+    <IconBox
+      w="56px"
+      h="56px"
+      bg={boxBg}
+      icon={
+        <Icon
+          w="32px"
+          h="32px"
+          as={currency === "INR" ? MdCurrencyRupee : currency === "USD" ? MdAttachMoney : ""}
+          color={brandColor}
+        />
+      }
+    />
+  }
+  name="Total Revenue"
+  value={formatCurrency(TotalGrossSales)}
+/>
             
-                name="Total Revenue"
-                value={formatCurrency(TotalGrossSales.toFixed(2))}
-              />
               <MiniStatistics
-                startContent={
-                  <IconBox
-                    w="56px"
-                    h="56px"
-                    bg={boxBg}
-                    icon={
-                      <Icon
-                        w="32px"
-                        h="32px"
-                        as={ currency === "INR" ? MdCurrencyRupee : currency === "USD" ?MdAttachMoney:""}
-                        color={brandColor}
-                      />
-                    }
-                  />
-                }
-                name="Total Net Sales"
-                value={formatCurrency(TotalNetSales.toFixed(2))}
-      
-              />
+  startContent={
+    <IconBox
+      w="56px"
+      h="56px"
+      bg={boxBg}
+      icon={
+        <Icon
+          w="32px"
+          h="32px"
+          as={currency === "INR" ? MdCurrencyRupee : currency === "USD" ? MdAttachMoney : ""}
+          color={brandColor}
+        />
+      }
+    />
+  }
+  name="Total Net Sales"
+  value={formatCurrency(TotalNetSales)}
+/>
+            
+            <MiniStatistics
+  startContent={
+    <IconBox
+      w="56px"
+      h="56px"
+      bg={boxBg}
+      icon={
+        <Icon
+          w="32px"
+          h="32px"
+          as={currency === "INR" ? MdCurrencyRupee : currency === "USD" ? MdAttachMoney : ""}
+          color={brandColor}
+        />
+      }
+    />
+  }
+  color={TotalSalesPercent >= 0 ? "green.500" : "red"}
+  growth={TotalSalesPercent?.toFixed(2) + "%"}
+  name="Sales MOM"
+  value={formatCurrency(TotalGrossSales - LastTotalGrossSales)}
+/>
+            
               <MiniStatistics
-                  startContent={
-                    <IconBox
-                      w="56px"
-                      h="56px"
-                      bg={boxBg}
-                      icon={
-                        <Icon
-                          w="32px"
-                          h="32px"
-                          as={ currency === "INR" ? MdCurrencyRupee : currency === "USD" ?MdAttachMoney:""}
-                          color={brandColor}
-                        />
-                      }
-                    />
-                  }
-                  color={TotalSalesPercent>=0?"green.500":"red"}
-              growth={TotalSalesPercent?.toFixed(2)+"%"} name="Sales MOM" value={(TotalGrossSales-LastTotalGrossSales)?.toFixed(2)} />
+  startContent={
+    <IconBox
+      w="56px"
+      h="56px"
+      bg={boxBg}
+      icon={
+        <Icon
+          w="32px"
+          h="32px"
+          as={currency === "INR" ? MdCurrencyRupee : currency === "USD" ? MdAttachMoney : ""}
+          color={brandColor}
+        />
+      }
+    />
+  }
+  name="Total Refund"
+  color={TotalRefundPercent >= 0 ? "green.500" : "red"}
+  growth={TotalRefundPercent?.toFixed(2) + "%"}
+  value={formatCurrency(TotalRefundSales)}
+/>
+             
               <MiniStatistics
-                startContent={
-                  <IconBox
-                    w="56px"
-                    h="56px"
-                    bg={boxBg}
-                    icon={
-                      <Icon
-                        w="32px"
-                        h="32px"
-                        as={ currency === "INR" ? MdCurrencyRupee : currency === "USD" ?MdAttachMoney:""}
-                        color={brandColor}
-                      />
-                    }
-                  />
-                }
-                name="Total Refund"
-                color={TotalRefundPercent>=0?"green.500":"red"}
-                growth={TotalRefundPercent?.toFixed(2)+"%"}
-                value={TotalRefundSales.toFixed(2)}
-              />
+  startContent={
+    <IconBox
+      w="56px"
+      h="56px"
+      bg="linear-gradient(90deg, #4481EB 0%, #04BEFE 100%)"
+      icon={<Icon w="28px" h="28px" as={MdAddTask} color="white" />}
+    />
+  }
+  name="Total Transaction"
+  color={TotalOrdersPercent >= 0 ? "green.500" : "red"}
+  growth={TotalOrdersPercent?.toFixed(2) + "%"}
+  value={TotalOrderCount}
+/>
+             
               <MiniStatistics
-                startContent={
-                  <IconBox
-                    w="56px"
-                    h="56px"
-                    bg="linear-gradient(90deg, #4481EB 0%, #04BEFE 100%)"
-                    icon={
-                      <Icon w="28px" h="28px" as={MdAddTask} color="white" />
-                    }
-                  />
-                }
-                name="Total Transaction"
-                color={TotalOrdersPercent>=0?"green.500":"red"}
-                growth={TotalOrdersPercent?.toFixed(2)+"%"}
-                value={TotalOrderCount}
-              />
-              <MiniStatistics
-                startContent={
-                  <IconBox
-                    w="56px"
-                    h="56px"
-                    bg={boxBg}
-                    icon={
-                      <Icon
-                        w="32px"
-                        h="32px"
-                        as={MdFileCopy}
-                        color={brandColor}
-                      />
-                    }
-                  />
-                }
-                name="Future Sales Predection"
-                value={TotalNetSalesFuture.toFixed(2)}
-              />
+  startContent={
+    <IconBox
+      w="56px"
+      h="56px"
+      bg={boxBg}
+      icon={<Icon w="32px" h="32px" as={MdFileCopy} color={brandColor} />}
+    />
+  }
+  name="Future Sales Prediction"
+  value={formatCurrency(TotalNetSalesFuture)}
+/>
             </SimpleGrid>
           </Grid>
           <Grid style={{ display: "contents" }} sm={12} md={5} lg={5}>
