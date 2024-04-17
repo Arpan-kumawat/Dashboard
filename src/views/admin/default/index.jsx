@@ -31,11 +31,11 @@ import Usa from "assets/img/dashboards/usa.png";
 import MiniCalendar from "components/calendar/MiniCalendar";
 import MiniStatistics from "components/card/MiniStatistics";
 import IconBox from "components/icons/IconBox";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   MdAddTask,
   MdAttachMoney,
-  MdBarChart,
+  MdBarChart,MdCurrencyRupee,
   MdFileCopy,
 } from "react-icons/md";
 import CheckTable from "views/admin/default/components/CheckTable";
@@ -50,12 +50,13 @@ import {
   columnsDataCheck,
   columnsDataComplex,
 } from "views/admin/default/variables/columnsData";
-import tableDataCheck from "views/admin/default/variables/tableDataCheck.json";
 import tableDataComplex from "views/admin/default/variables/tableDataComplex.json";
 
 import { Grid, Typography } from "@material-ui/core";
 import Navbar from "components/navbar/NavbarAdmin.js";
 import { Spinner } from '@chakra-ui/react'
+import DefaultMaps from "./maps/default";
+
 
 export default function UserReports(props) {
   // Chakra Color Mode
@@ -72,6 +73,11 @@ export default function UserReports(props) {
   const [Lastloading, setLastLoading] = useState(true);
 
 
+  const [currency, setCurrency] = useState("");
+  const [currencySymbol, srtCurrencySymbol] = useState("");
+
+
+
   const [data, setData] = useState([]);
   const [lastData, setLastData] = useState([]);
   const [storeData, setStoreData] = useState([]);
@@ -85,6 +91,15 @@ export default function UserReports(props) {
   const [reloadingPrev, setReloadingPrev] = useState(true);
 
 
+
+//   if(data)
+// {
+// currency === "INR" ? srtCurrencySymbol(MdCurrencyRupee):srtCurrencySymbol(MdAttachMoney)
+
+// }
+
+
+console.log(currency)
 
           console.log(data);
           console.log(orderData);
@@ -195,7 +210,7 @@ const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales
           setLoading,setLastData,lastData,reloadingPrev,setReloadingPrev,Lastloading,setLastLoading,
           data,dateRange,
           setData,
-          storeData,
+          storeData,setCurrency,
           setStoreData,
           selectStore,
           setSelectStore,orderData,setOrderData,hourlyData,setHourlyData,isLoading,reloading,setReLoading
@@ -252,12 +267,13 @@ const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales
                       <Icon
                         w="32px"
                         h="32px"
-                        as={MdBarChart}
+                        as={ currency === "INR" ? MdCurrencyRupee : currency === "USD" ?MdAttachMoney:""}
                         color={brandColor}
                       />
                     }
                   />
                 }
+            
                 name="Total Revenue"
                 value={TotalGrossSales.toFixed(2)}
               />
@@ -271,7 +287,7 @@ const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales
                       <Icon
                         w="32px"
                         h="32px"
-                        as={MdAttachMoney}
+                        as={ currency === "INR" ? MdCurrencyRupee : currency === "USD" ?MdAttachMoney:""}
                         color={brandColor}
                       />
                     }
@@ -291,7 +307,7 @@ const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales
                         <Icon
                           w="32px"
                           h="32px"
-                          as={MdAttachMoney}
+                          as={ currency === "INR" ? MdCurrencyRupee : currency === "USD" ?MdAttachMoney:""}
                           color={brandColor}
                         />
                       }
@@ -329,7 +345,7 @@ const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales
                       <Icon
                         w="32px"
                         h="32px"
-                        as={MdAttachMoney}
+                        as={ currency === "INR" ? MdCurrencyRupee : currency === "USD" ?MdAttachMoney:""}
                         color={brandColor}
                       />
                     }
@@ -417,6 +433,7 @@ const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales
             columnsData={columnsDataComplex}
             tableData={tableDataComplex}
           />
+      
           <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
             <Tasks salesData={orderData} />
             {/* <MiniCalendar h="100%" minW="100%" selectRange={true} /> */}
