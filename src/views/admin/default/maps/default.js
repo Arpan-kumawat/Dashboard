@@ -6,6 +6,9 @@ import { useEffect } from "react";
 import { MapsComponent, Inject, LayersDirective, LayerDirective, MarkersDirective, MarkerDirective, Marker, Legend, MapsTooltip } from '@syncfusion/ej2-react-maps';
 import * as data from './default-datasource.json';
 import * as worldMap from './world-map.json';
+
+import icon from './mapIcon.png';
+
 // Registering Syncfusion license key
 import { registerLicense } from '@syncfusion/ej2-base';
 
@@ -56,7 +59,7 @@ const DefaultMaps = () => {
                         <LayerDirective shapeData={worldMap} shapePropertyPath='continent' shapeDataPath='continent' dataSource={datasource.default} shapeSettings={{ colorValuePath: 'color' }}>
                             <MarkersDirective>
                                 <MarkerDirective visible={true} template='<div style="font-size: 12px;color:white;text-shadow: 0px 1px 1px black;font-weight: 500;width:50px">{{:name}}</div>' animationDuration={0} dataSource={markers}/>
-                                <MarkerDirective visible={true} shape='Image' imageUrl='src/maps/images/ballon.png' height={20} width={20} animationDuration={0} tooltipSettings={{ visible: true, valuePath: 'name' }} dataSource={data}/>
+                                <MarkerDirective visible={true} shape='Image' imageUrl={icon} height={20} width={20} animationDuration={0} tooltipSettings={{ visible: true, valuePath: 'name' }} dataSource={data}/>
                             </MarkersDirective>
                         </LayerDirective>
                     </LayersDirective>
