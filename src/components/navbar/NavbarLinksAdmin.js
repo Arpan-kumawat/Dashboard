@@ -36,7 +36,7 @@ export default function HeaderLinks(props) {
     secondary,
     setSelectStore,
     setLastData,
-    lastData,
+    lastData,orderData,
     setLastLoading,
     setReloadingPrev,
     Lastloading,
@@ -44,7 +44,7 @@ export default function HeaderLinks(props) {
     dateRange,
     setLoading,
     setData,
-    setOrderData,
+    setOrderData,setALLStoreData,aLLStoreData,
     selectStore,
     setHourlyData,
     storeData,
@@ -67,7 +67,7 @@ export default function HeaderLinks(props) {
     localStorage.setItem("Store", event.target.value);
   };
 
-
+  // const [storeCountry, setStoreCountry] = useState("");
 
   //  // ALL stores
 
@@ -103,12 +103,7 @@ export default function HeaderLinks(props) {
     (e) => e.store_currency === "INR"
   );
 
-
-
-
-
   let StoreArr=[]
-
 
   if(selectStore === "INR"){
      StoreArr =  storeCountryINDIA.map((e) => e.store_id)
@@ -119,16 +114,70 @@ export default function HeaderLinks(props) {
   }
   else{
     let StrCurrency= storeData.find((e) => e.store_id === selectStore)
-    setCurrency(StrCurrency?.store_currency)
+    setCurrency(StrCurrency?.store_currency);
   }
+
+
+
 
    
 
   console.log(StoreArr)
   console.log(selectStore)
   console.log(StoreArr.length>0 ? StoreArr : selectStore )
-  // Current Months
 
+
+
+
+// All Country Store
+  useEffect(() => {
+
+
+let store=storeData.find((e) => e.store_id === selectStore) 
+
+
+    let setStoreCountry
+    if(store?.store_currency === "INR"){
+      setStoreCountry=(storeData.filter((e) => e?.store_currency === "INR"))
+   }else if(store?.store_currency === "USD"){
+    setStoreCountry=(storeData.filter((e) => e?.store_currency === "USD"))
+   }
+
+    var fromDate = moment(dateRange[0].toLocaleDateString()).format(
+      "YYYY-MM-DD"
+    );
+    var toDate = moment(dateRange[1].toLocaleDateString()).format("YYYY-MM-DD");
+
+
+let ALLStoreCountry = setStoreCountry?.map((e)=>e.store_id)
+let store1
+    if (selectStore === "INR" || selectStore === "USD") {
+      store1=StoreArr
+    }else{
+      store1=ALLStoreCountry
+    }
+
+    let StoreArr1 = [
+      GetOrderWiseSales({
+        from: fromDate,
+        to: toDate,
+        store_id:  store1
+      }),
+    ];
+    Promise.all(StoreArr1)
+      .then(async (resultArr) => {
+        let [ALLStoreSalesData] = resultArr;  
+          setALLStoreData(ALLStoreSalesData)
+          console.log(ALLStoreSalesData)
+      })
+      .catch((ex) => console.error(ex));
+  }, [reloading && StoreArr.length]);
+
+
+
+
+
+  // Current Months
   useEffect(() => {
     if (reloading ) {
       var fromDate = moment(dateRange[0].toLocaleDateString()).format(
@@ -192,7 +241,6 @@ export default function HeaderLinks(props) {
     setLastLoading(true);
     setOpen(false);
   };
-
   // Last Months
 
   useEffect(() => {
@@ -213,6 +261,8 @@ export default function HeaderLinks(props) {
 
       var fromDate = moment(formattedDate).format("YYYY-MM-DD");
       var toDate = moment(formattedDate1).format("YYYY-MM-DD");
+
+
       setLastLoading(true);
 
       let funArr = [
@@ -221,6 +271,7 @@ export default function HeaderLinks(props) {
           to: toDate,
           store_id: StoreArr.length>0 ? StoreArr : [selectStore]
         }),
+  
         // GetOrderWiseSales({ from: fromDate, to: toDate, store_id: [selectStore] }),
         // GetHourlySales({ from: fromDate, to: toDate, store_id: [selectStore] }),
         // GetStores({ is_parent_admin: false, is_root_admin: true, store_id: ['99'] })
@@ -234,6 +285,7 @@ export default function HeaderLinks(props) {
             //  storeId
           ] = resultArr;
           setLastData(salesData);
+  
           // setOrderData(orderdata);
           // setHourlyData(hourlydata);
           // setStoreData(storeId)

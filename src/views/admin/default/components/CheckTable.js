@@ -15,53 +15,49 @@ import React  from "react";
 
 // Custom components
 import Card from "components/card/Card";
-import Menu from "components/menu/MainMenu";
 export default function CheckTable(props) {
-  const {salesData } = props;
+  const {salesData,Currency,ALLStoreORDeR,SelectStore } = props;
 
-  const [country, setCountry] = React.useState("India");
+  const [country, setCountry] = React.useState(Currency === "INR"?"India":"US" );
 
-  let storeCountryUS = salesData.filter(
-    (e) => e.store_details.currencycode === "USD"
-  );
-  let storeCountryINDIA = salesData.filter(
-    (e) => e.store_details.currencycode === "INR"
-  );
 
-  let storeCountry = country === "India" ? storeCountryINDIA : storeCountryUS;
+const AllStore = []
+
+console.log(ALLStoreORDeR)
 
   const sumByStoreId = {};
-  storeCountry.forEach((item) => {
-    if (sumByStoreId[item.store_details.store_id]) {
-      sumByStoreId[item.store_details.store_id].net_sales +=
-        item.total_net_sale;
-      sumByStoreId[item.store_details.store_id].orders += item.total_item_tax;
-    } else {
-      sumByStoreId[item.store_details.store_id] = {
-        total_net_sale: item.total_net_sale,
-        total_item_tax: item.total_item_tax,
-      };
-    }
-  });
+  // ALLStoreORDeR?.forEach((item) => {
+  //   if (sumByStoreId[item.store_details.store_id]) {
+  //     sumByStoreId[item.store_details.store_id].net_sales +=
+  //       item.total_net_sale;
+  //     sumByStoreId[item.store_details.store_id].orders += item.total_item_tax;
+  //   } else {
+  //     sumByStoreId[item.store_details.store_id] = {
+  //       total_net_sale: item.total_net_sale,
+  //       total_item_tax: item.total_item_tax,
+  //     };
+  //   }
+  // });
 
-  // Step 2: Convert the object into an array of objects
-  const netSalesArray = Object.entries(sumByStoreId).map(
-    ([storeId, { total_net_sale, total_item_tax }]) => ({
-      storeId: parseInt(storeId),
-      total_net_sale,
-      total_item_tax,
-    })
-  );
+  // // Step 2: Convert the object into an array of objects
+  // const netSalesArray = Object.entries(sumByStoreId).map(
+  //   ([storeId, { total_net_sale, total_item_tax }]) => ({
+  //     storeId: parseInt(storeId),
+  //     total_net_sale,
+  //     total_item_tax,
+  //   })
+  // );
 
-  // Step 3: Sort the array based on net sales in descending order
-  netSalesArray.sort((a, b) => b.net_sales - a.net_sales);
+  // // Step 3: Sort the array based on net sales in descending order
+  // netSalesArray.sort((a, b) => b.total_net_sale - a.total_net_sale);
 
-  // Step 4: Get the top 5 net sales
-  const top5NetSales = netSalesArray.slice(0, 5);
+  // // Step 4: Get the top 5 net sales
+  // const top5NetSales = netSalesArray.slice(0, 5);
 
-  console.log(top5NetSales);
+  // console.log(top5NetSales);
 
-  console.log(country);
+
+
 
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
@@ -79,14 +75,9 @@ export default function CheckTable(props) {
           fontWeight="700"
           lineHeight="100%"
         >
-          Top 5 Performing Stores {country}
+          Top 5 Performing Stores in {country}
         </Text>
-        {/* <Menu
-          {...props}
-          {...{
-            setCountry,
-          }}
-        /> */}
+       
       </Flex>
       <Table variant="simple" color="gray.500" mb="24px" mt="1rem">
         <Thead>
@@ -121,10 +112,21 @@ export default function CheckTable(props) {
                 Net Sales
               </Flex>
             </Th>
+            {(SelectStore!=="INR") && (SelectStore!=="USD")  ?
+            <Th pe="10px" borderColor={borderColor}>
+              <Flex
+                justify="space-between"
+                align="center"
+                fontSize={{ sm: "10px", lg: "12px" }}
+                color="gray.400"
+              >
+             Store "{SelectStore}"
+              </Flex>
+            </Th>:""}
           </Tr>
         </Thead>
 
-        <Tbody>
+        {/* <Tbody>
           {top5NetSales.map((e) => (
             <Tr>
               <Td
@@ -133,11 +135,7 @@ export default function CheckTable(props) {
                 borderColor="transparent"
               >
                 <Flex align="center">
-                  {/* <Checkbox
-                  // defaultChecked={cell.value[1]}
-                  colorScheme="brandScheme"
-                  me="10px"
-                /> */}
+          
                   <Text color={textColor} fontSize="sm" fontWeight="700">
                     {e.storeId}
                   </Text>
@@ -151,7 +149,7 @@ export default function CheckTable(props) {
               >
                 <Flex align="center">
                   <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {country === "India" ? "₹" : "$"} {e.total_item_tax}
+                    {Currency === "INR" ? "₹" : "$"} {e.total_item_tax}
                   </Text>
                 </Flex>
               </Td>
@@ -163,14 +161,28 @@ export default function CheckTable(props) {
               >
                 <Flex align="center">
                   <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {country === "India" ? "₹" : "$"} {e.total_net_sale}
+                    {Currency === "INR" ? "₹" : "$"} {e.total_net_sale}
                   </Text>
                 </Flex>
               </Td>
+
+              {(SelectStore!=="INR") && (SelectStore!=="USD")  ?
+              <Td
+                fontSize={{ sm: "14px" }}
+                minW={{ sm: "150px", md: "200px", lg: "auto" }}
+                borderColor="transparent"
+              >
+                <Flex align="center">
+                  <Text color={textColor} fontSize="sm" fontWeight="700">
+                    {Currency === "INR" ? "₹" : "$"} {e.total_net_sale}
+                  </Text>
+                </Flex>
+              </Td> :""}
             </Tr>
           ))}
-        </Tbody>
+        </Tbody> */}
       </Table>
     </Card>
   );
 }
+
