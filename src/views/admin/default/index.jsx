@@ -186,18 +186,16 @@ function  futurePrediction(Currentcheck,Lastcheck) {
 }
 const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales);
 
+// const formatCurrency = (value) => {
+//   return value.toLocaleString("en-IN", {
+//     style: "currency",
+//     currency: "INR",
+//   });
+// };
 
-// function futurePredictPrecent(totalCurrentcheck,totalLastcheck) {
-
-//   let DifferSales = 0;
-  
-//   DifferSales=totalCurrentcheck-totalLastcheck
-
-//   let percent =  DifferSales.toFixed(2)/totalLastcheck.toFixed(2) *100
-
-//   return percent;
-// }
-
+const formatCurrency = (value) => {
+  return value.toLocaleString("en-IN");
+};
   return (
     <>
       <Portal>
@@ -217,10 +215,6 @@ const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales
         }}/>
         </Box>
       </Portal>
-
-   
-
-    
       <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
 
        {reloading? 
@@ -275,7 +269,7 @@ const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales
                 }
             
                 name="Total Revenue"
-                value={TotalGrossSales.toFixed(2)}
+                value={formatCurrency(TotalGrossSales.toFixed(2))}
               />
               <MiniStatistics
                 startContent={
@@ -294,7 +288,7 @@ const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales
                   />
                 }
                 name="Total Net Sales"
-                value={TotalNetSales.toFixed(2)}
+                value={formatCurrency(TotalNetSales.toFixed(2))}
       
               />
               <MiniStatistics
@@ -315,27 +309,7 @@ const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales
                   }
                   color={TotalSalesPercent>=0?"green.500":"red"}
               growth={TotalSalesPercent?.toFixed(2)+"%"} name="Sales MOM" value={(TotalGrossSales-LastTotalGrossSales)?.toFixed(2)} />
-
-
               <MiniStatistics
-                // endContent={
-                //   <Flex me="-16px" mt="10px">
-                //     <FormLabel htmlFor="balance">
-                //       <Avatar src={Usa} />
-                //     </FormLabel>
-                //     <Select
-                //       id="balance"
-                //       variant="mini"
-                //       mt="5px"
-                //       me="0px"
-                //       defaultValue="usd"
-                //     >
-                //       <option value="usd">USD</option>
-                //       <option value="eur">EUR</option>
-                //       <option value="gba">GBA</option>
-                //     </Select>
-                //   </Flex>
-                // }
                 startContent={
                   <IconBox
                     w="56px"
@@ -417,14 +391,20 @@ const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales
         </SimpleGrid>
 
         <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap="20px" mb="20px">
-          <CheckTable
+          {/* <CheckTable
             columnsData={columnsDataCheck}
             tableData={data.sales}
             salesData={orderData}
-          />
+          /> */}
+            <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
+            <Tasks salesData={orderData} />
+            <PieCard  salesData={data}  />
+               {/* <Category salesData={orderData} /> */}
+          </SimpleGrid>
           <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
             <DailyTraffic salesData={data}/>
-            <PieCard  salesData={data}  />
+            {/* <PieCard  salesData={data}  /> */}
+            <Category salesData={orderData} />
           </SimpleGrid>
         </SimpleGrid>
 
@@ -433,12 +413,17 @@ const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales
             columnsData={columnsDataComplex}
             tableData={tableDataComplex}
           />
+           <CheckTable
+            columnsData={columnsDataCheck}
+            tableData={data.sales}
+            salesData={orderData}
+          />
       
-          <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
+          {/* <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
             <Tasks salesData={orderData} />
-            {/* <MiniCalendar h="100%" minW="100%" selectRange={true} /> */}
+            
                <Category salesData={orderData} />
-          </SimpleGrid>
+          </SimpleGrid> */}
         </SimpleGrid>
         </>}
       </Box>

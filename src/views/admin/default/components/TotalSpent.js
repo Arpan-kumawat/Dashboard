@@ -35,8 +35,8 @@ export default function TotalSpent(props) {
 
   console.log(currentmonthsale);
   console.log(lastmonthsale);
-  let constCurrentMonthSales = currentmonthsale?.map((e)=>e.gross_sales)
-  let constLastMonthSales= lastmonthsale?.map((e)=>e.gross_sales)
+  let constCurrentMonthSales = currentmonthsale?.map((e) => Number(e.gross_sales.toFixed(2)))
+  let constLastMonthSales= lastmonthsale?.map((e) => Number(e.gross_sales.toFixed(2)))
 
   let constDate = currentmonthsale?.map((e)=>e.business_date)
 
@@ -53,17 +53,6 @@ export default function TotalSpent(props) {
       data: currentmonthsale ? constCurrentMonthSales: [],
     },
   ];
-
-  //  const lineChartDataTotalSpent1 = [
-  //   {
-  //     name: "Revenue",
-  //     data: [50, 64, 48, 66, 49, 68],
-  //   },
-  //   {
-  //     name: "Profit",
-  //     data: [30, 40, 24, 46, 20, 46],
-  //   },
-  // ];
 
   console.log(lineChartDataTotalSpent)
   // console.log(lineChartDataTotalSpent1)
@@ -193,39 +182,7 @@ export default function TotalSpent(props) {
         </Button>
       </Flex>
       <Flex w='100%' flexDirection={{ base: "column", lg: "row" }}>
-        {/* <Flex flexDirection='column' me='20px' mt='28px'>
-          <Text
-            color={textColor}
-            fontSize='34px'
-            textAlign='start'
-            fontWeight='700'
-            lineHeight='100%'>
-            $37.5K
-          </Text>
-          <Flex align='center' mb='20px'>
-            <Text
-              color='secondaryGray.600'
-              fontSize='sm'
-              fontWeight='500'
-              mt='4px'
-              me='12px'>
-              Total Spent
-            </Text>
-            <Flex align='center'>
-              <Icon as={RiArrowUpSFill} color='green.500' me='2px' mt='2px' />
-              <Text color='green.500' fontSize='sm' fontWeight='700'>
-                +2.45%
-              </Text>
-            </Flex>
-          </Flex>
-
-          <Flex align='center'>
-            <Icon as={IoCheckmarkCircle} color='green.500' me='4px' />
-            <Text color='green.500' fontSize='md' fontWeight='700'>
-              On track
-            </Text>
-          </Flex>
-        </Flex> */}
+     
         <Box minH='260px' minW='90%' m='auto'>
           <LineChart
             chartData={lineChartDataTotalSpent}

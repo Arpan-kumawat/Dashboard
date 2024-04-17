@@ -120,7 +120,7 @@ export default function WeeklyRevenue(props) {
     },
     fill: {
       type: "solid",
-      colors: ["#5E37FF", "#6AD2FF", "#E1E9F8"],
+      colors: ["#5E37FF", "#f6b042", "#f6b042"],
     },
     legend: {
       show: false,

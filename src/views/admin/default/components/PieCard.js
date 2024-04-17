@@ -47,16 +47,16 @@ export default function Conversion(props) {
   const TotalTaxSales = calculateTaxSales(salesData?.sales);
 
   // Calculate percentages
-  const totalSales = Totaldiscount + TotalNetSales + TotalTaxSales;
-  const discountPercentage = ((Totaldiscount / totalSales) * 100)
-  const netSalesPercentage = ((TotalNetSales / totalSales) * 100)
-  const taxAmountPercentage = ((TotalTaxSales / totalSales) * 100)
+  let totalSales = Totaldiscount + TotalNetSales + TotalTaxSales;
+   let discountPercentage = ((Totaldiscount / totalSales) * 100)
+   let netSalesPercentage = ((TotalNetSales / totalSales) * 100)
+   let taxAmountPercentage = ((TotalTaxSales / totalSales) * 100)
   
   
 
   const pieChartOptions = {
     labels: ["Discount Percentage", "Net Sales Percentage", "Tax Amount Percentage"],
-    colors: ["#4318FF", "#6AD2FF", "#ea1717"],
+    colors: ["#4318FF", "#6AD2FF", "#f6b042"],
     chart: {
       width: "50px",
     },
@@ -85,7 +85,7 @@ export default function Conversion(props) {
       },
     },
     fill: {
-      colors: ["#4318FF", "#6AD2FF", "#ea1717"],
+      colors: ["#4318FF", "#6AD2FF", "#f6b042"],
     },
     tooltip: {
       enabled: true,
@@ -113,16 +113,7 @@ export default function Conversion(props) {
         <Text color={textColor} fontSize='md' fontWeight='600' mt='4px'>
         Sales Pie Chart
         </Text>
-        {/* <Select
-          fontSize='sm'
-          variant='subtle'
-          defaultValue='monthly'
-          width='unset'
-          fontWeight='700'>
-          <option value='daily'>Daily</option>
-          <option value='monthly'>Monthly</option>
-          <option value='yearly'>Yearly</option>
-        </Select> */}
+
       </Flex>
 
       <PieChart
@@ -151,14 +142,14 @@ export default function Conversion(props) {
               Total Discount
             </Text>
           </Flex>
-          <Text fontSize='lg' color={textColor} fontWeight='700'>
+          {/* <Text fontSize='lg' color={textColor} fontWeight='700'>
            {Totaldiscount.toFixed(2)}
-          </Text>
+          </Text> */}
         </Flex>
         <VSeparator mx={{ base: "60px", xl: "60px", "2xl": "60px" }} />
         <Flex direction='column' py='5px' me='10px'>
           <Flex align='center'>
-            <Box h='8px' w='8px' bg='#6AD2FF' borderRadius='50%' me='4px' />
+            <Box h='8px' w='8px' bg='red ' borderRadius='50%' me='4px' />
             <Text
               fontSize='xs'
               color='secondaryGray.600'
@@ -167,9 +158,9 @@ export default function Conversion(props) {
                           Total Tax Amount
             </Text>
           </Flex>
-          <Text fontSize='lg' color={textColor} fontWeight='700'>
+          {/* <Text fontSize='lg' color={textColor} fontWeight='700'>
             {TotalTaxSales.toFixed(2)}
-          </Text>
+          </Text> */}
         </Flex>
         <VSeparator mx={{ base: "60px", xl: "60px", "2xl": "60px" }} />
         <Flex direction='column' py='5px' me='10px'>
@@ -183,9 +174,9 @@ export default function Conversion(props) {
                           Total Net Sales
             </Text>
           </Flex>
-          <Text fontSize='lg' color={textColor} fontWeight='700'>
+          {/* <Text fontSize='lg' color={textColor} fontWeight='700'>
             {TotalNetSales.toFixed(2)}
-          </Text>
+          </Text> */}
         </Flex>
       </Card>
     </Card>
