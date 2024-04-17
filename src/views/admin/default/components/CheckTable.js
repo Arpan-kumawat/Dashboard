@@ -10,35 +10,31 @@ import {
   Tr,
   useColorModeValue,
 } from "@chakra-ui/react";
-import React, { useEffect, useMemo } from "react";
-import {
-  useGlobalFilter,
-  usePagination,
-  useSortBy,
-  useTable,
-} from "react-table";
+import React  from "react";
+
 
 // Custom components
 import Card from "components/card/Card";
 import Menu from "components/menu/MainMenu";
 export default function CheckTable(props) {
-  const { columnsData, tableData, salesData } = props;
+  const {salesData } = props;
 
+  const [country, setCountry] = React.useState("India");
 
+  let storeCountryUS = salesData.filter(
+    (e) => e.store_details.currencycode === "USD"
+  );
+  let storeCountryINDIA = salesData.filter(
+    (e) => e.store_details.currencycode === "INR"
+  );
 
-const [country, setCountry] = React.useState("India");
-
-  let storeCountryUS= salesData.filter((e)=>e.store_details.currencycode==="USD")
-  let storeCountryINDIA= salesData.filter((e)=>e.store_details.currencycode==="INR")
-
-
-let  storeCountry = country==="India" ? storeCountryINDIA:storeCountryUS
-
+  let storeCountry = country === "India" ? storeCountryINDIA : storeCountryUS;
 
   const sumByStoreId = {};
   storeCountry.forEach((item) => {
     if (sumByStoreId[item.store_details.store_id]) {
-      sumByStoreId[item.store_details.store_id].net_sales += item.total_net_sale;
+      sumByStoreId[item.store_details.store_id].net_sales +=
+        item.total_net_sale;
       sumByStoreId[item.store_details.store_id].orders += item.total_item_tax;
     } else {
       sumByStoreId[item.store_details.store_id] = {
@@ -65,30 +61,7 @@ let  storeCountry = country==="India" ? storeCountryINDIA:storeCountryUS
 
   console.log(top5NetSales);
 
-  console.log(country)
-
-  const columns = useMemo(() => columnsData, [columnsData]);
-  const data = useMemo(() => tableData, [tableData]);
-
-  const tableInstance = useTable(
-    {
-      columns,
-      data,
-    },
-    useGlobalFilter,
-    useSortBy,
-    usePagination
-  );
-
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    page,
-    prepareRow,
-    initialState,
-  } = tableInstance;
-  initialState.pageSize = 11;
+  console.log(country);
 
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
@@ -105,19 +78,17 @@ let  storeCountry = country==="India" ? storeCountryINDIA:storeCountryUS
           fontSize="22px"
           fontWeight="700"
           lineHeight="100%"
-
         >
-       Top 5 Performing Stores {country}
+          Top 5 Performing Stores {country}
         </Text>
-        <Menu 
-           {...props}
-           {...{
-            setCountry
-           }}
-        
-          />
+        {/* <Menu
+          {...props}
+          {...{
+            setCountry,
+          }}
+        /> */}
       </Flex>
-      <Table {...getTableProps()} variant="simple" color="gray.500" mb="24px" mt="1rem">
+      <Table variant="simple" color="gray.500" mb="24px" mt="1rem">
         <Thead>
           <Tr>
             <Th pe="10px" borderColor={borderColor}>
@@ -154,52 +125,50 @@ let  storeCountry = country==="India" ? storeCountryINDIA:storeCountryUS
         </Thead>
 
         <Tbody>
-
-          {top5NetSales.map((e)=>  
-          <Tr>
-            <Td
-              fontSize={{ sm: "14px" }}
-              minW={{ sm: "150px", md: "200px", lg: "auto" }}
-              borderColor="transparent"
-            >
-              <Flex align="center">
-                {/* <Checkbox
+          {top5NetSales.map((e) => (
+            <Tr>
+              <Td
+                fontSize={{ sm: "14px" }}
+                minW={{ sm: "150px", md: "200px", lg: "auto" }}
+                borderColor="transparent"
+              >
+                <Flex align="center">
+                  {/* <Checkbox
                   // defaultChecked={cell.value[1]}
                   colorScheme="brandScheme"
                   me="10px"
                 /> */}
-                <Text color={textColor} fontSize="sm" fontWeight="700">
-                  {e.storeId}
-                </Text>
-              </Flex>
-            </Td>
+                  <Text color={textColor} fontSize="sm" fontWeight="700">
+                    {e.storeId}
+                  </Text>
+                </Flex>
+              </Td>
 
-            <Td
-              fontSize={{ sm: "14px" }}
-              minW={{ sm: "150px", md: "200px", lg: "auto" }}
-              borderColor="transparent"
-            >
-              <Flex align="center">
-                <Text color={textColor} fontSize="sm" fontWeight="700">
-                {country==="India"?"₹":"$"}   {e.total_item_tax}
-                </Text>
-              </Flex>
-            </Td>
+              <Td
+                fontSize={{ sm: "14px" }}
+                minW={{ sm: "150px", md: "200px", lg: "auto" }}
+                borderColor="transparent"
+              >
+                <Flex align="center">
+                  <Text color={textColor} fontSize="sm" fontWeight="700">
+                    {country === "India" ? "₹" : "$"} {e.total_item_tax}
+                  </Text>
+                </Flex>
+              </Td>
 
-            <Td
-              fontSize={{ sm: "14px" }}
-              minW={{ sm: "150px", md: "200px", lg: "auto" }}
-              borderColor="transparent"
-            >
-              <Flex align="center">
-                <Text color={textColor} fontSize="sm" fontWeight="700">
-             {country==="India"?"₹":"$"}   {e.total_net_sale}
-                </Text>
-              </Flex>
-            </Td>
-          </Tr>
- )}
-
+              <Td
+                fontSize={{ sm: "14px" }}
+                minW={{ sm: "150px", md: "200px", lg: "auto" }}
+                borderColor="transparent"
+              >
+                <Flex align="center">
+                  <Text color={textColor} fontSize="sm" fontWeight="700">
+                    {country === "India" ? "₹" : "$"} {e.total_net_sale}
+                  </Text>
+                </Flex>
+              </Td>
+            </Tr>
+          ))}
         </Tbody>
       </Table>
     </Card>

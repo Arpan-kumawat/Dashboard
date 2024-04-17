@@ -50,7 +50,7 @@ export default function HeaderLinks(props) {
     storeData,
     setStoreData,
     setReLoading,
-    reloadingPrev,
+    reloadingPrev,setCurrency
   } = props;
   // Chakra Color Mode
 
@@ -95,12 +95,42 @@ export default function HeaderLinks(props) {
       .catch((ex) => console.error(ex));
   }, []);
 
-  let StoreArr = storeData.map((e) => e.store_id);
 
+  let storeCountryUS = storeData.filter(
+    (e) => e.store_currency === "USD"
+  );
+  let storeCountryINDIA = storeData.filter(
+    (e) => e.store_currency === "INR"
+  );
+
+
+
+
+
+  let StoreArr=[]
+
+
+  if(selectStore === "INR"){
+     StoreArr =  storeCountryINDIA.map((e) => e.store_id)
+     setCurrency("INR")
+  }else if(selectStore === "USD"){
+     StoreArr =  storeCountryUS.map((e) => e.store_id)
+     setCurrency("USD")
+  }
+  else{
+    let StrCurrency= storeData.find((e) => e.store_id === selectStore)
+    setCurrency(StrCurrency?.store_currency)
+  }
+
+   
+
+  console.log(StoreArr)
+  console.log(selectStore)
+  console.log(StoreArr.length>0 ? StoreArr : selectStore )
   // Current Months
 
   useEffect(() => {
-    if (reloading && StoreArr.length) {
+    if (reloading ) {
       var fromDate = moment(dateRange[0].toLocaleDateString()).format(
         "YYYY-MM-DD"
       );
@@ -113,17 +143,17 @@ export default function HeaderLinks(props) {
         GetDailySales({
           from: fromDate,
           to: toDate,
-          store_id: selectStore ? [selectStore] : StoreArr,
+          store_id: StoreArr.length>0 ? StoreArr : [selectStore]
         }),
         GetOrderWiseSales({
           from: fromDate,
           to: toDate,
-          store_id: selectStore ? [selectStore] : StoreArr,
+          store_id: StoreArr.length>0 ? StoreArr : [selectStore]
         }),
         GetHourlySales({
           from: fromDate,
           to: toDate,
-          store_id: selectStore ? [selectStore] : StoreArr,
+          store_id: StoreArr.length>0 ? StoreArr : [selectStore]
         }),
         // GetStores({ is_parent_admin: false, is_root_admin: true, store_id: ['99'] })
       ];
@@ -167,7 +197,6 @@ export default function HeaderLinks(props) {
 
   useEffect(() => {
     if (Lastloading) {
-      console.log("lastapi");
       let givenDate = new Date(dateRange[0].toLocaleDateString());
       givenDate.setDate(givenDate.getDate() - 30);
       let formattedDate = `${
@@ -190,7 +219,7 @@ export default function HeaderLinks(props) {
         GetDailySales({
           from: fromDate,
           to: toDate,
-          store_id: selectStore ? [selectStore] : StoreArr,
+          store_id: StoreArr.length>0 ? StoreArr : [selectStore]
         }),
         // GetOrderWiseSales({ from: fromDate, to: toDate, store_id: [selectStore] }),
         // GetHourlySales({ from: fromDate, to: toDate, store_id: [selectStore] }),
@@ -232,6 +261,7 @@ export default function HeaderLinks(props) {
     }
   }, [Lastloading]);
 
+
   return (
     <Grid container>
       <Flex
@@ -246,12 +276,15 @@ export default function HeaderLinks(props) {
         boxShadow={shadow}
       >
         <Select
-          placeholder="All Stores"
+          placeholder="Select Stores"
           variant="standard"
           value={selectStore}
           label="Store"
           onChange={handleChange}
         >
+             {/* <option value="">Select Store</option> */}
+             <option value="INR">All India Store</option>
+             <option value="USD">All US Store</option>
           {storeData?.map((e) => (
             <option value={e.store_id}>{e.store_id}</option>
           ))}
