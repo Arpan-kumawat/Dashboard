@@ -396,7 +396,7 @@ const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales
         </Grid>
 
         <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px" mb="20px">
-          <TotalSpent salesData={data} />
+          <TotalSpent salesData={data} lastData={lastData}/>
           <WeeklyRevenue  salesData={hourlyData} />
         </SimpleGrid>
 
@@ -407,7 +407,7 @@ const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales
             salesData={orderData}
           />
           <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
-            <DailyTraffic />
+            <DailyTraffic salesData={data}/>
             <PieCard  salesData={data}  />
           </SimpleGrid>
         </SimpleGrid>

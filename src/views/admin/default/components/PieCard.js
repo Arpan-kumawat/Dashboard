@@ -7,53 +7,55 @@ import PieChart from "components/charts/PieChart";
 import { VSeparator } from "components/separator/Separator";
 import React from "react";
 
+
+
 export default function Conversion(props) {
-  const { salesData} = props;
+  const { salesData } = props;
 
-  console.log(salesData.sales)
-
+   console.log(salesData)
   function calculateDiscount(data) {
     let Totaldiscount = 0;
-    if(data){
-    for (const item of data) {
-      Totaldiscount += item.discount_amount;
-    }}
+    if (data) {
+      for (const item of data) {
+        Totaldiscount += item.discount_amount;
+      }
+    }
     return Totaldiscount;
-  }    
+  }
   const Totaldiscount = calculateDiscount(salesData?.sales);
-
-
-
 
   function calculateNetSales(data) {
     let TotalNetSales = 0;
- 
-    if(data){
-    for (const item of data) {
-      TotalNetSales += item?.net_sales;
-   
-    }}
+    if (data) {
+      for (const item of data) {
+        TotalNetSales += item?.net_sales;
+      }
+    }
     return TotalNetSales;
   }
   const TotalNetSales = calculateNetSales(salesData?.sales);
 
-
   function calculateTaxSales(data) {
     let TotalTaxSales = 0;
- 
-    if(data){
-    for (const item of data) {
-      TotalTaxSales += item?.total_tax_amount;
-   
-    }}
+    if (data) {
+      for (const item of data) {
+        TotalTaxSales += item?.total_tax_amount;
+      }
+    }
     return TotalTaxSales;
   }
   const TotalTaxSales = calculateTaxSales(salesData?.sales);
 
+  // Calculate percentages
+  const totalSales = Totaldiscount + TotalNetSales + TotalTaxSales;
+  const discountPercentage = ((Totaldiscount / totalSales) * 100)
+  const netSalesPercentage = ((TotalNetSales / totalSales) * 100)
+  const taxAmountPercentage = ((TotalTaxSales / totalSales) * 100)
+  
+  
 
-
-   const pieChartOptions = {
-    labels: ["Gross Sales", "Net Sales", "Total Tax"],
+  const pieChartOptions = {
+    labels: ["Discount Percentage", "Net Sales Percentage", "Tax Amount Percentage"],
     colors: ["#4318FF", "#6AD2FF", "#ea1717"],
     chart: {
       width: "50px",
@@ -90,9 +92,8 @@ export default function Conversion(props) {
       theme: "dark",
     },
   };
-  
-   const pieChartData = [Totaldiscount, TotalNetSales, TotalTaxSales];
-  
+
+  const pieChartData = [discountPercentage, netSalesPercentage, taxAmountPercentage];
 
   // Chakra Color Mode
   const textColor = useColorModeValue("secondaryGray.900", "white");
@@ -152,6 +153,22 @@ export default function Conversion(props) {
           </Flex>
           <Text fontSize='lg' color={textColor} fontWeight='700'>
            {Totaldiscount.toFixed(2)}
+          </Text>
+        </Flex>
+        <VSeparator mx={{ base: "60px", xl: "60px", "2xl": "60px" }} />
+        <Flex direction='column' py='5px' me='10px'>
+          <Flex align='center'>
+            <Box h='8px' w='8px' bg='#6AD2FF' borderRadius='50%' me='4px' />
+            <Text
+              fontSize='xs'
+              color='secondaryGray.600'
+              fontWeight='700'
+              mb='5px'>
+                          Total Tax Amount
+            </Text>
+          </Flex>
+          <Text fontSize='lg' color={textColor} fontWeight='700'>
+            {TotalTaxSales.toFixed(2)}
           </Text>
         </Flex>
         <VSeparator mx={{ base: "60px", xl: "60px", "2xl": "60px" }} />

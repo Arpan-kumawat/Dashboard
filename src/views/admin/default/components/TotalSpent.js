@@ -24,45 +24,49 @@ import { RiArrowUpSFill } from "react-icons/ri";
 
 
 export default function TotalSpent(props) {
-  const { salesData} = props;
+ 
+  const { salesData, lastData } = props;
 
-  console.log(salesData.sales)
-  // Chakra Color Mode
 
-  let constSale=salesData.sales
-
-  let constGrossSales = constSale.map((e)=>e.gross_sales)
   
-  let constOrders = constSale.map((e)=>e.orders)
+  let currentmonthsale=salesData?.sales
+  let lastmonthsale= lastData?.sales
 
-  let constDate = constSale.map((e)=>e.business_date)
 
+  console.log(currentmonthsale);
+  console.log(lastmonthsale);
+  let constCurrentMonthSales = currentmonthsale?.map((e)=>e.gross_sales)
+  let constLastMonthSales= lastmonthsale?.map((e)=>e.gross_sales)
 
+  let constDate = currentmonthsale?.map((e)=>e.business_date)
+
+  console.log(constCurrentMonthSales);
+  console.log(constLastMonthSales);
 
    const lineChartDataTotalSpent = [
     {
-      name: "Revenue",
-      data: constSale ? constGrossSales : [],
-    },
+      name: "Last Month Sales",
+      data: lastmonthsale ? constLastMonthSales : [],
+    }, 
     {
-      name: "Orders",
-      data: constOrders ? constOrders : [],
+      name: "Present Month Sales",
+      data: currentmonthsale ? constCurrentMonthSales: [],
     },
   ];
 
-   const lineChartDataTotalSpent1 = [
-    {
-      name: "Revenue",
-      data: [50, 64, 48, 66, 49, 68],
-    },
-    {
-      name: "Profit",
-      data: [30, 40, 24, 46, 20, 46],
-    },
-  ];
+  //  const lineChartDataTotalSpent1 = [
+  //   {
+  //     name: "Revenue",
+  //     data: [50, 64, 48, 66, 49, 68],
+  //   },
+  //   {
+  //     name: "Profit",
+  //     data: [30, 40, 24, 46, 20, 46],
+  //   },
+  // ];
 
   console.log(lineChartDataTotalSpent)
-  console.log(lineChartDataTotalSpent1)
+  // console.log(lineChartDataTotalSpent1)
   
    const lineChartOptionsTotalSpent = {
     chart: {
