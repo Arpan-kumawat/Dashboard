@@ -29,6 +29,7 @@ import {
   GetHourlySales,
   GetStores,GetCurrencyRate
 } from "../../utils/apiHelper";
+import { jsx } from "@emotion/react";
 moment.tz.setDefault("Asia/Kolkata");
 
 export default function HeaderLinks(props) {
@@ -44,7 +45,7 @@ export default function HeaderLinks(props) {
     dateRange,
     setLoading,
     setData,
-    setOrderData,setALLStoreData,aLLStoreData,
+    setOrderData,setALLStoreData,aLLStoreData,SelectCurrency,setSelectCurrency,
     selectStore,
     setHourlyData,
     storeData,
@@ -68,7 +69,7 @@ export default function HeaderLinks(props) {
   };
 
 
-  const [SelectCurrency, setSelectCurrency] = useState("");
+ 
 
   const handleChangeCurrency = (event) => {
     setSelectCurrency(event.target.value);
@@ -88,6 +89,7 @@ export default function HeaderLinks(props) {
       .then(async (resultArr) => {
         let [allCurrency] = resultArr;
         console.log(allCurrency);
+        localStorage.setItem("CurrencyRate",JSON.stringify(allCurrency))
       })
       .catch((ex) => console.error(ex));
   }, []);
@@ -122,26 +124,31 @@ export default function HeaderLinks(props) {
   }, []);
 
 
-  let storeCountryUS = storeData.filter(
-    (e) => e.store_currency === "USD"
-  );
-  let storeCountryINDIA = storeData.filter(
-    (e) => e.store_currency === "INR"
-  );
+  // let storeCountryUS = storeData.filter(
+  //   (e) => e.store_currency === "USD"
+  // );
+  // let storeCountryINDIA = storeData.filter(
+  //   (e) => e.store_currency === "INR"
+  // );
 
   let StoreArr=[]
+  if(selectStore === "ALL"){
+    StoreArr =  storeData.map((e) => e.store_id)
+  }
 
-  if(selectStore === "INR"){
-     StoreArr =  storeCountryINDIA.map((e) => e.store_id)
-     setCurrency("INR")
-  }else if(selectStore === "USD"){
-     StoreArr =  storeCountryUS.map((e) => e.store_id)
-     setCurrency("USD")
-  }
-  else{
-    let StrCurrency= storeData.find((e) => e.store_id === selectStore)
-    setCurrency(StrCurrency?.store_currency);
-  }
+  console.log(StoreArr)
+
+  // if(selectStore === "INR"){
+  //    StoreArr =  storeCountryINDIA.map((e) => e.store_id)
+  //    setCurrency("INR")
+  // }else if(selectStore === "USD"){
+  //    StoreArr =  storeCountryUS.map((e) => e.store_id)
+  //    setCurrency("USD")
+  // }
+  // else{
+  //   let StrCurrency= storeData.find((e) => e.store_id === selectStore)
+  //   setCurrency(StrCurrency?.store_currency);
+  // }
 
 
 // All Country Store
@@ -190,8 +197,6 @@ let store1
 
 
 
-
-
   // Current Months
   useEffect(() => {
     if (reloading ) {
@@ -207,17 +212,17 @@ let store1
         GetDailySales({
           from: fromDate,
           to: toDate,
-          store_id: StoreArr.length>0 ? StoreArr : [selectStore]
+            store_id: StoreArr.length>0 ? StoreArr : [selectStore]
         }),
         GetOrderWiseSales({
           from: fromDate,
           to: toDate,
-          store_id: StoreArr.length>0 ? StoreArr : [selectStore]
+            store_id: StoreArr.length>0 ? StoreArr : [selectStore]
         }),
         GetHourlySales({
           from: fromDate,
           to: toDate,
-          store_id: StoreArr.length>0 ? StoreArr : [selectStore]
+            store_id: StoreArr.length>0 ? StoreArr : [selectStore]
         }),
         // GetStores({ is_parent_admin: false, is_root_admin: true, store_id: ['99'] })
       ];
@@ -343,7 +348,6 @@ let store1
         boxShadow={shadow}
       >
         <Select
-          placeholder="Currency"
           variant="standard"
           value={SelectCurrency}
           label="Currency"
@@ -367,15 +371,15 @@ let store1
         boxShadow={shadow}
       >
         <Select
-          placeholder="Select Stores"
           variant="standard"
           value={selectStore}
           label="Store"
           onChange={handleChange}
         >
              {/* <option value="">Select Store</option> */}
-             <option value="INR">All India Store</option>
-             <option value="USD">All US Store</option>
+             {/* <option value="INR">All India Store</option>
+             <option value="USD">All US Store</option> */}
+             <option value="ALL">All Store</option>
           {storeData?.map((e) => (
             <option value={e.store_id}>{e.store_id}</option>
           ))}

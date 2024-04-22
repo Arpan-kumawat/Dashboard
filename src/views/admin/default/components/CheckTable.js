@@ -23,38 +23,38 @@ export default function CheckTable(props) {
 
 const AllStore = []
 
-console.log(ALLStoreORDeR)
 
-  const sumByStoreId = {};
-  ALLStoreORDeR?.forEach((item) => {
-    if (sumByStoreId[item.store_details.store_id]) {
-      sumByStoreId[item.store_details.store_id].net_sales +=
-        item.total_net_sale;
-      sumByStoreId[item.store_details.store_id].orders += item.total_item_tax;
-    } else {
-      sumByStoreId[item.store_details.store_id] = {
-        total_net_sale: item.total_net_sale,
-        total_item_tax: item.total_item_tax,
-      };
-    }
-  });
 
-  // Step 2: Convert the object into an array of objects
-  const netSalesArray = Object.entries(sumByStoreId).map(
-    ([storeId, { total_net_sale, total_item_tax }]) => ({
-      storeId: parseInt(storeId),
-      total_net_sale,
-      total_item_tax,
-    })
-  );
+  // const sumByStoreId = {};
+  // ALLStoreORDeR?.forEach((item) => {
+  //   if (sumByStoreId[item.store_details.store_id]) {
+  //     sumByStoreId[item.store_details.store_id].net_sales +=
+  //       item.total_net_sale;
+  //     sumByStoreId[item.store_details.store_id].orders += item.total_item_tax;
+  //   } else {
+  //     sumByStoreId[item.store_details.store_id] = {
+  //       total_net_sale: item.total_net_sale,
+  //       total_item_tax: item.total_item_tax,
+  //     };
+  //   }
+  // });
 
-  // Step 3: Sort the array based on net sales in descending order
-  netSalesArray.sort((a, b) => b.total_net_sale - a.total_net_sale);
+  // // Step 2: Convert the object into an array of objects
+  // const netSalesArray = Object.entries(sumByStoreId).map(
+  //   ([storeId, { total_net_sale, total_item_tax }]) => ({
+  //     storeId: parseInt(storeId),
+  //     total_net_sale,
+  //     total_item_tax,
+  //   })
+  // );
 
-  // Step 4: Get the top 5 net sales
-  const top5NetSales = netSalesArray.slice(0, 5);
+  // // Step 3: Sort the array based on net sales in descending order
+  // netSalesArray.sort((a, b) => b.total_net_sale - a.total_net_sale);
 
-  console.log(top5NetSales);
+  // // Step 4: Get the top 5 net sales
+  // const top5NetSales = netSalesArray.slice(0, 5);
+
+  // console.log(top5NetSales);
 
 
 
@@ -126,7 +126,7 @@ console.log(ALLStoreORDeR)
           </Tr>
         </Thead>
 
-        <Tbody>
+        {/* <Tbody>
           {top5NetSales.map((e) => (
             <Tr>
               <Td
@@ -180,7 +180,7 @@ console.log(ALLStoreORDeR)
               </Td> :""}
             </Tr>
           ))}
-        </Tbody>
+        </Tbody> */}
       </Table>
     </Card>
   );

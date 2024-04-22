@@ -1,14 +1,12 @@
 /*!
-  _ _ _  ___  ____  ___ ________  _   _   _   _ ___   
- |  _  |  _ \|_ _|__  / _ \| \ | | | | | |_ _| 
- | |_| | |_) || |  / / | | |  \| | | | | || | 
- |  _  |  _ < | | / /| |_| | |\  | | |_| || |
- |_| |_|_| \_\___/____\___/|_| \_|  \___/|___|
-
-
-                                                                                                                                                                                                                                                                                                                                     
+           __  _  _   _____ _    _ _____ ___ 
+     /\   |  __ \| |  | |/ ____| |  | |_   _|
+    /  \  | |__) | |  | | (___ | |__| | | |  
+   / /\ \ |  _  /| |  | |\___ \|  __  | | |  
+  / ____ \| | \ \| |__| |____) | |  | |_| |_ 
+ /_/    \_\_|  \_\\____/|_____/|_|  |_|_____|
+                                                                                                                                                                                                                                                                                                                                   
 =========================================================
-* Horizon UI - v1.1.0
 =========================================================
 */
 
@@ -63,6 +61,11 @@ export default function UserReports(props) {
   const brandColor = useColorModeValue("brand.500", "white");
   const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
 
+  var currencyDataString = localStorage.getItem("CurrencyRate");
+  var currencyData = JSON.parse(currencyDataString);
+  console.log(currencyData.INR);
+
+
   const [dateRange, setDateRange] = useState([new Date(), new Date()]); 
   const handleDateChange = (dates) => {
     setDateRange(dates);
@@ -74,7 +77,8 @@ export default function UserReports(props) {
 
 
   const [currency, setCurrency] = useState("");
-  const [currencySymbol, srtCurrencySymbol] = useState("");
+
+
 
 
 
@@ -83,7 +87,8 @@ export default function UserReports(props) {
   const [aLLStoreData, setALLStoreData] = useState([]);
   const [storeData, setStoreData] = useState([]);
 
-  const [selectStore, setSelectStore] = useState('INR');
+  const [selectStore, setSelectStore] = useState('ALL');
+  const [SelectCurrency, setSelectCurrency] = useState("USD");
 
   const [orderData, setOrderData] = useState([]);
   const [hourlyData, setHourlyData] = useState([]);
@@ -109,7 +114,7 @@ const formatCurrency = (value) => {
 
 
 
-console.log(currency)
+
 
           console.log(data);
           console.log(orderData);
@@ -146,16 +151,48 @@ console.log(currency)
           const TotalRefundSales = calculateRefundSales(data?.sales);
           const LastTotalRefundSales = calculateRefundSales(lastData?.sales);
 
+        console.log(SelectCurrency)
 
-          function calculateGrossSales(data) {
-            let TotalGrossSales = 0;
-            if(data){
-            for (const item of data) {
-              TotalGrossSales += item.gross_sales;
-            }}
-            return TotalGrossSales;
-          }    
-          let TotalGrossSales = calculateGrossSales(data?.sales);
+        function calculateGrossSales(data) {
+          let TotalGrossSales = 0;
+          let TotalGrossSalesIndia = 0;
+          let TotalGrossSalesUSA = 0;
+          let changeAmount = 0;
+      
+          if (data && SelectCurrency && currencyData) {
+              let storeCountryIndia = data.filter((e) => e.store_details?.currencycode === "INR");
+              let storeCountryUSA = data.filter((e) => e.store_details?.currencycode === "USD");
+      
+              if (SelectCurrency === "USD") {
+                  for (const item of storeCountryIndia) {
+                      TotalGrossSalesIndia += item.total_gross_sale;
+                  }
+                  for (const item of storeCountryUSA) {
+                      TotalGrossSalesUSA += item.total_gross_sale;
+                  }
+                  changeAmount = TotalGrossSalesIndia / currencyData.INR;
+
+                  TotalGrossSales = changeAmount + TotalGrossSalesUSA;
+
+              } else if (SelectCurrency === "INR") {
+                  for (const item of storeCountryIndia) {
+                      TotalGrossSalesIndia += item.total_gross_sale;
+                  }
+                  for (const item of storeCountryUSA) {
+                      TotalGrossSalesUSA += item.total_gross_sale;
+                  }
+                  changeAmount = TotalGrossSalesUSA * currencyData.INR;
+                  TotalGrossSales = changeAmount + TotalGrossSalesIndia;
+              }
+              
+          }
+      
+          return TotalGrossSales;
+      }
+      
+          
+
+          let TotalGrossSales = calculateGrossSales(orderData);
           const LastTotalGrossSales = calculateGrossSales(lastData?.sales);
 
 
@@ -203,7 +240,7 @@ const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales
         brandText={"Dashboard"}
         {...props}
         {...{
-          loading,
+          loading,setSelectCurrency,SelectCurrency,
           setLoading,setLastData,lastData,reloadingPrev,setReloadingPrev,Lastloading,setLastLoading,
           data,dateRange,
           setData,
@@ -261,7 +298,7 @@ const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales
         <Icon
           w="32px"
           h="32px"
-          as={currency === "INR" ? MdCurrencyRupee : currency === "USD" ? MdAttachMoney : ""}
+          as={SelectCurrency === "INR" ? MdCurrencyRupee : SelectCurrency === "USD" ? MdAttachMoney : ""}
           color={brandColor}
         />
       }
@@ -281,7 +318,7 @@ const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales
         <Icon
           w="32px"
           h="32px"
-          as={currency === "INR" ? MdCurrencyRupee : currency === "USD" ? MdAttachMoney : ""}
+          as={SelectCurrency === "INR" ? MdCurrencyRupee : SelectCurrency === "USD" ? MdAttachMoney : ""}
           color={brandColor}
         />
       }
@@ -301,7 +338,7 @@ const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales
         <Icon
           w="32px"
           h="32px"
-          as={currency === "INR" ? MdCurrencyRupee : currency === "USD" ? MdAttachMoney : ""}
+          as={SelectCurrency === "INR" ? MdCurrencyRupee : SelectCurrency === "USD" ? MdAttachMoney : ""}
           color={brandColor}
         />
       }
@@ -323,7 +360,7 @@ const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales
         <Icon
           w="32px"
           h="32px"
-          as={currency === "INR" ? MdCurrencyRupee : currency === "USD" ? MdAttachMoney : ""}
+          as={SelectCurrency === "INR" ? MdCurrencyRupee : SelectCurrency === "USD" ? MdAttachMoney : ""}
           color={brandColor}
         />
       }
@@ -356,7 +393,7 @@ const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales
       w="56px"
       h="56px"
       bg={boxBg}
-      icon={<Icon w="32px" h="32px"    as={currency === "INR" ? MdCurrencyRupee : currency === "USD" ? MdAttachMoney : ""} color={brandColor} />}
+      icon={<Icon w="32px" h="32px"    as={SelectCurrency === "INR" ? MdCurrencyRupee : SelectCurrency === "USD" ? MdAttachMoney : ""} color={brandColor} />}
    
     />
   }
