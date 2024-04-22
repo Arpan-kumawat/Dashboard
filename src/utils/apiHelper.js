@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_DAILY_SALES, GET_ORDERWISE_SALE, GET_HOURLY_SALE, GET_ALL_STORES } from './constant';
+import { GET_DAILY_SALES, GET_ORDERWISE_SALE, GET_HOURLY_SALE, GET_ALL_STORES ,GET_CURRENCY_RATE} from './constant';
 
 let optionAxios = {
   headers: {
@@ -58,4 +58,16 @@ const GetStores = async (input) => {
     });
 };
 
-export { GetDailySales, GetOrderWiseSales, GetHourlySales, GetStores };
+const GetCurrencyRate = async (input) => {
+  return await axios
+    .get(GET_CURRENCY_RATE)
+    .then(function (resp) {
+      console.log(resp);
+      return resp.data.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+export { GetDailySales, GetOrderWiseSales, GetHourlySales, GetStores,GetCurrencyRate };

@@ -27,7 +27,7 @@ import {
   GetDailySales,
   GetOrderWiseSales,
   GetHourlySales,
-  GetStores,
+  GetStores,GetCurrencyRate
 } from "../../utils/apiHelper";
 moment.tz.setDefault("Asia/Kolkata");
 
@@ -67,7 +67,33 @@ export default function HeaderLinks(props) {
     localStorage.setItem("Store", event.target.value);
   };
 
+
+  const [SelectCurrency, setSelectCurrency] = useState("");
+
+  const handleChangeCurrency = (event) => {
+    setSelectCurrency(event.target.value);
+  };
+
   // const [storeCountry, setStoreCountry] = useState("");
+
+
+  //Get currency rate
+  useEffect(() => {
+  
+    let CurrencyArr = [
+      GetCurrencyRate()
+    ];
+
+    Promise.all(CurrencyArr)
+      .then(async (resultArr) => {
+        let [allCurrency] = resultArr;
+        console.log(allCurrency);
+      })
+      .catch((ex) => console.error(ex));
+  }, []);
+
+
+
 
   //  // ALL stores
 
@@ -116,17 +142,6 @@ export default function HeaderLinks(props) {
     let StrCurrency= storeData.find((e) => e.store_id === selectStore)
     setCurrency(StrCurrency?.store_currency);
   }
-
-
-
-
-   
-
-  console.log(StoreArr)
-  console.log(selectStore)
-  console.log(StoreArr.length>0 ? StoreArr : selectStore )
-
-
 
 
 // All Country Store
@@ -316,6 +331,30 @@ let store1
 
   return (
     <Grid container>
+     <Flex
+        w={{ sm: "100%", md: "auto" }}
+        alignItems="center"
+        flexDirection="row"
+        bg={menuBg}
+        flexWrap={secondary ? { base: "wrap", md: "nowrap" } : "unset"}
+        p="10px"
+        m={"0.2rem"}
+        borderRadius="30px"
+        boxShadow={shadow}
+      >
+        <Select
+          placeholder="Currency"
+          variant="standard"
+          value={SelectCurrency}
+          label="Currency"
+          onChange={handleChangeCurrency}
+        >
+             <option value="INR">INR ₹</option>
+             <option value="USD">USD $</option>
+  
+        </Select>
+      </Flex>
+
       <Flex
         w={{ sm: "100%", md: "auto" }}
         alignItems="center"
