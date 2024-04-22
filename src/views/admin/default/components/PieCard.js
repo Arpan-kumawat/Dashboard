@@ -56,7 +56,7 @@ export default function Conversion(props) {
 
   const pieChartOptions = {
     labels: ["Discount Percentage", "Net Sales Percentage", "Tax Amount Percentage"],
-    colors: ["#4318FF", "#6AD2FF", "#f6b042"],
+    colors: [ "#6AD2FF","#4318FF", "#f6b042"],
     chart: {
       width: "50px",
     },
@@ -85,7 +85,7 @@ export default function Conversion(props) {
       },
     },
     fill: {
-      colors: ["#4318FF", "#6AD2FF", "#f6b042"],
+      colors: [ "#6AD2FF","#4318FF", "#f6b042"],
     },
     tooltip: {
       enabled: true,
@@ -133,7 +133,7 @@ export default function Conversion(props) {
         mx='auto'>
         <Flex direction='column' py='5px'>
           <Flex align='center'>
-            <Box h='8px' w='8px' bg='brand.500' borderRadius='50%' me='4px' />
+            <Box h='8px' w='8px' bg=' #6AD2FF' borderRadius='50%' me='4px' />
             <Text
               fontSize='xs'
               color='secondaryGray.600'
@@ -149,7 +149,7 @@ export default function Conversion(props) {
         <VSeparator mx={{ base: "60px", xl: "60px", "2xl": "60px" }} />
         <Flex direction='column' py='5px' me='10px'>
           <Flex align='center'>
-            <Box h='8px' w='8px' bg='red ' borderRadius='50%' me='4px' />
+            <Box h='8px' w='8px' bg='#f6b042 ' borderRadius='50%' me='4px' />
             <Text
               fontSize='xs'
               color='secondaryGray.600'
@@ -165,7 +165,7 @@ export default function Conversion(props) {
         <VSeparator mx={{ base: "60px", xl: "60px", "2xl": "60px" }} />
         <Flex direction='column' py='5px' me='10px'>
           <Flex align='center'>
-            <Box h='8px' w='8px' bg='#6AD2FF' borderRadius='50%' me='4px' />
+            <Box h='8px' w='8px' bg='brand.500' borderRadius='50%' me='4px' />
             <Text
               fontSize='xs'
               color='secondaryGray.600'

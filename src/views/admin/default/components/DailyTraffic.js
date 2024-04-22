@@ -424,8 +424,8 @@ export default function DailyTraffic(props) {
         show: true,
         style: {
           colors: "#A3AED0",
-          fontSize: "14px",
-          fontWeight: "500",
+          fontSize: "10px",
+          fontWeight: "300",
         },
       },
       axisBorder: {

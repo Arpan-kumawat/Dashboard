@@ -14,6 +14,7 @@
     "@hypertheme-editor/chakra-ui": "^0.1.5",
     "@material-ui/core": "^4.12.4",
     "@mui/material": "^5.15.15",
+    "@mui/x-charts": "^7.2.0",
     "@syncfusion/ej2-react-maps": "^25.1.40",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
