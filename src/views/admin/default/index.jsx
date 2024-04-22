@@ -80,9 +80,10 @@ export default function UserReports(props) {
 
   const [data, setData] = useState([]);
   const [lastData, setLastData] = useState([]);
+  const [aLLStoreData, setALLStoreData] = useState([]);
   const [storeData, setStoreData] = useState([]);
 
-  const [selectStore, setSelectStore] = useState('');
+  const [selectStore, setSelectStore] = useState('INR');
 
   const [orderData, setOrderData] = useState([]);
   const [hourlyData, setHourlyData] = useState([]);
@@ -206,7 +207,7 @@ const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales
           setLoading,setLastData,lastData,reloadingPrev,setReloadingPrev,Lastloading,setLastLoading,
           data,dateRange,
           setData,
-          storeData,setCurrency,
+          storeData,setCurrency,setALLStoreData,aLLStoreData,
           setStoreData,
           selectStore,
           setSelectStore,orderData,setOrderData,hourlyData,setHourlyData,isLoading,reloading,setReLoading
@@ -355,7 +356,8 @@ const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales
       w="56px"
       h="56px"
       bg={boxBg}
-      icon={<Icon w="32px" h="32px" as={MdFileCopy} color={brandColor} />}
+      icon={<Icon w="32px" h="32px"    as={currency === "INR" ? MdCurrencyRupee : currency === "USD" ? MdAttachMoney : ""} color={brandColor} />}
+   
     />
   }
   name="Future Sales Prediction"
@@ -413,6 +415,9 @@ const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales
             columnsData={columnsDataCheck}
             tableData={data.sales}
             salesData={orderData}
+            Currency={currency}
+             ALLStoreORDeR={ aLLStoreData}
+             SelectStore={selectStore}
           />
       
           {/* <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
