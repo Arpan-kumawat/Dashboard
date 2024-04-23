@@ -116,7 +116,6 @@ console.log(currency)
           console.log(hourlyData);
           console.log(lastData)
 
-
           function calculateOrderCheck(data) {
             let TotalOrderCount = 0;
             if(data){

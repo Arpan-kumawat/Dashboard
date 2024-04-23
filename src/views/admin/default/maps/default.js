@@ -46,7 +46,7 @@ const DefaultMaps = () => {
     ];
     const onMapsLoad = (args) => {
         let maps = document.getElementById('maps');
-        maps.setAttribute('title', '');
+        maps?.setAttribute('title', '');
     };
     const load = (args) => {
     };
