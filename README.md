@@ -4,11 +4,7 @@
 ![license](https://img.shields.io/badge/license-MIT-blue.svg)
 [![GitHub issues open](https://img.shields.io/github/issues/horizon-ui/horizon-ui-chakra.svg?maxAge=2592000)](https://github.com/horizon-ui/horizon-ui-chakra/issues?q=is%3Aopen+is%3Aissue)
 
-<p>&nbsp;</p>
 
-[<img alt="Horizon UI" src="https://i.ibb.co/fdyTwz1/introduction-image-2.png" /> ](https://github.com/horizon-ui/horizon-ui-chakra)
-
-<p>&nbsp;</p>
 
 
 Get started and build your dream web app with Horizon UI, the most trendiest &
