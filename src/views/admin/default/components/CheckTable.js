@@ -23,9 +23,9 @@ export default function CheckTable(props) {
 
 const AllStore = []
 
-console.log(ALLStoreORDeR)
 
-  const sumByStoreId = {};
+
+  // const sumByStoreId = {};
   // ALLStoreORDeR?.forEach((item) => {
   //   if (sumByStoreId[item.store_details.store_id]) {
   //     sumByStoreId[item.store_details.store_id].net_sales +=
@@ -39,7 +39,7 @@ console.log(ALLStoreORDeR)
   //   }
   // });
 
-  // Step 2: Convert the object into an array of objects
+  // // Step 2: Convert the object into an array of objects
   // const netSalesArray = Object.entries(sumByStoreId).map(
   //   ([storeId, { total_net_sale, total_item_tax }]) => ({
   //     storeId: parseInt(storeId),

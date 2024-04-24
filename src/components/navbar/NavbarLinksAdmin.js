@@ -27,8 +27,9 @@ import {
   GetDailySales,
   GetOrderWiseSales,
   GetHourlySales,
-  GetStores,
+  GetStores,GetCurrencyRate
 } from "../../utils/apiHelper";
+import { jsx } from "@emotion/react";
 moment.tz.setDefault("Asia/Kolkata");
 
 export default function HeaderLinks(props) {
@@ -44,7 +45,7 @@ export default function HeaderLinks(props) {
     dateRange,
     setLoading,
     setData,
-    setOrderData,setALLStoreData,aLLStoreData,
+    setOrderData,setALLStoreData,aLLStoreData,SelectCurrency,setSelectCurrency,
     selectStore,
     setHourlyData,
     storeData,
@@ -67,7 +68,34 @@ export default function HeaderLinks(props) {
     localStorage.setItem("Store", event.target.value);
   };
 
+
+ 
+
+  const handleChangeCurrency = (event) => {
+    setSelectCurrency(event.target.value);
+  };
+
   // const [storeCountry, setStoreCountry] = useState("");
+
+
+  //Get currency rate
+  useEffect(() => {
+  
+    let CurrencyArr = [
+      GetCurrencyRate()
+    ];
+
+    Promise.all(CurrencyArr)
+      .then(async (resultArr) => {
+        let [allCurrency] = resultArr;
+        console.log(allCurrency);
+        localStorage.setItem("CurrencyRate",JSON.stringify(allCurrency))
+      })
+      .catch((ex) => console.error(ex));
+  }, []);
+
+
+
 
   //  // ALL stores
 
@@ -91,43 +119,23 @@ export default function HeaderLinks(props) {
         let [StoreSalesData] = resultArr;
         setStoreData(StoreSalesData);
         console.log(StoreSalesData);
+        const storeInfo = `${StoreSalesData.store_name} ${StoreSalesData.store_id}`;
+        
       })
       .catch((ex) => console.error(ex));
   }, []);
 
 
-  let storeCountryUS = storeData.filter(
-    (e) => e.store_currency === "USD"
-  );
-  let storeCountryINDIA = storeData.filter(
-    (e) => e.store_currency === "INR"
-  );
+  
 
   let StoreArr=[]
-
-  if(selectStore === "INR"){
-     StoreArr =  storeCountryINDIA.map((e) => e.store_id)
-     setCurrency("INR")
-  }else if(selectStore === "USD"){
-     StoreArr =  storeCountryUS.map((e) => e.store_id)
-     setCurrency("USD")
+  if(selectStore === "ALL"){
+    StoreArr =  storeData.map((e) => e.store_id)
   }
-  else{
-    let StrCurrency= storeData.find((e) => e.store_id === selectStore)
-    setCurrency(StrCurrency?.store_currency);
-  }
-
-
-
-
-   
 
   console.log(StoreArr)
-  console.log(selectStore)
-  console.log(StoreArr.length>0 ? StoreArr : selectStore )
 
-
-
+ 
 
 // All Country Store
   useEffect(() => {
@@ -175,8 +183,6 @@ let store1
 
 
 
-
-
   // Current Months
   useEffect(() => {
     if (reloading ) {
@@ -192,17 +198,17 @@ let store1
         GetDailySales({
           from: fromDate,
           to: toDate,
-          store_id: StoreArr.length>0 ? StoreArr : [selectStore]
+            store_id: StoreArr.length>0 ? StoreArr : [selectStore]
         }),
         GetOrderWiseSales({
           from: fromDate,
           to: toDate,
-          store_id: StoreArr.length>0 ? StoreArr : [selectStore]
+            store_id: StoreArr.length>0 ? StoreArr : [selectStore]
         }),
         GetHourlySales({
           from: fromDate,
           to: toDate,
-          store_id: StoreArr.length>0 ? StoreArr : [selectStore]
+            store_id: StoreArr.length>0 ? StoreArr : [selectStore]
         }),
         // GetStores({ is_parent_admin: false, is_root_admin: true, store_id: ['99'] })
       ];
@@ -210,7 +216,7 @@ let store1
       Promise.all(funArr)
         .then(async (resultArr) => {
           let [salesData, orderdata, hourlydata, storeId] = resultArr;
-          setData(salesData);
+          setData(salesData);  
           setOrderData(orderdata);
           setHourlyData(hourlydata);
           // setStoreData(storeId)
@@ -316,7 +322,34 @@ let store1
 
   return (
     <Grid container>
-      <Flex
+     <Flex
+        w={{ sm: "100%", md: "auto" }}
+        alignItems="center"
+        flexDirection="row"
+        bg={menuBg}
+        flexWrap={secondary ? { base: "wrap", md: "nowrap" } : "unset"}
+        p="10px"
+        m={"0.2rem"}
+        borderRadius="30px"
+        boxShadow={shadow}
+        fontWeight="800px"
+      >
+        <Select
+          variant="standard"
+          value={SelectCurrency}
+          label="Currency"
+          onChange={handleChangeCurrency}
+          style={{ fontWeight: 'bold' }}
+        >
+             {/* <option value="INR">INR ₹</option>
+             <option value="USD">USD $</option> */}
+              <option value="INR" style={{ fontWeight: 'bold' }}>INR ₹</option>
+    <option value="USD" style={{ fontWeight: 'bold' }}>USD $</option>
+  
+        </Select>
+      </Flex>
+
+      {/* <Flex
         w={{ sm: "100%", md: "auto" }}
         alignItems="center"
         flexDirection="row"
@@ -328,20 +361,58 @@ let store1
         boxShadow={shadow}
       >
         <Select
-          placeholder="Select Stores"
           variant="standard"
           value={selectStore}
           label="Store"
           onChange={handleChange}
+          style={{ fontWeight: 'bold' }}
         >
-             {/* <option value="">Select Store</option> */}
-             <option value="INR">All India Store</option>
-             <option value="USD">All US Store</option>
+             
+             <option value="ALL" style={{ fontWeight: 'bold' }}>All Store</option>
           {storeData?.map((e) => (
-            <option value={e.store_id}>{e.store_id}</option>
+            <option value={e.store_id} style={{ fontWeight: 'bold' }}>{e.store_name} {e.store_id}</option>
           ))}
         </Select>
-      </Flex>
+      </Flex> */}
+<Flex
+    w={{ sm: "100%", md: "auto" }}
+    alignItems="center"
+    flexDirection="row"
+    bg={menuBg}
+    flexWrap={secondary ? { base: "wrap", md: "nowrap" } : "unset"}
+    p="10px"
+    m={"0.2rem"}
+    borderRadius="30px"
+    boxShadow={shadow}
+>
+    <Select
+        variant="standard"
+        value={selectStore}
+        label="Store"
+        onChange={handleChange}
+        style={{ fontWeight: 'bold' }}
+        display="flex" /* Add flex display to the Select */
+        alignItems="center" /* Align items in the center vertically */
+    >
+        {/* Option for All Store */}
+        <option value="ALL" style={{ fontWeight: 'bold' }}>All Store</option>
+        {/* Mapping storeData for options */}
+        {storeData?.map((e) => (
+            <option
+                value={e.store_id}
+                style={{
+                    fontWeight: 'bold',
+                    display: 'flex',
+                    justifyContent: 'space-between', /* Align items in a space-between layout */
+                    width: '100%' /* Set width to 100% to fill the available space */
+                }}
+            >
+                <span>{e.store_name}</span> {/* Store name on the left */}
+                <span>{e.store_id}</span> {/* Store ID on the right */}
+            </option>
+        ))}
+    </Select>
+</Flex>
 
       <Flex
         w={{ sm: "100%", md: "auto" }}
@@ -356,7 +427,7 @@ let store1
       >
         {/* <SearchBar mb={secondary ? { base: '10px', md: 'unset' } : 'unset'} me="10px" borderRadius="30px" /> */}
 
-        <Text style={{ padding: "0.5rem" }} onClick={() => setOpen(!open)}>
+        <Text style={{ padding: "0.5rem" ,fontWeight: 'bold' }}  onClick={() => setOpen(!open)}>
           {dateRange[0].toLocaleDateString() +
             " - " +
             dateRange[1].toLocaleDateString()}

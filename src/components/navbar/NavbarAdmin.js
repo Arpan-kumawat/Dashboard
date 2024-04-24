@@ -18,8 +18,8 @@ export default function AdminNavbar(props) {
 	const { secondary, message, brandText,
 		loading,
 		setLoading,setLastData,lastData,reloadingPrev,setReloadingPrev,Lastloading,setLastLoading,
-		data,dateRange,
-		setData,
+		data,dateRange,setSelectCurrency,SelectCurrency,
+		setData,currencyRate, setCurrencyRate,
 		storeData,
 		setStoreData,setCurrency,setALLStoreData,aLLStoreData,
 		selectStore,
@@ -139,9 +139,9 @@ export default function AdminNavbar(props) {
 						{...{
 							loading,
 							setLoading,setLastData,lastData,reloadingPrev,setReloadingPrev,Lastloading,setLastLoading,
-							data,dateRange,
+							data,dateRange,setSelectCurrency,SelectCurrency,
 							setData,
-							storeData,
+							storeData,currencyRate, setCurrencyRate,
 							setStoreData,setCurrency,setALLStoreData,aLLStoreData,
 							selectStore,
 							setSelectStore,orderData,setOrderData,hourlyData,setHourlyData,isLoading,reloading,setReLoading
