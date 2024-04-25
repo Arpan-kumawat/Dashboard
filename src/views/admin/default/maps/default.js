@@ -28,23 +28,53 @@ let markers = [
     { name: 'South America', latitude: -6.64607562172573, longitude: -55.54687499999999 }
 ];
 const DefaultMaps = (props) => {
-console.log(props.storeData)
 
-let store= props.storeData[0]?.store_city 
-let storeno= props.storeData[0]?.store_id 
 
-let store1= props.storeData[1]?.store_city 
-let storeno1= props.storeData[1]?.store_id 
+    // let store = props.storeData?.map((e) => e.store_city);
+    
+    // console.log(store);
+    
+    // let data = props.storeData?.map((e) => ({
+    //     latitude: 25.869028,
+    //     longitude: -97.502739,
+    //     name:` ${e.store_city} : ${e.store_id} <br/> Date : ${new Date(e.subscription_start_date) } <br/> Device : Leap`
+    // }));
+    
+    // console.log(data);
 
-console.log(store)
- 
-    let data = [
-        { latitude: 25.869028, longitude: -97.502739,  name: store1 + " : " +storeno1 ,},
-        { latitude: 28.6692, longitude: 77.4538, name: store + " : " +storeno },
 
-        // { latitude: 25.869028, longitude: -97.502739, name: 'Matamoros \n store: 2' }
+    const cityCoordinates = {
+        "Greater Noida": { latitude: 28.474388, longitude: 77.503990 },
+        "Matamoros": { latitude: 25.869028, longitude: -97.502739 },
+        "Jersey": { latitude: 49, longitude: -2 },
+        "New Delhi": { latitude: 28.6139, longitude: 77.2088 },
+        "Ghaziabad": { latitude: 28.667856, longitude: 77.449791 },
+        "Jaipur": { latitude: 26.922070, longitude: 75.778885 },
 
-    ];
+        "Chicago": { latitude: 41.8781, longitude: 87.6298 },
+        "New York ": { latitude: 40.7128, longitude: 74.0060 },
+        "NY ": { latitude: 40.7128, longitude: 74.0060 },
+
+        // "Matamoros": { latitude: 25.869028, longitude: -97.502739 },
+        // "Matamoros": { latitude: 25.869028, longitude: -97.502739 },
+    };
+    
+  
+    let data = props.storeData?.map((e) => {
+
+        const coordinates = cityCoordinates[e.store_city];
+        
+        return {
+            latitude: coordinates ? coordinates.latitude : 0, // Default to 0 if city coordinates are not found
+            longitude: coordinates ? coordinates.longitude : 0,
+            name: `${e.store_city} : ${e.store_id} <br/> Date : ${new Date(e.subscription_start_date)} <br/> Device : Leap`
+        };
+    });
+    
+    console.log(data);
+
+
+
     const onMapsLoad = (args) => {
         let maps = document.getElementById('maps');
         maps?.setAttribute('title', '');
@@ -61,7 +91,6 @@ console.log(store)
                             <MarkersDirective>
                                 <MarkerDirective visible={true} template='<div style="font-size: 12px;color:white;text-shadow: 0px 1px 1px black;font-weight: 500;width:50px">{{:name}}</div>' animationDuration={0} dataSource={markers}/>
                                 <MarkerDirective visible={true} shape='Image' imageUrl={icon} height={20} width={20} animationDuration={0} tooltipSettings={{ visible: true, valuePath: 'name' }} dataSource={data}/>
-                                {/* <MarkerDirective visible={true} shape='Image' imageUrl={icon} height={20} width={20} animationDuration={0} tooltipSettings={{ visible: true, valuePath: 'store' }} dataSource={data}/> */}
                             </MarkersDirective>
                         </LayerDirective>
                     </LayersDirective>

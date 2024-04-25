@@ -42,7 +42,7 @@ export default function HeaderLinks(props) {
     setReloadingPrev,
     Lastloading,
     reloading,
-    dateRange,
+    // dateRange,
     setLoading,
     setData,setYearMonth,YearMonth,
     setOrderData,setALLStoreData,aLLStoreData,SelectCurrency,setSelectCurrency,
@@ -80,6 +80,10 @@ export default function HeaderLinks(props) {
   };
 
 
+  const [dateRange, setDateRange] = useState([new Date(), new Date()]);
+  const handleDateChange = (dates) => {
+    setDateRange(dates);
+  };
 
   //Get currency rate
   useEffect(() => {
@@ -598,7 +602,7 @@ let store1
         </Menu>
       </Flex>
 
-      {/* {open && (
+      {open && (
         <div
           style={{
             position: "absolute",
@@ -617,7 +621,7 @@ let store1
             }}
           />
         </div>
-      )} */}
+      )}
     </Grid>
   );
 }

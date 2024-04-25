@@ -69,10 +69,10 @@ export default function UserReports(props) {
   var currencyDataString = localStorage.getItem("CurrencyRate");
   var currencyData = JSON.parse(currencyDataString);
 
-  const [dateRange, setDateRange] = useState([new Date(), new Date()]);
-  const handleDateChange = (dates) => {
-    setDateRange(dates);
-  };
+  // const [dateRange, setDateRange] = useState([new Date(), new Date()]);
+  // const handleDateChange = (dates) => {
+  //   setDateRange(dates);
+  // };
 
   const [loading, setLoading] = useState(true);
   const [Lastloading, setLastLoading] = useState(true);
@@ -147,7 +147,7 @@ export default function UserReports(props) {
               Lastloading,
               setLastLoading,
               data,
-              dateRange,
+              // dateRange,
               setData,
               storeData,
               setCurrency,
@@ -196,9 +196,9 @@ export default function UserReports(props) {
               lg={12}
               style={{ display: "flex", justifyContent: "space-between" }}
             >
-              <Grid sm={12} md={7} lg={7}>
+              <Grid sm={12} md={12} lg={12}>
                 <SimpleGrid
-                  columns={{ base: 1, md: 2, lg: 2, "2xl": 6 }}
+                  columns={{ base: 1, md: 3, lg: 3, "2xl": 6 }}
                   gap="10px"
                   mb="20px"
                 >
@@ -369,7 +369,7 @@ export default function UserReports(props) {
                   />
                 </SimpleGrid>
               </Grid>
-              <Grid style={{ display: "contents" }} sm={12} md={5} lg={5}>
+              {/* <Grid style={{ display: "contents" }} sm={12} md={5} lg={5}>
                 <MiniCalendar
                   style={{
                     display: "flex",
@@ -384,7 +384,7 @@ export default function UserReports(props) {
                   minW="40%"
                   selectRange={true}
                 />
-              </Grid>
+              </Grid> */}
             </Grid>
 
             <SimpleGrid
@@ -436,6 +436,7 @@ export default function UserReports(props) {
                 SelectStore={selectStore}
               />
             </SimpleGrid>
+             
           </>
         )}
       </Box>
