@@ -392,8 +392,8 @@ export default function UserReports(props) {
               gap="20px"
               mb="20px"
             >
-              {/* <TotalSpent salesData={data} lastData={lastData} />
-              <WeeklyRevenue salesData={hourlyData} /> */}
+              <TotalSpent salesData={data} lastData={lastData} />
+              <WeeklyRevenue salesData={hourlyData} />
             </SimpleGrid>
 
             <SimpleGrid
@@ -406,11 +406,11 @@ export default function UserReports(props) {
             tableData={data.sales}
             salesData={orderData}
           /> */}
-              {/* <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
+              <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
                 <Tasks salesData={orderData} />
                 <PieCard salesData={data} />
 
-              </SimpleGrid> */}
+              </SimpleGrid>
               <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
                 <DailyTraffic salesData={data} />
      
