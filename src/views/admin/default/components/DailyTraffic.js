@@ -347,7 +347,7 @@ export default function DailyTraffic(props) {
         </Flex>
       </Flex>
       <Box h="240px" mt="auto">
-        {/* <ApexChart
+        <ApexChart
           chartData={[
             {
               name: "Daily Orders",
@@ -419,7 +419,7 @@ export default function DailyTraffic(props) {
               },
             },
           }}
-        /> */}
+        />
       </Box>
     </Card>
   );
