@@ -79,7 +79,7 @@ const AllStore = []
         </Text>
        
       </Flex>
-      <Table variant="simple" color="gray.500" mb="24px" mt="1rem">
+      {/* <Table variant="simple" color="gray.500" mb="24px" mt="1rem">
         <Thead>
           <Tr>
             <Th pe="10px" borderColor={borderColor}>
@@ -126,7 +126,7 @@ const AllStore = []
           </Tr>
         </Thead>
 
-        {/* <Tbody>
+        <Tbody>
           {top5NetSales.map((e) => (
             <Tr>
               <Td
@@ -180,8 +180,9 @@ const AllStore = []
               </Td> :""}
             </Tr>
           ))}
-        </Tbody> */}
-      </Table>
+        </Tbody>
+      </Table> */}
+      
     </Card>
   );
 }
