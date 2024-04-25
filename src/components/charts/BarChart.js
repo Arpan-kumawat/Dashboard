@@ -34,31 +34,34 @@
 
 // export default ColumnChart;
 
-import React from "react";
-import Chart from "react-apexcharts";
 
-class ColumnChart extends React.Component {
+import React from "react";
+import ReactApexChart from "react-apexcharts";
+
+class ApexChart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      chartData: [],
-      chartOptions: {},
+      chartData:[],
+      chartOptions:{},
     };
   }
 
   componentDidMount() {
+    const { chartData, chartOptions } = this.props;
     this.setState({
-      chartData: this.props.chartData,
-      chartOptions: this.props.chartOptions,
-    });
+            chartData: this.props.chartData,
+            chartOptions: this.props.chartOptions,
+          });
   }
 
   render() {
+    
     return (
-      <Chart
+      <ReactApexChart
         options={this.state.chartOptions}
         series={this.state.chartData}
-        type='column'  // Changed from 'bar' to 'column'
+        type='bar'
         width='100%'
         height='100%'
       />
@@ -66,4 +69,4 @@ class ColumnChart extends React.Component {
   }
 }
 
-export default ColumnChart;
+export default ApexChart;
