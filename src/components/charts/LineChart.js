@@ -1,34 +1,34 @@
+
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 
-class LineChart extends React.Component {
+class SplineAreaChart extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      chartData: [],
-      chartOptions: {},
+      series: [],
+      options: {},
     };
   }
 
   componentDidMount() {
     this.setState({
-      chartData: this.props.chartData,
-      chartOptions: this.props.chartOptions,
+      series: this.props.chartData, // Assuming chartData is an array of series objects
+      options: this.props.chartOptions,
     });
   }
 
   render() {
     return (
       <ReactApexChart
-        options={this.state.chartOptions}
-        series={this.state.chartData}
-        type='line'
-        width='100%'
-        height='100%'
+        options={this.state.options}
+        series={this.state.series}
+        type="area"
+        height={350}
       />
     );
   }
 }
 
-export default LineChart;
+export default SplineAreaChart;

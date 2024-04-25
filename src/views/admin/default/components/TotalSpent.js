@@ -9,27 +9,26 @@ import {
 } from "@chakra-ui/react";
 // Custom components
 import Card from "components/card/Card.js";
-import LineChart from "components/charts/LineChart";
+// import LineChart from "components/charts/LineChart";
+import SplineAreaChart from "components/charts/LineChart"
 import React from "react";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import { MdBarChart, MdOutlineCalendarToday } from "react-icons/md";
 // Assets
 import { RiArrowUpSFill } from "react-icons/ri";
-// import {
-//   lineChartDataTotalSpent,
-//   lineChartOptionsTotalSpent,
-// } from "variables/charts";
-
+import DownloadIcon from '@mui/icons-material/Download';
+import { saveAs } from 'file-saver';
+import Papa from 'papaparse';
 
 
 
 export default function TotalSpent(props) {
  
-  const { salesData, lastData } = props;
-
-
-  
-  let currentmonthsale=salesData?.sales
+  const { salesData, lastData, showHour, hourlyData } = props;
+ console.log(hourlyData)
+console.log(showHour)
+      let currentmonthsale= showHour ? hourlyData.sales : salesData.sales
+  // let currentmonthsale=salesData?.sales
   let lastmonthsale= lastData?.sales
 
 
@@ -131,8 +130,25 @@ export default function TotalSpent(props) {
     color: ["#7551FF", "#39B8FF"],
   };
   
-  
-
+  const downloadExportFile = async (salesData) => {
+    let exportData = [];
+    if (salesData && salesData.length) {
+      salesData.forEach((element, index) => {
+        let obj = {};
+        for (const key in element) {
+          if (key !== '_id') {
+            const str = `${key.trim().split('_').map((ele) => ele?.trim()?.toUpperCase()).join(' ')}`;
+            obj[`${str}`] = element[key];
+          }
+        }
+        exportData.push(obj);
+      });
+      const csvData = Papa.unparse(exportData);
+      const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8' });
+      console.log(blob)
+      saveAs(blob, 'Sales Data.csv');
+    }
+  };
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const textColorSecondary = useColorModeValue("secondaryGray.600", "white");
   const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
@@ -175,16 +191,18 @@ export default function TotalSpent(props) {
           h='37px'
           lineHeight='100%'
           borderRadius='10px'
+          onClick={() => downloadExportFile(salesData.sales)} 
           // {...rest}
           
           >
-          <Icon as={MdBarChart} color={iconColor} w='24px' h='24px' />
+          {/* <Icon as={MdBarChart} color={iconColor} w='24px' h='24px' /> */}
+          <Icon as={DownloadIcon} />
         </Button>
       </Flex>
       <Flex w='100%' flexDirection={{ base: "column", lg: "row" }}>
      
         <Box minH='260px' minW='90%' m='auto'>
-          <LineChart
+          <SplineAreaChart
             chartData={lineChartDataTotalSpent}
             
             chartOptions={lineChartOptionsTotalSpent}

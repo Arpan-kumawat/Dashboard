@@ -96,7 +96,7 @@ export default function UserReports(props) {
   const [reloading, setReLoading] = useState(true);
   const [reloadingPrev, setReloadingPrev] = useState(true);
 
-
+  const [hr, setHr] = useState(false);
 
 //   if(data)
 // {
@@ -223,12 +223,12 @@ console.log(TotalGrossSales)
                     TotalNetSales = changeAmount + TotalNetSalesUSA;
         
                 } else if (SelectCurrency === "INR") {
-                    for (const item of storeCountryIndia) {
-                        TotalNetSalesIndia += item.net_sales;
-                    }
-                    for (const item of storeCountryUSA) {
-                        TotalNetSalesUSA += item.net_sales;
-                    }
+                  for (const item of storeCountryIndia) {
+                    TotalNetSalesIndia += item.total_net_sale;
+                }
+                for (const item of storeCountryUSA) {
+                    TotalNetSalesUSA += item.total_net_sale;
+                }
                     changeAmount = TotalNetSalesUSA * currencyData.INR;
                     TotalNetSales = changeAmount + TotalNetSalesIndia;
                 }
@@ -279,7 +279,8 @@ const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales
           storeData,setCurrency,setALLStoreData,aLLStoreData,
           setStoreData,
           selectStore,
-          setSelectStore,orderData,setOrderData,hourlyData,setHourlyData,isLoading,reloading,setReLoading
+          setSelectStore,orderData,setOrderData,hourlyData,setHourlyData,isLoading,reloading,setReLoading,
+          setHr
         }}/>
         </Box>
       </Portal>
@@ -453,8 +454,8 @@ const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales
         </Grid>
 
         <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px" mb="20px">
-          <TotalSpent salesData={data} lastData={lastData}/>
-          <WeeklyRevenue  salesData={hourlyData} />
+          <TotalSpent showHour={hr} salesData={data} lastData={lastData} hourlyData={hourlyData}/>
+          <WeeklyRevenue   salesData={hourlyData} />
         </SimpleGrid>
 
         <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap="20px" mb="20px">

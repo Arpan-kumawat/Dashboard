@@ -51,7 +51,8 @@ export default function HeaderLinks(props) {
     storeData,
     setStoreData,
     setReLoading,
-    reloadingPrev,setCurrency
+    reloadingPrev,setCurrency,
+    setHr
   } = props;
   // Chakra Color Mode
 
@@ -193,6 +194,12 @@ let store1
         "YYYY-MM-DD"
       );
       setLoading(true);
+      
+      if (fromDate == toDate) {
+        setHr(true);
+      } else {
+        setHr(false);
+      }
 
       let funArr = [
         GetDailySales({
@@ -300,22 +307,10 @@ let store1
 
           console.log(salesData);
 
-          // if (resultArr.length > 0) {
-          //   localStorage.setItem("sales", JSON.stringify(salesData));
-          //   localStorage.setItem("Order", JSON.stringify(orderdata));
-          //   localStorage.setItem("hourly", JSON.stringify(hourlydata));
-          // }
-
-          // console.log(salesData);
-          // console.log(orderdata);
-          // console.log(hourlydata);
-          // console.log(storeId)
-          // setLoading(false);
-          // setReLoading(false);
+         
         })
         .catch((ex) => console.error(ex));
-      // setLoading(false);
-      // setReLoading(false);
+      
     }
   }, [Lastloading]);
 
@@ -374,6 +369,7 @@ let store1
           ))}
         </Select>
       </Flex> */}
+
 <Flex
     w={{ sm: "100%", md: "auto" }}
     alignItems="center"
@@ -394,23 +390,29 @@ let store1
         display="flex" /* Add flex display to the Select */
         alignItems="center" /* Align items in the center vertically */
     >
-        {/* Option for All Store */}
+        
         <option value="ALL" style={{ fontWeight: 'bold' }}>All Store</option>
-        {/* Mapping storeData for options */}
-        {storeData?.map((e) => (
-            <option
-                value={e.store_id}
-                style={{
-                    fontWeight: 'bold',
-                    display: 'flex',
-                    justifyContent: 'space-between', /* Align items in a space-between layout */
-                    width: '100%' /* Set width to 100% to fill the available space */
-                }}
-            >
-                <span>{e.store_name}</span> {/* Store name on the left */}
-                <span>{e.store_id}</span> {/* Store ID on the right */}
-            </option>
-        ))}
+       
+        {storeData
+        ?.sort((a, b) => a.store_name.localeCompare(b.store_name))     
+        .map((e) => (
+                <option
+                    
+                    value={e.store_id}
+                    style={{
+                        fontWeight: 'bold',
+                        display: 'flex',
+                        justifyContent: 'space-between', 
+                        width: '100%', 
+                        paddingLeft: '5px', 
+                        paddingRight: '5px', 
+                    }}
+                > 
+             
+                {/* {e.store_name} {e.store_id} */}
+                {e.store_name} {e.store_id}
+                </option>
+            ))}
     </Select>
 </Flex>
 

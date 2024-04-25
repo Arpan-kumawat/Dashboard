@@ -1,7 +1,43 @@
-import React, { Component } from "react";
+// import React from "react";
+// import Chart from "react-apexcharts";
+
+// class ColumnChart extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       chartData: [],
+//       chartOptions: {},
+      
+
+//     };
+//   }
+
+//   componentDidMount() {
+//     this.setState({
+//       chartData: this.props.chartData,
+//       chartOptions: this.props.chartOptions,
+//     });
+//   }
+
+//   render() {
+//     return (
+//       <Chart
+//         options={this.state.chartOptions}
+//         series={this.state.chartData}
+//         type='bar'
+//         width='100%'
+//         height='100%'
+//       />
+//     );
+//   }
+// }
+
+// export default ColumnChart;
+
+import React from "react";
 import Chart from "react-apexcharts";
 
-class ColumnChart extends Component {
+class ColumnChart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,7 +58,7 @@ class ColumnChart extends Component {
       <Chart
         options={this.state.chartOptions}
         series={this.state.chartData}
-        type='bar'
+        type='column'  // Changed from 'bar' to 'column'
         width='100%'
         height='100%'
       />
