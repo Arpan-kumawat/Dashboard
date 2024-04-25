@@ -12,7 +12,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 
-import { Grid } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 
 // Custom Components
 
@@ -44,7 +44,7 @@ export default function HeaderLinks(props) {
     reloading,
     dateRange,
     setLoading,
-    setData,
+    setData,setYearMonth,YearMonth,
     setOrderData,setALLStoreData,aLLStoreData,SelectCurrency,setSelectCurrency,
     selectStore,
     setHourlyData,
@@ -62,20 +62,22 @@ export default function HeaderLinks(props) {
     "14px 17px 40px 4px rgba(112, 144, 176, 0.06)"
   );
   const [open, setOpen] = useState(false);
+  const [CurrencyRate, setCurrencyRate] = useState("");
 
   const handleChange = (event) => {
     setSelectStore(event.target.value);
     localStorage.setItem("Store", event.target.value);
   };
 
-
- 
-
   const handleChangeCurrency = (event) => {
     setSelectCurrency(event.target.value);
   };
 
-  // const [storeCountry, setStoreCountry] = useState("");
+  const handleMOM = (event) => {
+    setYearMonth(event.target.value);
+    handleReloadData()
+  };
+
 
 
   //Get currency rate
@@ -89,6 +91,7 @@ export default function HeaderLinks(props) {
       .then(async (resultArr) => {
         let [allCurrency] = resultArr;
         console.log(allCurrency);
+        setCurrencyRate(allCurrency)
         localStorage.setItem("CurrencyRate",JSON.stringify(allCurrency))
       })
       .catch((ex) => console.error(ex));
@@ -119,7 +122,6 @@ export default function HeaderLinks(props) {
         let [StoreSalesData] = resultArr;
         setStoreData(StoreSalesData);
         console.log(StoreSalesData);
-        const storeInfo = `${StoreSalesData.store_name} ${StoreSalesData.store_id}`;
         
       })
       .catch((ex) => console.error(ex));
@@ -240,26 +242,39 @@ let store1
       // setLoading(false);
       // setReLoading(false);
     }
-  }, [reloading && StoreArr.length]);
+  }, [reloading && StoreArr.length ]);
 
   const handleReloadData = async () => {
     setReLoading(true);
     setLastLoading(true);
     setOpen(false);
   };
-  // Last Months
 
+
+
+
+  // Last Months/Year
   useEffect(() => {
     if (Lastloading) {
       let givenDate = new Date(dateRange[0].toLocaleDateString());
-      givenDate.setDate(givenDate.getDate() - 30);
+
+      YearMonth==="Month" ? givenDate.setDate(givenDate.getDate() - 30):givenDate.setFullYear(givenDate.getFullYear() - 1);
+
+      // givenDate.setDate(givenDate.getDate() - 30);
+
+//       let givenDate = new Date(dateRange[0].toLocaleDateString());
+// givenDate.setFullYear(givenDate.getFullYear() - 1);
+      
       let formattedDate = `${
         givenDate.getMonth() + 1
       }/${givenDate.getDate()}/${givenDate.getFullYear()}`;
       console.log(formattedDate);
 
       let givenDate1 = new Date(dateRange[1].toLocaleDateString());
-      givenDate1.setDate(givenDate1.getDate() - 30);
+
+      YearMonth==="Month" ? givenDate1.setDate(givenDate1.getDate() - 30):givenDate1.setFullYear(givenDate1.getFullYear() - 1);
+
+
       let formattedDate1 = `${
         givenDate1.getMonth() + 1
       }/${givenDate1.getDate()}/${givenDate1.getFullYear()}`;
@@ -272,13 +287,13 @@ let store1
       setLastLoading(true);
 
       let funArr = [
-        GetDailySales({
-          from: fromDate,
-          to: toDate,
-          store_id: StoreArr.length>0 ? StoreArr : [selectStore]
-        }),
+        // GetDailySales({
+        //   from: fromDate,
+        //   to: toDate,
+        //   store_id: StoreArr.length>0 ? StoreArr : [selectStore]
+        // }),
   
-        // GetOrderWiseSales({ from: fromDate, to: toDate, store_id: [selectStore] }),
+        GetOrderWiseSales({ from: fromDate, to: toDate, store_id: StoreArr.length>0 ? StoreArr : [selectStore] }),
         // GetHourlySales({ from: fromDate, to: toDate, store_id: [selectStore] }),
         // GetStores({ is_parent_admin: false, is_root_admin: true, store_id: ['99'] })
       ];
@@ -319,13 +334,15 @@ let store1
     }
   }, [Lastloading]);
 
+  console.log(storeData)
 
   return (
     <Grid container>
      <Flex
+     style={{position:"relative"}}
         w={{ sm: "100%", md: "auto" }}
         alignItems="center"
-        flexDirection="row"
+        flexDirection="column"
         bg={menuBg}
         flexWrap={secondary ? { base: "wrap", md: "nowrap" } : "unset"}
         p="10px"
@@ -338,6 +355,7 @@ let store1
           variant="standard"
           value={SelectCurrency}
           label="Currency"
+      
           onChange={handleChangeCurrency}
           style={{ fontWeight: 'bold' }}
         >
@@ -347,9 +365,37 @@ let store1
     <option value="USD" style={{ fontWeight: 'bold' }}>USD $</option>
   
         </Select>
+        <Text style={{position:"absolute",bottom:"0px"}} color='secondaryGray.600' fontSize='xs'>
+                USD={CurrencyRate.INR?.toFixed(2)} INR
+              </Text>
       </Flex>
 
-      {/* <Flex
+      <Flex
+        w={{ sm: "100%", md: "auto" }}
+        alignItems="center"
+        flexDirection="row"
+        bg={menuBg}
+        flexWrap={secondary ? { base: "wrap", md: "nowrap" } : "unset"}
+        p="10px"
+        m={"0.2rem"}
+        borderRadius="30px"
+        boxShadow={shadow}
+      >
+        <Select
+          variant="standard"
+          value={YearMonth}
+          label="SalesData"
+          onChange={handleMOM}
+          style={{ fontWeight: 'bold' }}
+        >
+             
+             <option value="Month" style={{ fontWeight: 'bold' }}>Month</option>
+             <option value="Year" style={{ fontWeight: 'bold' }}>Year</option>
+        </Select>
+      </Flex>
+
+
+      <Flex
         w={{ sm: "100%", md: "auto" }}
         alignItems="center"
         flexDirection="row"
@@ -373,46 +419,8 @@ let store1
             <option value={e.store_id} style={{ fontWeight: 'bold' }}>{e.store_name} {e.store_id}</option>
           ))}
         </Select>
-      </Flex> */}
-<Flex
-    w={{ sm: "100%", md: "auto" }}
-    alignItems="center"
-    flexDirection="row"
-    bg={menuBg}
-    flexWrap={secondary ? { base: "wrap", md: "nowrap" } : "unset"}
-    p="10px"
-    m={"0.2rem"}
-    borderRadius="30px"
-    boxShadow={shadow}
->
-    <Select
-        variant="standard"
-        value={selectStore}
-        label="Store"
-        onChange={handleChange}
-        style={{ fontWeight: 'bold' }}
-        display="flex" /* Add flex display to the Select */
-        alignItems="center" /* Align items in the center vertically */
-    >
-        {/* Option for All Store */}
-        <option value="ALL" style={{ fontWeight: 'bold' }}>All Store</option>
-        {/* Mapping storeData for options */}
-        {storeData?.map((e) => (
-            <option
-                value={e.store_id}
-                style={{
-                    fontWeight: 'bold',
-                    display: 'flex',
-                    justifyContent: 'space-between', /* Align items in a space-between layout */
-                    width: '100%' /* Set width to 100% to fill the available space */
-                }}
-            >
-                <span>{e.store_name}</span> {/* Store name on the left */}
-                <span>{e.store_id}</span> {/* Store ID on the right */}
-            </option>
-        ))}
-    </Select>
-</Flex>
+      </Flex>
+
 
       <Flex
         w={{ sm: "100%", md: "auto" }}

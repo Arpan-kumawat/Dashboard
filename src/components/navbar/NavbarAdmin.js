@@ -16,7 +16,7 @@ export default function AdminNavbar(props) {
 	});
 
 	const { secondary, message, brandText,
-		loading,
+		loading,setYearMonth,YearMonth,
 		setLoading,setLastData,lastData,reloadingPrev,setReloadingPrev,Lastloading,setLastLoading,
 		data,dateRange,setSelectCurrency,SelectCurrency,
 		setData,currencyRate, setCurrencyRate,
@@ -137,7 +137,7 @@ export default function AdminNavbar(props) {
 						fixed={props.fixed}
 						scrolled={scrolled}
 						{...{
-							loading,
+							loading,setYearMonth,YearMonth,
 							setLoading,setLastData,lastData,reloadingPrev,setReloadingPrev,Lastloading,setLastLoading,
 							data,dateRange,setSelectCurrency,SelectCurrency,
 							setData,

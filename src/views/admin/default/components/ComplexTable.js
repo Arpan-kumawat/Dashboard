@@ -37,6 +37,8 @@ export default function ColumnsTable(props) {
 
   const { columnsData, tableData } = props;
 
+
+
   const columns = useMemo(() => columnsData, [columnsData]);
   const data = useMemo(() => tableData, [tableData]);
 
@@ -79,7 +81,7 @@ export default function ColumnsTable(props) {
           Store Location
         </Text>
       </Flex>
-      <DefaultMaps/>
+      <DefaultMaps storeData={tableData}/>
       {/* <Table {...getTableProps()} variant='simple' color='gray.500' mb='24px'>
         <Thead>
           {headerGroups.map((headerGroup, index) => (

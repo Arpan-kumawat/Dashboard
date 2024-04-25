@@ -27,21 +27,22 @@ let markers = [
     { name: 'North America', latitude: 59.88893689676585, longitude: -109.3359375 },
     { name: 'South America', latitude: -6.64607562172573, longitude: -55.54687499999999 }
 ];
-const DefaultMaps = () => {
-    let data = [
-        { latitude: 37.6276571, longitude: -122.4276688, name: 'San Bruno' },
-        { latitude: 33.5302186, longitude: -117.7418381, name: 'Laguna Niguel' },
-        { latitude: 40.7424509, longitude: -74.0081468, name: 'New York' },
-        { latitude: -23.5268201, longitude: -46.6489927, name: 'Bom Retiro' },
-        { latitude: 43.6533855, longitude: -79.3729994, name: 'Toronto' },
-        { latitude: 48.8773406, longitude: 2.3299627, name: 'Paris' },
-        { latitude: 52.4643089, longitude: 13.4107368, name: 'Berlin' },
-        { latitude: 19.1555762, longitude: 72.8849595, name: 'Mumbai' },
-        { latitude: 35.6628744, longitude: 139.7345469, name: 'Minato' },
-        { latitude: 51.5326602, longitude: -0.1262422, name: 'London' },
-        { latitude: 28.7041, longitude: 77.1025, name: 'Delhi' },
-        { latitude: 28.6692, longitude: 77.4538, name: 'Ghaziabad' }
+const DefaultMaps = (props) => {
+console.log(props.storeData)
 
+let store= props.storeData[0]?.store_city 
+let storeno= props.storeData[0]?.store_id 
+
+let store1= props.storeData[1]?.store_city 
+let storeno1= props.storeData[1]?.store_id 
+
+console.log(store)
+ 
+    let data = [
+        { latitude: 25.869028, longitude: -97.502739,  name: store1 + " : " +storeno1 ,},
+        { latitude: 28.6692, longitude: 77.4538, name: store + " : " +storeno },
+
+        // { latitude: 25.869028, longitude: -97.502739, name: 'Matamoros \n store: 2' }
 
     ];
     const onMapsLoad = (args) => {
@@ -60,6 +61,7 @@ const DefaultMaps = () => {
                             <MarkersDirective>
                                 <MarkerDirective visible={true} template='<div style="font-size: 12px;color:white;text-shadow: 0px 1px 1px black;font-weight: 500;width:50px">{{:name}}</div>' animationDuration={0} dataSource={markers}/>
                                 <MarkerDirective visible={true} shape='Image' imageUrl={icon} height={20} width={20} animationDuration={0} tooltipSettings={{ visible: true, valuePath: 'name' }} dataSource={data}/>
+                                {/* <MarkerDirective visible={true} shape='Image' imageUrl={icon} height={20} width={20} animationDuration={0} tooltipSettings={{ visible: true, valuePath: 'store' }} dataSource={data}/> */}
                             </MarkersDirective>
                         </LayerDirective>
                     </LayersDirective>

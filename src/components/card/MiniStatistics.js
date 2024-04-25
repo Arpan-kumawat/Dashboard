@@ -14,7 +14,7 @@ import Card from "components/card/Card.js";
 import React from "react";
 
 export default function Default(props) {
-  const { startContent, endContent, name, growth, value,color } = props;
+  const { startContent, endContent, name, growth, value,color,text } = props;
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const textColorSecondary = "secondaryGray.600";
 
@@ -49,7 +49,7 @@ export default function Default(props) {
                 {growth}
               </Text>
               <Text color='secondaryGray.600' fontSize='xs' fontWeight='400'>
-                since last month
+                {text}
               </Text>
             </Flex>
           ) : null}

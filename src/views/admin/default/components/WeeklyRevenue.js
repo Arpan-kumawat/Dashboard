@@ -33,7 +33,7 @@ export default function WeeklyRevenue(props) {
   
   let constHours = constSale.map((e) => e.hour);
   // Sort constHours array in ascending order
-  constHours.sort((a, b) => a - b);
+  // constHours.sort((a, b) => a - b);
 
 
    const barChartDataConsumption = [
