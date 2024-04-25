@@ -23,7 +23,7 @@ export default function AdminNavbar(props) {
 		storeData,
 		setStoreData,setCurrency,setALLStoreData,aLLStoreData,
 		selectStore,
-		setSelectStore,orderData,setOrderData,hourlyData,setHourlyData,isLoading,reloading,setReLoading } = props;
+		setSelectStore,orderData,setOrderData,hourlyData,setHourlyData,isLoading,reloading,setReLoading,setHr } = props;
 
 	// Here are all the props that may change depending on navbar's type or state.(secondary, variant, scrolled)
 	let mainText = useColorModeValue('navy.700', 'white');
@@ -144,7 +144,7 @@ export default function AdminNavbar(props) {
 							storeData,currencyRate, setCurrencyRate,
 							setStoreData,setCurrency,setALLStoreData,aLLStoreData,
 							selectStore,
-							setSelectStore,orderData,setOrderData,hourlyData,setHourlyData,isLoading,reloading,setReLoading
+							setSelectStore,orderData,setOrderData,hourlyData,setHourlyData,isLoading,reloading,setReLoading,setHr
 						}}
 					/>
 				</Box>

@@ -51,7 +51,8 @@ export default function HeaderLinks(props) {
     storeData,
     setStoreData,
     setReLoading,
-    reloadingPrev,setCurrency
+    reloadingPrev,setCurrency,
+    setHr
   } = props;
   // Chakra Color Mode
 
@@ -195,6 +196,12 @@ let store1
         "YYYY-MM-DD"
       );
       setLoading(true);
+      
+      // if (fromDate == toDate) {
+      //   setHr(true);
+      // } else {
+      //   setHr(false);
+      // }
 
       let funArr = [
         GetDailySales({
@@ -315,22 +322,10 @@ let store1
 
           console.log(salesData);
 
-          // if (resultArr.length > 0) {
-          //   localStorage.setItem("sales", JSON.stringify(salesData));
-          //   localStorage.setItem("Order", JSON.stringify(orderdata));
-          //   localStorage.setItem("hourly", JSON.stringify(hourlydata));
-          // }
-
-          // console.log(salesData);
-          // console.log(orderdata);
-          // console.log(hourlydata);
-          // console.log(storeId)
-          // setLoading(false);
-          // setReLoading(false);
+         
         })
         .catch((ex) => console.error(ex));
-      // setLoading(false);
-      // setReLoading(false);
+      
     }
   }, [Lastloading]);
 
