@@ -139,7 +139,7 @@ function calculateGrossSales(data,SelectCurrency,currencyData) {
         for (const item of uniqueUSStore) {
           TotalRefundSalesUSA += item.net_sales;
         }
-        changeAmount = TotalRefundSalesIndia / currencyData.INR;
+        changeAmount = TotalRefundSalesIndia / currencyData?.INR;
 
         TotalRefundSales = changeAmount + TotalRefundSalesUSA;
       } else if (SelectCurrency === "INR" && uniqueIndiaStore ) {
@@ -149,7 +149,7 @@ function calculateGrossSales(data,SelectCurrency,currencyData) {
         for (const item of uniqueUSStore) {
           TotalRefundSalesUSA += item.net_sales;
         }
-        changeAmount = TotalRefundSalesUSA * currencyData.INR;
+        changeAmount = TotalRefundSalesUSA * currencyData?.INR;
         TotalRefundSales = changeAmount + TotalRefundSalesIndia;
       }
 
