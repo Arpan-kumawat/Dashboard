@@ -164,19 +164,21 @@ let store=storeData.find((e) => e.store_id === selectStore)
     var toDate = moment(dateRange[1].toLocaleDateString()).format("YYYY-MM-DD");
 
 
-let ALLStoreCountry = setStoreCountry?.map((e)=>e.store_id)
-let store1
-    if (selectStore === "INR" || selectStore === "USD") {
-      store1=StoreArr
-    }else{
-      store1=ALLStoreCountry
-    }
+let ALLStoreCountry = storeData?.map((e)=>e.store_id)
+
+console.log(ALLStoreCountry)
+// let store1
+//     if (selectStore === "INR" || selectStore === "USD") {
+//       store1=StoreArr
+//     }else{
+//       store1=ALLStoreCountry
+//     }
 
     let StoreArr1 = [
       GetOrderWiseSales({
         from: fromDate,
         to: toDate,
-        store_id:  store1
+        store_id: ALLStoreCountry
       }),
     ];
     Promise.all(StoreArr1)
@@ -186,7 +188,10 @@ let store1
           console.log(ALLStoreSalesData)
       })
       .catch((ex) => console.error(ex));
-  }, [reloading && StoreArr.length]);
+
+    
+
+  }, [reloading && storeData.length]);
 
 
 
