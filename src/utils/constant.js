@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://dashboard.cyntra.ai/api';
+export const BASE_URL = 'https://dashboardqa.cyntra.ai/api';
 
 export const GET_DAILY_SALES = BASE_URL + '/report/dailly-sale';
 export const GET_ORDERWISE_SALE = BASE_URL + '/report/order-wise-sale';

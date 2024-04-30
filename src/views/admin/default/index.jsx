@@ -163,28 +163,9 @@ export default function UserReports(props) {
         </Box>
       </Portal>
       <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
-        {reloading ? (
-          <Grid
-            style={{
-              display: "flex",
-              height: "80vh",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              
-            }}
-          >
-            <Spinner
-              thickness="4px"
-              speed="0.65s"
-              emptyColor="gray.200"
-              color="blue.500"
-              size="xl"
-            />
-            <Typography>Loading</Typography>
-          </Grid>
-        ) : (
-          <> 
+     
+
+
             <Grid
               container
               sm={12}
@@ -384,6 +365,30 @@ export default function UserReports(props) {
             
             </Grid>
 
+            {/* {reloading ? (
+          <Grid
+            style={{
+              display: "flex",
+              height: "80vh",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              
+            }}
+          >
+            <Spinner
+              thickness="4px"
+              speed="0.65s"
+              emptyColor="gray.200"
+              color="blue.500"
+              size="xl"
+            />
+            <Typography>Loading</Typography>
+          </Grid>
+        ) : (
+          <> 
+
+
             <SimpleGrid
               columns={{ base: 1, md: 2, xl: 2 }}
               gap="20px"
@@ -430,7 +435,7 @@ export default function UserReports(props) {
             </SimpleGrid>
              
           </>
-        )}
+        )} */}
       </Box>
     </>
   );

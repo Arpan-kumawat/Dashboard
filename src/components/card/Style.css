@@ -1,0 +1,29 @@
+/* .number-container {
+  position: relative;
+}
+
+.fade-in {
+  opacity: 1;
+  transition: opacity 0.5s ease-in;
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+} */
+
+.fadeInUp-animation {
+  animation: 1s fadeInUp;
+}
+
+@keyframes fadeInUp {
+  0% {
+    transform: translateY(10px);
+    opacity: 0;
+
+  }
+  100% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}

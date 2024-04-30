@@ -79,7 +79,7 @@ export default class MapTypeScatterBubbleSeries extends React.Component {
 
         const symbolSeries = new IgrGeographicProportionalSymbolSeries ( { name: "symbolSeries" });
         symbolSeries.dataSource = locations;
-        symbolSeries.markerType = MarkerType.Circle;
+        symbolSeries.markerType = MarkerType.Automatic;
         symbolSeries.radiusScale = sizeScale;
         symbolSeries.fillScale = brushScale;
         symbolSeries.fillMemberPath = "pop";
@@ -96,6 +96,8 @@ export default class MapTypeScatterBubbleSeries extends React.Component {
         const dataContext = context.dataContext as IgrDataContext;
         if (!dataContext) return null;
 
+
+        
         const dataItem = dataContext.item as any;
         if (!dataItem) return null;
 

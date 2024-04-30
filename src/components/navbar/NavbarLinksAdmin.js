@@ -65,6 +65,9 @@ export default function HeaderLinks(props) {
   const [open, setOpen] = useState(false);
   const [CurrencyRate, setCurrencyRate] = useState("");
 
+
+  const [apiCalling, setApiCalling] = useState(false);
+
   const handleChange = (event) => {
     setSelectStore(event.target.value);
     localStorage.setItem("Store", event.target.value);
@@ -106,7 +109,6 @@ export default function HeaderLinks(props) {
 
 
   //  // ALL stores
-
   useEffect(() => {
     var fromDate = moment(dateRange[0].toLocaleDateString()).format(
       "YYYY-MM-DD"
@@ -266,6 +268,19 @@ console.log(ALLStoreCountry)
     setOpen(false);
   };
 
+  console.log(dateRange)
+
+
+
+useEffect(() => {
+
+  
+  setReLoading(true);
+  setLastLoading(true);
+  setApiCalling(false);
+  setTimeout(() => setApiCalling(true), 6000);
+ 
+},[apiCalling])
 
 
 

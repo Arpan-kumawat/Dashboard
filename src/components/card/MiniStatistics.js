@@ -1,5 +1,3 @@
-// Chakra imports
-// Chakra imports
 import {
   Flex,
   Stat,
@@ -8,15 +6,36 @@ import {
   useColorModeValue,
   Text,
 } from "@chakra-ui/react";
-// Custom components
 import Card from "components/card/Card.js";
-// Custom icons
-import React from "react";
+import "./Style.css"
+import React ,{useState,useEffect} from "react";
 
 export default function Default(props) {
   const { startContent, endContent, name, growth, value,color,text,bg } = props;
   const textColor = useColorModeValue("white", "white");
   const textColorSecondary = "white";
+
+  const [changeValue, setChangeValue] = useState(false);
+  const [changeAniation, setChangeAniation] = useState(false);
+
+  const [prevNumber, setPrevNumber] = useState(value);
+  const [currentNumber, setCurrentNumber] = useState(value);
+
+
+  useEffect(() => {
+    if (value !== currentNumber) {
+      setPrevNumber(currentNumber);
+      setCurrentNumber(value);   
+      setChangeValue(true)
+      setChangeAniation(true)
+      setTimeout(() => setChangeAniation(false), 500);
+    }
+  }, [value, currentNumber]);
+
+
+  console.log(prevNumber)
+  console.log(currentNumber)
+
 
   return (
     <Card py='15px' style={{ background: bg }}
@@ -24,7 +43,6 @@ export default function Default(props) {
       <Flex
         my='auto'
         h='100%'
-       
         align={{ base: "center", xl: "start" }}
         justify={{ base: "center", xl: "center" }}>
         {startContent}
@@ -38,13 +56,17 @@ export default function Default(props) {
             }}>
             {name}
           </StatLabel>
+
           <StatNumber
+         className={ changeAniation?"fadeInUp-animation":""}
             color={textColor}
             fontSize={{
               base: "2xl",
             }}>
-            {value}
+            {!changeValue? prevNumber :currentNumber}
           </StatNumber>
+
+
           {growth ? (
             <Flex align='center'>
               <Text color={color} fontSize='xs' fontWeight='700' me='5px'>
