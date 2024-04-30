@@ -52,7 +52,6 @@ import {
   columnsDataCheck,
   columnsDataComplex,
 } from "views/admin/default/variables/columnsData";
-
 import { Grid, Typography } from "@material-ui/core";
 import Navbar from "components/navbar/NavbarAdmin.js";
 import { Spinner } from "@chakra-ui/react";
@@ -61,7 +60,7 @@ export default function UserReports(props) {
   // Chakra Color Mode
   const brandColor = useColorModeValue("brand.500", "white");
   const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
-
+  
   var currencyDataString = localStorage.getItem("CurrencyRate");
   var currencyData = JSON.parse(currencyDataString);
 
@@ -160,7 +159,7 @@ export default function UserReports(props) {
               reloading,
               setReLoading,
             }}
-          />
+          /> 
         </Box>
       </Portal>
       <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
@@ -172,6 +171,7 @@ export default function UserReports(props) {
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
+              
             }}
           >
             <Spinner
@@ -184,19 +184,21 @@ export default function UserReports(props) {
             <Typography>Loading</Typography>
           </Grid>
         ) : (
-          <>
+          <> 
             <Grid
               container
               sm={12}
               md={12}
               lg={12}
-              style={{ display: "flex", justifyContent: "space-between" }}
+              style={{ display: "flex", justifyContent: "space-between"  }}
+              bg="#11047a"
             >
               <Grid sm={12} md={12} lg={12}>
                 <SimpleGrid
                   columns={{ base: 1, md: 3, lg: 3, "2xl": 6 }}
                   gap="10px"
                   mb="20px"
+                  
                 >
                   <MiniStatistics
                     startContent={
@@ -204,6 +206,7 @@ export default function UserReports(props) {
                         w="56px"
                         h="56px"
                         bg={boxBg}
+                        
                         icon={
                           <Icon
                             w="32px"
@@ -220,13 +223,15 @@ export default function UserReports(props) {
                         }
                       />
                     }
-                    color={TotalGrossSalesPercent >= 0 ? "green.500" : "red"}
+                    bg={"rgb(62 45 201)"}
+                    color={TotalGrossSalesPercent >= 0 ? "#21fcad" : "red"}
                     growth={TotalGrossSalesPercent?.toFixed(2) + "%"}
                     text={`since Last ${YearMonth}`}
                     name="Total Revenue"
                     value={ (SelectCurrency === "INR" ?  " ₹ ":" $ ")+formatCurrency(TotalGrossSales)}
+                     
                   />
-
+                       
                   <MiniStatistics
                     startContent={
                       <IconBox
@@ -249,7 +254,9 @@ export default function UserReports(props) {
                         }
                       />
                     }
-                    color={TotalNetSalesPercent >= 0 ? "green.500" : "red"}
+                    bg={"rgb(36 97 255)"}
+                   
+                    color={TotalNetSalesPercent >= 0 ? "#21fcad" : "red"}
                     growth={TotalNetSalesPercent?.toFixed(2) + "%"}
                     text={`since Last ${YearMonth}`}
                     name="Total Net Sales"
@@ -278,6 +285,7 @@ export default function UserReports(props) {
                         }
                       />
                     }
+                    bg={" rgb(56 184 255)"}
                     // color={TotalGrossSalesPercent >= 0 ? "green.500" : "red"}
                     // growth={TotalGrossSalesPercent?.toFixed(2) + "%"}
                     name="Sales MOM"
@@ -308,14 +316,17 @@ export default function UserReports(props) {
                         }
                       />
                     }
+                    bg={"rgb(62 45 201)"}
+                   
                     name="Total Refund"
                     text={`since Last ${YearMonth}`}
-                    color={TotalRefundPercent >= 0 ? "green.500" : "red"}
+                    color={TotalRefundPercent >= 0 ? "#21fcad" : "red"}
                     growth={TotalRefundPercent?.toFixed(2) + "%"}
                     value={(SelectCurrency === "INR" ?  " ₹ ":" $ ")+ formatCurrency(TotalRefundSales)}
                   />
 
                   <MiniStatistics
+               
                     startContent={
                       <IconBox
                         w="56px"
@@ -331,19 +342,22 @@ export default function UserReports(props) {
                         }
                       />
                     }
+                    
+                    bg={"rgb(36 97 255)"}
                     name="Total Transaction"
                     text={`since Last ${YearMonth}`}
-                    color={TotalOrdersPercent >= 0 ? "green.500" : "red"}
+                    color={TotalOrdersPercent >= 0 ? "#21fcad" : "red"}
                     growth={TotalOrdersPercent?.toFixed(2) + "%"}
                     value={TotalOrderCount}
                   />
-
+                        
                   <MiniStatistics
                     startContent={
                       <IconBox
                         w="56px"
                         h="56px"
                         bg={boxBg}
+                         
                         icon={
                           <Icon
                             w="32px"
@@ -359,28 +373,15 @@ export default function UserReports(props) {
                           />
                         }
                       />
+                      
                     }
+                    bg={" rgb(56 184 255)"}
                     name="Future Sales Prediction"
                     value={ (SelectCurrency === "INR" ?  " ₹ ":" $ ")+formatCurrency(TotalNetSalesFuture)}
                   />
                 </SimpleGrid>
               </Grid>
-              {/* <Grid style={{ display: "contents" }} sm={12} md={5} lg={5}>
-                <MiniCalendar
-                  style={{
-                    display: "flex",
-                    alignContent: "center",
-                    flexWrap: "wrap",
-                  }}
-                  {...props}
-                  {...{
-                    handleDateChange,
-                    dateRange,
-                  }}
-                  minW="40%"
-                  selectRange={true}
-                />
-              </Grid> */}
+            
             </Grid>
 
             <SimpleGrid
