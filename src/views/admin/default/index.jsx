@@ -24,18 +24,15 @@ import {
 } from "@chakra-ui/react";
 
 // Assets
-import Usa from "assets/img/dashboards/usa.png";
-// Custom components
+
 import MiniCalendar from "components/calendar/MiniCalendar";
 import MiniStatistics from "components/card/MiniStatistics";
 import IconBox from "components/icons/IconBox";
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import {
   MdAddTask,
   MdAttachMoney,
-  MdBarChart,
   MdCurrencyRupee,
-  MdFileCopy,
 } from "react-icons/md";
 
 import {
@@ -55,7 +52,6 @@ import {
   columnsDataCheck,
   columnsDataComplex,
 } from "views/admin/default/variables/columnsData";
-import tableDataComplex from "views/admin/default/variables/tableDataComplex.json";
 
 import { Grid, Typography } from "@material-ui/core";
 import Navbar from "components/navbar/NavbarAdmin.js";
@@ -401,11 +397,6 @@ export default function UserReports(props) {
               gap="20px"
               mb="20px"
             >
-              {/* <CheckTable
-            columnsData={columnsDataCheck}
-            tableData={data.sales}
-            salesData={orderData}
-          /> */}
               <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
                 <Tasks salesData={orderData} />
                 <PieCard salesData={data} />

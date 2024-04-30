@@ -193,9 +193,7 @@ console.log(showHour)
           borderRadius='10px'
           onClick={() => downloadExportFile(salesData.sales)} 
           // {...rest}
-          
-          >
-
+           >
           <Icon as={DownloadIcon} />
         </Button>
       </Flex>
@@ -204,7 +202,6 @@ console.log(showHour)
         <Box minH='260px' minW='90%' m='auto'>
           <SplineAreaChart
             chartData={lineChartDataTotalSpent}
-            
             chartOptions={lineChartOptionsTotalSpent}
           />
         </Box>

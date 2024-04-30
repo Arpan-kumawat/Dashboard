@@ -31,7 +31,9 @@ import Menu from "components/menu/MainMenu";
 // Assets
 import { MdCheckCircle, MdCancel, MdOutlineError } from "react-icons/md";
 import DefaultMaps from "../maps/default";
-import MapTypeScatterBubbleSeries from "../newMap/MapTypeScatterBubbleSeries"
+
+import MapTypeScatterBubbleSeries from "../newMap/index.tsx"
+
 export default function ColumnsTable(props) {
 
 
@@ -82,8 +84,8 @@ export default function ColumnsTable(props) {
           Store Location
         </Text>
       </Flex>
-      <DefaultMaps storeData={tableData}/>
-{/* <MapTypeScatterBubbleSeries/> */}
+      {/* <DefaultMaps storeData={tableData}/> */}
+<MapTypeScatterBubbleSeries/>
       {/* <Table {...getTableProps()} variant='simple' color='gray.500' mb='24px'>
         <Thead>
           {headerGroups.map((headerGroup, index) => (

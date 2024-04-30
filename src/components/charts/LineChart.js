@@ -14,7 +14,7 @@ class SplineAreaChart extends React.Component {
 
   componentDidMount() {
     this.setState({
-      series: this.props.chartData, // Assuming chartData is an array of series objects
+      series: this.props.chartData, 
       options: this.props.chartOptions,
     });
   }

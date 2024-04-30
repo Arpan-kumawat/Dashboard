@@ -1,8 +1,6 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
-
 import ApexCharts from "apexcharts";
-
 import "./style.css";
 
 var colors = [
@@ -215,7 +213,7 @@ export default class ReactChart extends React.Component {
         },
         plotOptions: {
           bar: {
-            columnWidth: "90%",
+            columnWidth: "80%",
             horizontal: false,
           },
         },

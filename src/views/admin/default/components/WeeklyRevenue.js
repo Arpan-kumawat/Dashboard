@@ -26,7 +26,6 @@ export default function WeeklyRevenue(props) {
 
   let constGrossSales = constSale.map((e) => e.gross_sales.toFixed(2));
 
-  
   let constOrders = constSale.map((e)=>e.orders.toFixed(2))
 
   let constNetSales = constSale.map((e)=>e.net_sales.toFixed(2))
