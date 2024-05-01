@@ -411,7 +411,7 @@ export default function UserReports(props) {
             </SimpleGrid>
 
             <SimpleGrid
-              columns={{ base: 1, md: 1, xl: 1 }}
+              columns={{ base: 2, md: 2, xl: 2 }}
               gap="20px"
               mb="20px"
             >
