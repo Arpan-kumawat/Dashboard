@@ -86,7 +86,7 @@ export default function UserReports(props) {
 
   const [orderData, setOrderData] = useState([]);
   const [hourlyData, setHourlyData] = useState([]);
-  const [isLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [reloading, setReLoading] = useState(true);
   const [reloadingPrev, setReloadingPrev] = useState(true);
 
@@ -141,7 +141,7 @@ export default function UserReports(props) {
               setReloadingPrev,
               Lastloading,
               setLastLoading,
-              data,
+              data,setIsLoading,
               // dateRange,
               setData,
               storeData,
@@ -164,7 +164,7 @@ export default function UserReports(props) {
       </Portal>
       <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
      
-
+    
 
             <Grid
               container
@@ -365,7 +365,7 @@ export default function UserReports(props) {
             
             </Grid>
 
-            {/* {reloading ? (
+            {isLoading ? (
           <Grid
             style={{
               display: "flex",
@@ -435,7 +435,7 @@ export default function UserReports(props) {
             </SimpleGrid>
              
           </>
-        )} */}
+         )}
       </Box>
     </>
   );

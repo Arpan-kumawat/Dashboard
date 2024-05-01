@@ -40,7 +40,7 @@ export default function HeaderLinks(props) {
     lastData,orderData,
     setLastLoading,
     setReloadingPrev,
-    Lastloading,
+    Lastloading,setIsLoading,
     reloading,
     // dateRange,
     setLoading,
@@ -242,7 +242,7 @@ console.log(ALLStoreCountry)
           // setStoreData(storeId)
           setLoading(false);
           setReLoading(false);
-
+          setIsLoading(false)
           // if (resultArr.length > 0) {
           //   localStorage.setItem("sales", JSON.stringify(salesData));
           //   localStorage.setItem("Order", JSON.stringify(orderdata));
@@ -264,6 +264,7 @@ console.log(ALLStoreCountry)
 
   const handleReloadData = async () => {
     setReLoading(true);
+    setIsLoading(true)
     setLastLoading(true);
     setOpen(false);
   };
@@ -271,10 +272,9 @@ console.log(ALLStoreCountry)
   console.log(dateRange)
 
 
-
+// API calling in every 6 sec
 useEffect(() => {
 
-  
   setReLoading(true);
   setLastLoading(true);
   setApiCalling(false);

@@ -20,7 +20,7 @@ export default function AdminNavbar(props) {
 		setLoading,setLastData,lastData,reloadingPrev,setReloadingPrev,Lastloading,setLastLoading,
 		data,dateRange,setSelectCurrency,SelectCurrency,
 		setData,currencyRate, setCurrencyRate,
-		storeData,
+		storeData,setIsLoading,
 		setStoreData,setCurrency,setALLStoreData,aLLStoreData,
 		selectStore,
 		setSelectStore,orderData,setOrderData,hourlyData,setHourlyData,isLoading,reloading,setReLoading,setHr } = props;
@@ -140,7 +140,7 @@ export default function AdminNavbar(props) {
 							loading,setYearMonth,YearMonth,
 							setLoading,setLastData,lastData,reloadingPrev,setReloadingPrev,Lastloading,setLastLoading,
 							data,dateRange,setSelectCurrency,SelectCurrency,
-							setData,
+							setData,setIsLoading,
 							storeData,currencyRate, setCurrencyRate,
 							setStoreData,setCurrency,setALLStoreData,aLLStoreData,
 							selectStore,
