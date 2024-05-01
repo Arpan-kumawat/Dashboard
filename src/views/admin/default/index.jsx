@@ -28,7 +28,7 @@ import {
 import MiniCalendar from "components/calendar/MiniCalendar";
 import MiniStatistics from "components/card/MiniStatistics";
 import IconBox from "components/icons/IconBox";
-import React, { useState} from "react";
+import React, { useState,useEffect} from "react";
 import {
   MdAddTask,
   MdAttachMoney,
@@ -90,6 +90,8 @@ export default function UserReports(props) {
   const [reloading, setReLoading] = useState(true);
   const [reloadingPrev, setReloadingPrev] = useState(true);
 
+  const [reloadGraph, setReloadGraph] = useState(true);
+
 
   const formatCurrency = (value) => {
     const formattedValue = value.toLocaleString("en-IN", {
@@ -122,6 +124,25 @@ export default function UserReports(props) {
  
   // NetSales Data Future
   const TotalNetSalesFuture = futurePrediction(TotalGrossSales,LastTotalGrossSales);
+
+
+  const [changeValue, setChangeValue] = useState(false);
+  const [changeAniation, setChangeAniation] = useState(false);
+
+  const [prevNumber, setPrevNumber] = useState(TotalGrossSales);
+  const [currentNumber, setCurrentNumber] = useState(TotalGrossSales);
+
+  useEffect(() => {
+    if (TotalGrossSales !== currentNumber) {
+      setPrevNumber(currentNumber);
+      setCurrentNumber(TotalGrossSales);
+      setChangeValue(true);
+      setChangeAniation(true);
+      setTimeout(() => setChangeAniation(false), 500);
+    }
+  }, [TotalGrossSales, currentNumber]);
+
+
 
   return (
     <>
@@ -164,8 +185,6 @@ export default function UserReports(props) {
       </Portal>
       <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
      
-    
-
             <Grid
               container
               sm={12}
@@ -365,7 +384,7 @@ export default function UserReports(props) {
             
             </Grid>
 
-            {isLoading ? (
+            {isLoading || changeAniation ?  (
           <Grid
             style={{
               display: "flex",
@@ -387,8 +406,6 @@ export default function UserReports(props) {
           </Grid>
         ) : (
           <> 
-
-
             <SimpleGrid
               columns={{ base: 1, md: 2, xl: 2 }}
               gap="20px"
