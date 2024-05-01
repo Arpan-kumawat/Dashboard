@@ -212,7 +212,7 @@ import { Typography } from "@material-ui/core";
 import LeapLogo from "../../../../assets/img/leapLogo.png";
 import QRCode from "../../../../assets/img/qrcode.png";
 import BreezLogo from "../../../../assets/img/breezLogo.png";
-
+import SwyftLogo from "../../../../assets/img/swyftLogo.png"
 export default function Conversion(props) {
   const { salesData } = props;
 
@@ -266,6 +266,16 @@ export default function Conversion(props) {
           >
             <img src={BreezLogo} alt="Breez Logo" style={{ width: "65px", height: " 15px" }} />
             <Typography>{kioskCount}</Typography>
+          </Flex>
+        </Grid>
+        <Grid item lg={4} xs={12}>
+          <Flex
+            mb="30px"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <img src={SwyftLogo} alt="Swyft Logo" style={{ width: "65px", height: " 20px" }} />
+            <Typography>{0}</Typography>
           </Flex>
         </Grid>
       </Grid>
